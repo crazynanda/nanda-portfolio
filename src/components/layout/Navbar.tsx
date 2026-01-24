@@ -73,11 +73,11 @@ export default function Navbar() {
               <div className="relative w-10 h-10 rounded-xl bg-black/50 border border-white/10 flex items-center justify-center overflow-hidden group-hover:border-arc-cyan/50 transition-colors backdrop-blur-md shadow-lg">
                 <span className="font-space font-black text-white group-hover:text-arc-cyan transition-colors">NK</span>
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col h-10 justify-center">
                 <span className="font-space font-bold text-sm text-white tracking-tight leading-none group-hover:text-arc-cyan transition-colors">
                   NANDA_KUMAR
                 </span>
-                <span className="text-[9px] font-mono text-gray-500 tracking-[0.2em] uppercase group-hover:text-white transition-colors">
+                <span className="text-[9px] font-mono text-gray-500 tracking-[0.2em] uppercase group-hover:text-white transition-colors mt-0.5">
                   SYSTEM_ONLINE
                 </span>
               </div>
