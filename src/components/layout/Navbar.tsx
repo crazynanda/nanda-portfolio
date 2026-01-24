@@ -61,7 +61,7 @@ export default function Navbar() {
       {/* Desktop Only: Stark Identity Elements - JS Conditionally Rendered */}
       <AnimatePresence>
         {isDesktop && (
-          <div className="fixed top-8 left-0 right-0 w-full px-8 md:px-12 z-[10000] flex justify-between pointer-events-none">
+          <div className="fixed top-10 left-0 right-0 w-full px-8 md:px-12 z-[10000] flex justify-between pointer-events-none">
             <motion.div 
               className="pointer-events-auto flex items-center gap-4 group cursor-pointer"
               initial={{ opacity: 0, x: -50 }}

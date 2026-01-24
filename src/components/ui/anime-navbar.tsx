@@ -43,7 +43,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Home" }: NavBar
   if (!mounted) return null
 
   return (
-    <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[9999]" style={{ top: '5rem' }}>
+    <div className="fixed top-10 left-1/2 -translate-x-1/2 z-[9999]">
       <motion.div 
         className="flex items-center gap-8 bg-black/50 border border-white/10 backdrop-blur-lg py-3 px-12 rounded-full shadow-2xl relative overflow-visible w-max max-w-[90vw]"
         style={{ display: 'flex', gap: '2rem' }}
