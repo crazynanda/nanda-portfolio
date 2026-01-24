@@ -92,7 +92,7 @@ export default function Navbar() {
             >
               <button
                 onClick={() => handleScroll("#contact")}
-                className="px-6 py-2 bg-black/50 text-white border border-white/10 backdrop-blur-md text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-arc-cyan hover:text-black hover:scale-105 transition-all shadow-lg"
+                className="flex items-center justify-center px-6 py-2 bg-black/50 text-white border border-white/10 backdrop-blur-md text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-arc-cyan hover:text-black hover:scale-105 transition-all shadow-lg leading-none"
               >
                 Connect
               </button>
