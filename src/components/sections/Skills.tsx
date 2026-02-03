@@ -18,7 +18,6 @@ import {
 } from "lucide-react";
 import { skills, Skill } from "@/data/skills";
 import { cn } from "@/lib/utils";
-import BlurReveal from "../animations/BlurReveal";
 
 const iconMap: Record<string, any> = {
   "HTML": Layout,
@@ -85,8 +84,6 @@ const SkillCard = ({ skill, index }: { skill: Skill; index: number }) => {
   );
 };
 
-
-
 export default function Skills() {
   const categories = [
     { title: "Frontend", skills: skills.frontend },
@@ -102,65 +99,52 @@ export default function Skills() {
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[150px]" />
       </div>
 
-      <div className="container-custom max-w-[1800px] relative z-10 px-6 mx-auto">
-        
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
-             {/* Sticky Header - Left Column */}
-            <div className="lg:col-span-4 relative">
-                <div className="sticky top-32">
-                    <BlurReveal>
-                         <p className="text-cyan-500 font-mono uppercase text-sm tracking-widest mb-4 block">
-                            03 — Technologies
-                        </p>
-                    </BlurReveal>
-                    <BlurReveal delay={0.1}>
-                        <h2 className="text-6xl md:text-7xl font-serif font-medium text-white mb-6 uppercase tracking-tight italic">
-                            My<br/>Tech Stack
-                        </h2>
-                    </BlurReveal>
-                    <BlurReveal delay={0.2}>
-                         <p className="text-gray-400 text-lg leading-relaxed max-w-sm">
-                            The tools I use to build universe-denting software.
-                        </p>
-                    </BlurReveal>
-                </div>
-            </div>
+      <div className="container-custom relative z-10 px-6 max-w-7xl mx-auto">
+        {/* Section Header */}
+        <div className="mb-16">
+          <span className="font-mono text-cyan-500 tracking-[0.2em] text-sm uppercase mb-4 block">
+            // 03 TECHNOLOGIES
+          </span>
+          <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-6">
+            Tech Stack
+          </h2>
+          <div className="w-20 h-1 bg-gradient-to-r from-cyan-500 to-transparent" />
+        </div>
 
-            {/* Content - Right Column */}
-            <div className="lg:col-span-8 flex flex-col pt-12 lg:pt-0">
-                 {/* Featured Card */}
-                <BlurReveal delay={0.1} className="mb-12 p-8 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-cyan-500/20 rounded-3xl">
-                    <div className="flex items-start gap-6">
-                        <div className="p-4 bg-cyan-500/20 rounded-2xl flex-shrink-0">
-                        <Sparkles className="w-8 h-8 text-cyan-400" />
-                        </div>
-                        <div>
-                        <h3 className="text-2xl font-bold text-white mb-2">Vibe Coding</h3>
-                        <p className="text-gray-400 leading-relaxed text-lg">
-                            I collaborate with AI to build faster and smarter. It's not just about typing code anymore; 
-                            it's about engineering the right vibes and prompts for efficient development.
-                        </p>
-                        </div>
-                    </div>
-                </BlurReveal>
-
-                {/* Skills by Category */}
-                <div className="space-y-16">
-                    {categories.map((category, catIndex) => (
-                    <BlurReveal delay={0.2 + (catIndex * 0.1)} key={category.title}>
-                        <h3 className="text-2xl font-serif font-medium text-white mb-8 flex items-center gap-3 border-b border-white/10 pb-4">
-                            <span className="text-cyan-400 font-mono text-sm">//</span>
-                            {category.title}
-                        </h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-                            {category.skills.map((skill, index) => (
-                                <SkillCard key={skill.name} skill={skill} index={index} />
-                            ))}
-                        </div>
-                    </BlurReveal>
-                    ))}
+        {/* Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          {/* Featured Card */}
+          <div className="lg:col-span-12 mb-8">
+            <div className="p-6 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-cyan-500/20 rounded-2xl">
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-cyan-500/20 rounded-xl">
+                  <Sparkles className="w-6 h-6 text-cyan-400" />
                 </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-2">Vibe Coding</h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    I collaborate with AI to build faster and smarter. It's not just about typing code anymore;
+                    it's about engineering the right vibes and prompts for efficient development.
+                  </p>
+                </div>
+              </div>
             </div>
+          </div>
+
+          {/* Skills by Category */}
+          {categories.map((category, catIndex) => (
+            <div key={category.title} className="lg:col-span-6">
+              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <span className="text-cyan-400 font-mono text-sm">//</span>
+                {category.title}
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {category.skills.map((skill, index) => (
+                  <SkillCard key={skill.name} skill={skill} index={index} />
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

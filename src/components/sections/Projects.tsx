@@ -106,21 +106,21 @@ export default function Projects() {
 
   return (
     <>
-      <section id="projects" className="relative py-32 bg-stark-bg">
+      <section id="projects" className="relative py-24 lg:py-32 bg-stark-bg">
         <div className="container-custom relative z-10 px-6 max-w-7xl mx-auto">
           {/* Section Header */}
-          <div className="mb-20">
-            <span className="font-mono text-arc-cyan tracking-[0.2em] text-sm uppercase mb-4 block animate-pulse">
+          <div className="mb-16">
+            <span className="font-mono text-arc-cyan tracking-[0.2em] text-sm uppercase mb-4 block">
               // 02 PORTFOLIO
             </span>
-            <h2 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter mb-6">
+            <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-6">
               Selected<br />Works
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-arc-cyan to-transparent" />
+            <div className="w-20 h-1 bg-gradient-to-r from-arc-cyan to-transparent" />
           </div>
 
           {/* Projects Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project) => (
               <StarkProjectCard key={project.id} project={project} onClick={() => handleProjectClick(project)} />
             ))}

@@ -1,69 +1,63 @@
-
 import { experiences } from "@/data/experience";
 
 export default function Experience() {
   return (
-    <section id="experience" className="relative py-32 bg-stark-bg text-white overflow-hidden">
-        {/* Background Watermark */}
-        <div className="absolute -top-40 -right-40 w-[800px] h-[800px] bg-arc-cyan/5 blur-[120px] rounded-full pointer-events-none" />
-      <div className="container-custom px-6 max-w-[1800px] mx-auto">
-        
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
-            {/* Sticky Header - Left Column */}
-            <div className="lg:col-span-4 relative">
-                <div className="sticky top-32">
-                    <span className="text-arc-cyan font-mono uppercase text-sm tracking-[0.2em] mb-4 block">
-                        // 03 EXPERIENCE
-                    </span>
-                    <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-8 text-white uppercase">
-                        Mission<br/>Log
-                    </h2>
-                     <p className="text-gray-400 text-lg max-w-xs leading-relaxed font-mono text-sm">
-                        Operating timeline and key deployments across the sector.
-                    </p>
-                </div>
-            </div>
+    <section id="experience" className="relative py-24 lg:py-32 bg-stark-bg text-white overflow-hidden">
+      {/* Background Watermark */}
+      <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-arc-cyan/5 blur-[120px] rounded-full pointer-events-none" />
 
-            {/* Content - Right Column */}
-            <div className="lg:col-span-8 flex flex-col pt-12 lg:pt-0">
-                {experiences.map((exp, index) => (
-                    <div key={exp.id} className="group border-t border-white/10 py-16 transition-all hover:bg-white/[0.02]">
-                        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-                            
-                            {/* Role & Meta */}
-                            <div className="md:col-span-5 flex flex-col justify-between">
-                                <div>
-                                    <h3 className="text-3xl font-bold mb-2 group-hover:text-arc-cyan transition-colors text-white">
-                                        {exp.title}
-                                    </h3>
-                                    <div className="text-lg text-gray-400 font-mono mb-1">{exp.company}</div>
-                                </div>
-                                <div className="font-mono text-xs text-arc-cyan/60 uppercase tracking-widest mt-6">
-                                    [{exp.startDate} — {exp.endDate || "PRESENT"}]
-                                </div>
-                            </div>
-
-                            {/* Description & Tags */}
-                            <div className="md:col-span-7">
-                                <p className="text-gray-300 text-lg leading-relaxed font-light mb-8">
-                                    {exp.description}
-                                </p>
-                                
-                                <div className="flex flex-wrap gap-2">
-                                    {exp.technologies.map((tech) => (
-                                        <span key={tech} className="px-3 py-1 rounded-full border border-white/10 text-xs text-gray-400 hover:border-cyan-500/50 hover:text-cyan-400 transition-colors">
-                                            {tech}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                ))}
-            </div>
+      <div className="container-custom px-6 max-w-7xl mx-auto">
+        {/* Section Header */}
+        <div className="mb-16">
+          <span className="font-mono text-arc-cyan uppercase text-sm tracking-[0.2em] mb-4 block">
+            // 04 EXPERIENCE
+          </span>
+          <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6 text-white uppercase">
+            Mission Log
+          </h2>
+          <div className="w-20 h-1 bg-gradient-to-r from-arc-cyan to-transparent" />
+          <p className="text-gray-400 text-lg mt-4 max-w-xl">
+            Operating timeline and key deployments across the sector.
+          </p>
         </div>
 
+        {/* Experience List */}
+        <div className="space-y-8">
+          {experiences.map((exp, index) => (
+            <div key={exp.id} className="group border-t border-white/10 py-8 transition-all hover:bg-white/[0.02]">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+                {/* Date */}
+                <div className="md:col-span-3">
+                  <div className="font-mono text-xs text-arc-cyan/60 uppercase tracking-widest">
+                    [{exp.startDate} — {exp.endDate || "PRESENT"}]
+                  </div>
+                </div>
+
+                {/* Role & Meta */}
+                <div className="md:col-span-5">
+                  <h3 className="text-xl font-bold mb-1 group-hover:text-arc-cyan transition-colors text-white">
+                    {exp.title}
+                  </h3>
+                  <div className="text-gray-400 font-mono text-sm">{exp.company}</div>
+                </div>
+
+                {/* Description & Tags */}
+                <div className="md:col-span-4">
+                  <p className="text-gray-300 leading-relaxed mb-4">
+                    {exp.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {exp.technologies.map((tech) => (
+                      <span key={tech} className="px-2 py-1 rounded-full border border-white/10 text-xs text-gray-500 hover:border-cyan-500/50 hover:text-cyan-400 transition-colors">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
