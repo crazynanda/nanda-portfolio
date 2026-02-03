@@ -13,19 +13,19 @@ const StarkProjectCard = ({ project, onClick }: { project: Project; onClick: () 
     >
       {/* Image/Preview - Using gradient fallback for now */}
       <div
-        className="h-56 relative overflow-hidden"
+        className="h-48 md:h-56 relative overflow-hidden"
         style={{ background: `linear-gradient(135deg, ${project.color || "#333"}20, ${project.color || "#000"}40)` }}
       >
         <div className="absolute inset-0 flex items-center justify-center">
           {/* Tech HUD Scanline */}
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
-          <h3 className="text-3xl font-black text-white/10 uppercase tracking-tighter group-hover:text-arc-cyan/20 transition-colors">
+          <h3 className="text-2xl md:text-3xl font-black text-white/10 uppercase tracking-tighter group-hover:text-arc-cyan/20 transition-colors">
             {project.title.substring(0, 3)}
           </h3>
         </div>
 
         {/* Status Badges */}
-        <div className="absolute top-4 left-4 flex gap-2">
+        <div className="absolute top-3 left-3 flex gap-2">
           {project.featured && (
             <span className="px-2 py-1 rounded bg-arc-cyan text-black text-[10px] font-bold uppercase tracking-widest">
               Featured
@@ -40,7 +40,7 @@ const StarkProjectCard = ({ project, onClick }: { project: Project; onClick: () 
       </div>
 
       {/* Content */}
-      <div className="p-8 flex flex-col flex-1">
+      <div className="p-6 flex flex-col flex-1">
         <div className="flex items-center justify-between mb-4">
           <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-arc-cyan">
             // {project.category}
@@ -48,7 +48,7 @@ const StarkProjectCard = ({ project, onClick }: { project: Project; onClick: () 
           <div className="w-1.5 h-1.5 rounded-full bg-arc-cyan shadow-[0_0_10px_#00F0FF]" />
         </div>
 
-        <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-arc-cyan transition-colors">
+        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-arc-cyan transition-colors">
           {project.title}
         </h3>
 

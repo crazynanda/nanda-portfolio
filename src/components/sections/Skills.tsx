@@ -58,17 +58,17 @@ const SkillCard = ({ skill, index }: { skill: Skill; index: number }) => {
   const colorClass = colorMap[skill.icon] || "bg-gray-500/10 text-gray-400";
 
   return (
-    <div className="p-5 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-cyan-500/30 transition-all group">
+    <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl hover:border-cyan-500/30 transition-all group">
       <div className="flex items-start gap-4">
-        <div className={cn("p-3 rounded-xl flex-shrink-0", colorClass)}>
-          <Icon className="w-5 h-5" />
+        <div className={cn("p-2 rounded-lg flex-shrink-0", colorClass)}>
+          <Icon className="w-4 h-4" />
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-2">
-            <h4 className="text-white font-semibold truncate">{skill.name}</h4>
-            <span className="text-cyan-400 font-bold text-sm">{skill.level}%</span>
+            <h4 className="text-white font-semibold text-sm truncate">{skill.name}</h4>
+            <span className="text-cyan-400 font-bold text-xs">{skill.level}%</span>
           </div>
-          <p className="text-xs text-gray-500 mb-3 line-clamp-2">{skill.description}</p>
+          <p className="text-xs text-gray-500 mb-2 line-clamp-2">{skill.description}</p>
           <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
             <motion.div
               className="h-full bg-gradient-to-r from-cyan-500 to-purple-500"

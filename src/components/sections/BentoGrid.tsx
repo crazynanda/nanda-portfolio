@@ -19,14 +19,13 @@ export default function BentoGrid() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[220px]">
-
           {/* IDENTITY - BIG BOX */}
           <StarkCard title="Identity" subtitle="WHO I AM" className="md:col-span-2 md:row-span-2">
             <div className="flex flex-col justify-between h-full py-4">
-              <p className="text-xl text-gray-300 font-medium">
+              <p className="text-lg md:text-xl text-gray-300 font-medium">
                 Full Stack Engineer & Founder. Obsessed with the intersection of design engineering and high-performance systems.
               </p>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 {['Visionary', 'Builder', 'Architect'].map(tag => (
                   <span key={tag} className="px-3 py-1 rounded-full border border-arc-cyan/30 bg-arc-cyan/5 text-[10px] text-arc-cyan uppercase tracking-widest font-mono">
                     {tag}
@@ -84,7 +83,6 @@ export default function BentoGrid() {
               </div>
             </div>
           </StarkCard>
-
         </div>
       </div>
     </section>
