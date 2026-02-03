@@ -13,7 +13,7 @@ interface MousePosition {
  */
 export function useMousePosition() {
   const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0, y: 0 });
-  const requestRef = useRef<number>();
+  const requestRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
