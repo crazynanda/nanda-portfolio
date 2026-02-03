@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { ConvexProviderWithClient } from "@/lib/convex-provider";
 import "./globals.css";
 import { SITE_CONFIG } from "@/lib/constants";
 import Navbar from "@/components/layout/Navbar";
@@ -119,21 +120,23 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <LoadingScreen />
-          <EasterEggs />
-          <SmoothScroll>
-            <CustomCursor />
-            <div className="relative flex min-h-screen flex-col">
-              <BlueprintGrid />
-              {/* <StickyNav /> */}
-              <Navbar />
-              <main className="flex-1">{children}</main>
-              {/* <Footer /> */}
-            </div>
-            
-            {/* Global Noise Overlay */}
-            <div className="fixed inset-0 pointer-events-none noise-overlay opacity-30 z-[9999]" />
-          </SmoothScroll>
+          <ConvexProviderWithClient>
+            <LoadingScreen />
+            <EasterEggs />
+            <SmoothScroll>
+              <CustomCursor />
+              <div className="relative flex min-h-screen flex-col">
+                <BlueprintGrid />
+                {/* <StickyNav /> */}
+                <Navbar />
+                <main className="flex-1">{children}</main>
+                {/* <Footer /> */}
+              </div>
+              
+              {/* Global Noise Overlay */}
+              <div className="fixed inset-0 pointer-events-none noise-overlay opacity-30 z-[9999]" />
+            </SmoothScroll>
+          </ConvexProviderWithClient>
         </ThemeProvider>
       </body>
     </html>

@@ -1,0 +1,13 @@
+{
+  "//": "This file configures your Convex deployment.",
+  "compiler": {
+    "override": {
+      "ts": {
+        "compilerOptions": {
+          "module": "ESNext",
+          "moduleResolution": "Bundler"
+        }
+      }
+    }
+  }
+}
