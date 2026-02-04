@@ -91,7 +91,7 @@ export default function Guestbook() {
   if (!isLoaded) {
     return (
       <section id="guestbook" className="relative py-24 lg:py-32 bg-[#030712]">
-        <div className="container-custom px-6 max-w-7xl mx-auto">
+         <div className="container-custom">
           <div className="animate-pulse">
             <div className="h-8 w-48 bg-white/10 rounded mb-4" />
             <div className="h-12 w-64 bg-white/10 rounded mb-8" />
@@ -109,7 +109,7 @@ export default function Guestbook() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[120px]" />
       </div>
 
-      <div className="container-custom relative z-10 px-6 max-w-7xl mx-auto">
+       <div className="container-custom relative z-10">
         {/* Section Header */}
         <div className="mb-16">
           <div className="flex items-center gap-2 mb-4">

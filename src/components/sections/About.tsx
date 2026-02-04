@@ -83,7 +83,7 @@ export default function About() {
         <div className="absolute bottom-10 right-10 w-64 h-64 bg-purple-500/10 rounded-full blur-[100px]" />
       </div>
 
-      <div className="container-custom px-6 max-w-[1800px] mx-auto relative z-10">
+      <div className="container-custom relative z-10">
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
              {/* Sticky Header - Left Column */}

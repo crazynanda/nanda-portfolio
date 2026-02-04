@@ -6,7 +6,7 @@ export default function Experience() {
       {/* Background Watermark */}
       <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-arc-cyan/5 blur-[120px] rounded-full pointer-events-none" />
 
-      <div className="container-custom px-6 max-w-7xl mx-auto">
+       <div className="container-custom">
         {/* Section Header */}
         <div className="mb-16">
           <span className="font-mono text-arc-cyan uppercase text-sm tracking-[0.2em] mb-4 block">

@@ -19,7 +19,7 @@ export default function Education() {
       {/* Background Watermark/Glow */}
       <div className="absolute -left-40 top-40 w-[600px] h-[600px] bg-purple-500/5 blur-[120px] rounded-full pointer-events-none" />
 
-      <div className="container-custom px-6 max-w-7xl mx-auto relative z-10">
+       <div className="container-custom relative z-10">
         {/* Section Header */}
         <div className="mb-16">
           <span className="font-mono text-purple-400 uppercase text-sm tracking-[0.2em] mb-4 block">

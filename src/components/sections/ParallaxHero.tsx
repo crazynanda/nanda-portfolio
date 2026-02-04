@@ -81,7 +81,7 @@ export default function ParallaxHero({ children }: ParallaxHeroProps) {
         </motion.div>
 
         {/* Content Layer (Text) */}
-        <div className="relative z-30 container-custom px-4 text-center mt-[-10vh]">
+         <div className="relative z-30 container-custom text-center mt-[-10vh]">
             {/* Scrim for visibility */}
             <div className="absolute inset-0 -z-10 bg-gradient-radial from-black/80 via-black/40 to-transparent blur-3xl rounded-full scale-150 opacity-60 pointer-events-none" />
             {children}

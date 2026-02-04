@@ -99,7 +99,7 @@ export default function Skills() {
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[150px]" />
       </div>
 
-      <div className="container-custom relative z-10 px-6 max-w-7xl mx-auto">
+       <div className="container-custom relative z-10">
         {/* Section Header */}
         <div className="mb-16">
           <span className="font-mono text-cyan-500 tracking-[0.2em] text-sm uppercase mb-4 block">

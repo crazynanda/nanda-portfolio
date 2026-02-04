@@ -6,7 +6,7 @@ import { Github, Linkedin, MessageSquare, Rocket, Terminal } from 'lucide-react'
 export default function BentoGrid() {
   return (
     <section id="about" className="relative py-24 lg:py-32 bg-stark-bg">
-      <div className="container-custom relative z-10 px-6 max-w-7xl mx-auto">
+       <div className="container-custom relative z-10">
         {/* Section Header */}
         <div className="mb-16">
           <span className="font-mono text-arc-cyan tracking-[0.2em] text-sm uppercase mb-4 block">
