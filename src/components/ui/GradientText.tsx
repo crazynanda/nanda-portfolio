@@ -7,13 +7,15 @@ interface GradientTextProps {
   className?: string;
   gradient?: string;
   animate?: boolean;
+  glow?: boolean;
 }
 
 export default function GradientText({
   children,
   className = "",
-  gradient = "from-cyan-400 via-blue-500 to-purple-600",
+  gradient = "from-arc-reactor via-stark-gold to-stark-red",
   animate = false,
+  glow = false,
 }: GradientTextProps) {
   return (
     <span
@@ -21,6 +23,7 @@ export default function GradientText({
         "bg-clip-text text-transparent bg-gradient-to-r",
         gradient,
         animate && "animate-gradient-x bg-[length:200%_auto]",
+        glow && "text-glow",
         className
       )}
     >

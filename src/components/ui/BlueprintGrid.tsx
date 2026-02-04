@@ -26,10 +26,10 @@ export default function BlueprintGrid() {
         </g>
         
         {/* Corner Decorators */}
-        <path d="M 20 20 L 100 20 L 100 21 L 21 21 L 21 100 L 20 100 Z" fill="currentColor" className="text-cyan-500/40" />
-        <path d="M 20 20 L 100 20 L 100 21 L 21 21 L 21 100 L 20 100 Z" fill="currentColor" className="text-cyan-500/40" transform="rotate(90, 100%, 0)" style={{ transformOrigin: "100% 0" }} />
-        <path d="M 20 20 L 100 20 L 100 21 L 21 21 L 21 100 L 20 100 Z" fill="currentColor" className="text-cyan-500/40" transform="rotate(180, 100%, 100%)" style={{ transformOrigin: "100% 100%" }} />
-        <path d="M 20 20 L 100 20 L 100 21 L 21 21 L 21 100 L 20 100 Z" fill="currentColor" className="text-cyan-500/40" transform="rotate(270, 0, 100%)" style={{ transformOrigin: "0 100%" }} />
+        <path d="M 20 20 L 100 20 L 100 21 L 21 21 L 21 100 L 20 100 Z" fill="currentColor" className="text-arc-reactor/40" />
+        <path d="M 20 20 L 100 20 L 100 21 L 21 21 L 21 100 L 20 100 Z" fill="currentColor" className="text-arc-reactor/40" transform="rotate(90, 1280, 0)" />
+        <path d="M 20 20 L 100 20 L 100 21 L 21 21 L 21 100 L 20 100 Z" fill="currentColor" className="text-arc-reactor/40" transform="rotate(180, 1280, 800)" />
+        <path d="M 20 20 L 100 20 L 100 21 L 21 21 L 21 100 L 20 100 Z" fill="currentColor" className="text-arc-reactor/40" transform="rotate(270, 0, 800)" />
 
       </svg>
     </div>

@@ -2,7 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Container */
+/* Iron Man/Tony Stark Theme Variables */
+:root {
+  --arc-reactor: #00f0ff;
+  --arc-blue: #00d9ff;
+  --arc-cyan: #00ffff;
+  --stark-red: #ff0000;
+  --stark-gold: #ffd700;
+  --stark-silver: #c0c0c0;
+  --stark-black: #050505;
+  --stark-dark: #1a1a1a;
+  --neon-blue: #00f0ff;
+  --neon-purple: #8b00ff;
+  --neon-red: #ff0055;
+}
+
+/* Custom Container */
 @layer components {
   .container-custom {
     width: 100%;
@@ -12,4 +27,137 @@
     padding-left: var(--container-padding);
     padding-right: var(--container-padding);
   }
+
+  /* Arc Reactor Glow Effect */
+  .arc-glow {
+    box-shadow:
+      0 0 20px var(--arc-reactor),
+      0 0 40px var(--arc-reactor),
+      0 0 60px var(--arc-reactor);
+  }
+
+  .arc-glow-red {
+    box-shadow:
+      0 0 20px var(--stark-red),
+      0 0 40px var(--stark-red),
+      0 0 60px var(--stark-red);
+  }
+
+  .arc-glow-gold {
+    box-shadow:
+      0 0 20px var(--stark-gold),
+      0 0 40px var(--stark-gold),
+      0 0 60px var(--stark-gold);
+  }
+
+  /* Neon Text Effects */
+  .text-glow {
+    text-shadow:
+      0 0 10px var(--arc-reactor),
+      0 0 20px var(--arc-reactor),
+      0 0 30px var(--arc-reactor);
+  }
+
+  .text-glow-red {
+    text-shadow:
+      0 0 10px var(--stark-red),
+      0 0 20px var(--stark-red),
+      0 0 30px var(--stark-red);
+  }
+
+  .text-glow-gold {
+    text-shadow:
+      0 0 10px var(--stark-gold),
+      0 0 20px var(--stark-gold),
+      0 0 30px var(--stark-gold);
+  }
+
+  /* Stark Industries Border */
+  .stark-border {
+    border: 1px solid var(--arc-reactor);
+    position: relative;
+  }
+
+  .stark-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 20px var(--arc-reactor);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  /* Grid/Blueprint Background */
+  .grid-background {
+    background-image:
+      linear-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 240, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+
+  /* Noise Texture */
+  .noise-overlay {
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    opacity: 0.1;
+  }
+
+  /* Animated Grid Lines */
+  .animate-grid {
+    background-image:
+      linear-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 240, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridMove 20s linear infinite;
+  }
+
+  @keyframes gridMove {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 50px 50px;
+    }
+  }
+
+  /* Arc Reactor Pulse */
+  @keyframes pulse-slow {
+    0%,
+    100% {
+      opacity: 0.6;
+      box-shadow:
+        0 0 20px var(--arc-reactor),
+        0 0 40px var(--arc-reactor);
+    }
+    50% {
+      opacity: 1;
+      box-shadow:
+        0 0 30px var(--arc-reactor),
+        0 0 60px var(--arc-reactor),
+        0 0 80px var(--arc-reactor);
+    }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--stark-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--arc-reactor);
+  border-radius: 4px;
+  box-shadow: 0 0 10px var(--arc-reactor);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--arc-cyan);
+  box-shadow: 0 0 20px var(--arc-cyan);
 }

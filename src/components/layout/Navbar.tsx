@@ -58,7 +58,7 @@ export default function Navbar() {
       {/* Centered Anime Navbar */}
       <AnimeNavBar items={navItems} defaultActive="Home" />
 
-      {/* Desktop Only: Stark Identity Elements - JS Conditionally Rendered */}
+      {/* Desktop Only: Stark Industries Identity Elements */}
       <AnimatePresence>
         {isDesktop && (
           <div className="fixed top-10 left-0 right-0 w-full px-8 md:px-12 z-[10000] flex justify-between pointer-events-none">
@@ -70,15 +70,15 @@ export default function Navbar() {
               transition={{ duration: 0.8, delay: 0.2 }}
               onClick={() => handleScroll("#hero")}
             >
-              <div className="relative w-10 h-10 rounded-xl bg-black/50 border border-white/10 flex items-center justify-center overflow-hidden group-hover:border-arc-cyan/50 transition-colors backdrop-blur-md shadow-lg">
-                <span className="font-space font-black text-white group-hover:text-arc-cyan transition-colors">NK</span>
+              <div className="relative w-12 h-12 rounded-xl bg-stark-black/70 border border-stark-gold/20 flex items-center justify-center overflow-hidden group-hover:border-arc-reactor/50 transition-colors backdrop-blur-md shadow-lg">
+                <span className="font-space font-black text-white group-hover:text-arc-reactor transition-colors">NK</span>
               </div>
-              <div className="flex flex-col h-10 justify-center">
-                <span className="font-space font-bold text-sm text-white tracking-tight leading-none group-hover:text-arc-cyan transition-colors">
+              <div className="flex flex-col h-12 justify-center">
+                <span className="font-space font-bold text-sm text-white tracking-tight leading-none group-hover:text-arc-reactor transition-colors">
                   NANDA_KUMAR
                 </span>
-                <span className="text-[9px] font-mono text-gray-500 tracking-[0.2em] uppercase group-hover:text-white transition-colors mt-0.5">
-                  SYSTEM_ONLINE
+                <span className="text-[9px] font-mono text-stark-gold/50 tracking-[0.2em] uppercase group-hover:text-stark-gold transition-colors mt-0.5">
+                  STARK_INDUSTRIES
                 </span>
               </div>
             </motion.div>
@@ -92,9 +92,9 @@ export default function Navbar() {
             >
               <button
                 onClick={() => handleScroll("#contact")}
-                className="flex items-center justify-center px-6 py-2 bg-black/50 text-white border border-white/10 backdrop-blur-md text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-arc-cyan hover:text-black hover:scale-105 transition-all shadow-lg leading-none"
+                className="flex items-center justify-center px-8 py-3 bg-stark-black/70 text-white border border-stark-gold/20 backdrop-blur-md text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-arc-reactor hover:text-black hover:scale-105 transition-all shadow-lg leading-none"
               >
-                Connect
+                CONTACT
               </button>
             </motion.div>
           </div>

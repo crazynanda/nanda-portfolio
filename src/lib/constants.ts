@@ -54,12 +54,20 @@ export const BREAKPOINTS = {
 };
 
 export const THEME_COLORS = {
-  primary: "#06b6d4",
-  secondary: "#a855f7",
-  accent: "#ec4899",
-  indigo: "#6366f1",
+  // Iron Man/Tony Stark Theme Colors
+  arcReactor: "#00f0ff",
+  arcBlue: "#00d9ff",
+  arcCyan: "#00ffff",
+  starkRed: "#ff0000",
+  starkGold: "#ffd700",
+  starkSilver: "#c0c0c0",
+  starkBlack: "#050505",
+  starkDark: "#1a1a1a",
+  neonBlue: "#00f0ff",
+  neonPurple: "#8b00ff",
+  neonRed: "#ff0055",
   background: {
-    dark: "#030712",
+    dark: "#050505",
     light: "#f8fafc",
   },
 };
