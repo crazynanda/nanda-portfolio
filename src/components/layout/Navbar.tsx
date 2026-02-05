@@ -11,6 +11,7 @@ import {
   Rocket, 
   GraduationCap, 
   Mail,
+  Terminal,
   type LucideIcon 
 } from "lucide-react";
 import { NAV_LINKS } from "@/lib/constants";
@@ -55,49 +56,83 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Centered Anime Navbar */}
-      <AnimeNavBar items={navItems} defaultActive="Home" />
-
-      {/* Desktop Only: Stark Industries Identity Elements */}
-      <AnimatePresence>
-        {isDesktop && (
-          <div className="fixed top-10 left-0 right-0 w-full px-8 md:px-12 z-[10000] flex justify-between pointer-events-none">
+      {/* Terminal Style Navigation */}
+      <div className="fixed top-0 left-0 right-0 z-[10000] bg-stark-black/95 backdrop-blur-md border-b border-arc-reactor/20">
+        <div className="container-custom mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            {/* Terminal Header Left */}
             <motion.div 
-              className="pointer-events-auto flex items-center gap-4 group cursor-pointer"
+              className="flex items-center gap-3 pointer-events-auto"
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               onClick={() => handleScroll("#hero")}
             >
-              <div className="relative w-12 h-12 rounded-xl bg-stark-black/70 border border-stark-gold/20 flex items-center justify-center overflow-hidden group-hover:border-arc-reactor/50 transition-colors backdrop-blur-md shadow-lg">
-                <span className="font-space font-black text-white group-hover:text-arc-reactor transition-colors">NK</span>
+              <div className="relative w-10 h-10 rounded flex items-center justify-center bg-stark-dark border border-arc-reactor/30 arc-glow group">
+                <Terminal className="w-5 h-5 text-arc-reactor group-hover:scale-110 transition-transform" />
               </div>
-              <div className="flex flex-col h-12 justify-center">
-                <span className="font-space font-bold text-sm text-white tracking-tight leading-none group-hover:text-arc-reactor transition-colors">
+              <div className="flex flex-col">
+                <span className="font-mono font-bold text-sm text-white tracking-tight">
                   NANDA_KUMAR
                 </span>
-                <span className="text-[9px] font-mono text-stark-gold/50 tracking-[0.2em] uppercase group-hover:text-stark-gold transition-colors mt-0.5">
-                  STARK_INDUSTRIES
+                <span className="text-[9px] font-mono text-arc-reactor/60 tracking-[0.3em] uppercase">
+                  STARK_TERMINAL
                 </span>
               </div>
             </motion.div>
 
+            {/* Terminal Navigation Buttons */}
+            <AnimatePresence>
+              {isDesktop && (
+                <motion.div 
+                  className="flex items-center gap-1 pointer-events-auto"
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                >
+                  {NAV_LINKS.map((link, index) => (
+                    <button
+                      key={link.label}
+                      onClick={() => handleScroll(link.href)}
+                      className="px-4 py-2 text-xs font-mono text-arc-reactor/70 hover:text-arc-reactor hover:bg-arc-reactor/10 border border-arc-reactor/20 hover:border-arc-reactor/40 rounded transition-all duration-200"
+                      style={{ animationDelay: `${index * 0.1}s` }}
+                    >
+                      {link.label.toUpperCase()}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Terminal Status Indicator */}
             <motion.div 
-              className="pointer-events-auto"
+              className="flex items-center gap-2 pointer-events-auto"
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 50 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <button
-                onClick={() => handleScroll("#contact")}
-                className="flex items-center justify-center px-8 py-3 bg-stark-black/70 text-white border border-stark-gold/20 backdrop-blur-md text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-arc-reactor hover:text-black hover:scale-105 transition-all shadow-lg leading-none"
-              >
-                CONTACT
-              </button>
+              <div className="flex items-center gap-2 px-3 py-1 bg-stark-dark border border-stark-red/30 rounded text-[10px] font-mono">
+                <div className="w-2 h-2 rounded-full bg-stark-red animate-pulse"></div>
+                <span className="text-stark-red">SYSTEM: ONLINE</span>
+              </div>
             </motion.div>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile Navigation - Terminal Style */}
+      <AnimatePresence>
+        {!isDesktop && (
+          <motion.div
+            className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-[10000]"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+          >
+            <div className="bg-stark-black/95 backdrop-blur-md border border-arc-reactor/30 rounded-full px-4 py-3 shadow-glow-cyan">
+              <AnimeNavBar items={navItems} defaultActive="Home" />
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
