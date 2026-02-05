@@ -2,7 +2,7 @@ export const SITE_CONFIG = {
   name: "Nanda Kumar",
   title: "Web Designer & Developer | Vibe Coder",
   description: "Passionate web developer from Bangalore, India. Building digital experiences that inspire. Founder of Zeridex.",
-  url: "https://nandakumar.dev",
+  url: "https://nandakumar.site",
   email: "nandablr242@gmail.com",
   phone: "+91 8073607257",
   location: "Bangalore, India",
