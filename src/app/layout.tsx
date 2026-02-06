@@ -1,17 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono, Playfair_Display } from "next/font/google";
-import { ThemeProvider } from "next-themes";
-import { ConvexProviderWithClient } from "@/lib/convex-provider";
 import "./globals.css";
 import { SITE_CONFIG } from "@/lib/constants";
 import Navbar from "@/components/layout/Navbar";
-import StickyNav from "@/components/layout/StickyNav";
 import Footer from "@/components/layout/Footer";
-import SmoothScroll from "@/components/layout/SmoothScroll";
-import CustomCursor from "@/components/layout/CustomCursor";
-import LoadingScreen from "@/components/animations/LoadingScreen";
-import EasterEggs from "@/components/ui/EasterEggs";
-import BlueprintGrid from "@/components/ui/BlueprintGrid";
 import { cn } from "@/lib/utils";
 
 const inter = Inter({
@@ -92,7 +84,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
-    { media: "(prefers-color-scheme: dark)", color: "#050505" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -107,37 +99,18 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-[#050505] font-inter antialiased selection:bg-cyan-400 selection:text-white",
+          "min-h-screen bg-gray-50 font-sans antialiased",
           inter.variable,
           spaceGrotesk.variable,
           jetbrainsMono.variable,
           playfair.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <ConvexProviderWithClient>
-            <LoadingScreen />
-            <EasterEggs />
-            <SmoothScroll>
-              <CustomCursor />
-              <div className="relative flex min-h-screen flex-col">
-                <BlueprintGrid />
-                {/* <StickyNav /> */}
-                <Navbar />
-                <main className="flex-1">{children}</main>
-                {/* <Footer /> */}
-              </div>
-              
-              {/* Global Noise Overlay */}
-              <div className="fixed inset-0 pointer-events-none noise-overlay opacity-30 z-[9999]" />
-            </SmoothScroll>
-          </ConvexProviderWithClient>
-        </ThemeProvider>
+        <div className="relative flex min-h-screen flex-col">
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );
