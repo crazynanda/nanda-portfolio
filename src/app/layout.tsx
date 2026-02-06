@@ -107,7 +107,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-light dark:bg-stark-bg font-inter antialiased selection:bg-arc-cyan selection:text-black",
+          "min-h-screen bg-[#050505] font-inter antialiased selection:bg-cyan-400 selection:text-white",
           inter.variable,
           spaceGrotesk.variable,
           jetbrainsMono.variable,
