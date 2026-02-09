@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Send, MessageCircle, User, Calendar } from "lucide-react";
+import { Send } from "lucide-react";
 
 interface GuestbookEntry {
   _id: string;
@@ -87,7 +87,7 @@ export default function Guestbook() {
 
   if (!isLoaded) {
     return (
-      <section id="guestbook" className="py-20 bg-white">
+      <section id="guestbook" className="py-12 border-b border-gray-200">
         <div className="container mx-auto px-4">
           <div className="animate-pulse">
             <div className="h-8 w-48 bg-gray-200 rounded mb-4" />
@@ -100,101 +100,62 @@ export default function Guestbook() {
   }
 
   return (
-    <section id="guestbook" className="py-20 bg-gray-50">
+    <section id="guestbook" className="py-12">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
-          Leave Your Mark
-        </h2>
-        <p className="text-gray-600 text-center mb-12 max-w-2xl">
-          Got something to say? Drop a message below. Whether it's feedback, collaboration ideas, or just a hello!
-        </p>
+        <h2 className="text-2xl font-bold mb-6">Leave Your Mark</h2>
+        <p className="text-gray-600 mb-8">Got something to say? Drop a message below.</p>
 
-        <div className="bg-white rounded-lg shadow-sm p-8 mb-12">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
+        <div className="mb-12">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-gray-700 text-sm font-medium mb-2">
-                  Your Name
-                </label>
+                <label className="block text-sm text-gray-500 mb-1">Your Name</label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="John Doe"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
               <div>
-                <label className="block text-gray-700 text-sm font-medium mb-2">
-                  Your Message
-                </label>
+                <label className="block text-sm text-gray-500 mb-1">Your Message</label>
                 <input
                   type="text"
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Great portfolio!"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
             </div>
-
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white font-bold uppercase tracking-wider rounded-lg hover:bg-blue-700 transition-all disabled:opacity-50"
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
             >
-              {isSubmitting ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Sending...
-                </>
-              ) : (
-                <>
-                  <Send size={16} />
-                  Sign Guestbook
-                </>
-              )}
+              {isSubmitting ? "Sending..." : "Sign Guestbook"}
             </button>
           </form>
         </div>
 
-        <div className="space-y-4">
-          <h3 className="text-gray-900 font-semibold flex items-center gap-2">
-            <MessageCircle className="w-5 h-5 text-blue-600" />
-            Recent Entries ({entries.length})
-          </h3>
-
-          {entries.map((entry) => (
-            <div
-              key={entry._id}
-              className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <User className="w-5 h-5 text-blue-600" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="font-semibold text-gray-900">{entry.name}</span>
-                    <span className="flex items-center gap-1 text-gray-500 text-xs">
-                      <Calendar size={12} />
-                      {formatDate(entry.timestamp)}
-                    </span>
+        <div>
+          <h3 className="text-xl font-semibold mb-4">Recent Entries ({entries.length})</h3>
+          <div className="space-y-4">
+            {entries.map((entry) => (
+              <div key={entry._id} className="py-4 border-b border-gray-100 last:border-b-0">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium">{entry.name}</span>
+                    <span className="text-xs text-gray-500">{formatDate(entry.timestamp)}</span>
                   </div>
-                  <p className="text-gray-600 leading-relaxed">{entry.message}</p>
                 </div>
+                <p className="text-gray-700">{entry.message}</p>
               </div>
-            </div>
-          ))}
-
-          {entries.length === 0 && (
-            <div className="text-center py-12 text-gray-500">
-              <MessageCircle className="w-12 h-12 mx-auto mb-4 opacity-50" />
-              <p>No messages yet. Be the first to sign!</p>
-            </div>
-          )}
+            ))}
+          </div>
         </div>
       </div>
     </section>

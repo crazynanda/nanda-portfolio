@@ -1,9 +1,81 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, MapPin, Phone, Send, CheckCircle, Github, Linkedin, Twitter, Instagram, MessageCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Mail, MapPin, Phone, Send, CheckCircle, Loader2, MessageSquare } from "lucide-react";
 import { socialLinks } from "@/data/social";
 import { personalInfo } from "@/data/personal";
+import { AnimatedSection, SlideIn, TextReveal } from "@/components/animation/AnimatedSection";
+import MagneticButton from "@/components/ui/MagneticButton";
+import { cn } from "@/lib/utils";
+
+// Animated input component
+function AnimatedInput({
+  label,
+  name,
+  type = "text",
+  value,
+  onChange,
+  required = false,
+  placeholder,
+  isTextarea = false,
+}: {
+  label: string;
+  name: string;
+  type?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  required?: boolean;
+  placeholder: string;
+  isTextarea?: boolean;
+}) {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const InputComponent = isTextarea ? "textarea" : "input";
+
+  return (
+    <div className="relative">
+      <motion.label
+        animate={{
+          y: isFocused || value ? -24 : 0,
+          scale: isFocused || value ? 0.85 : 1,
+          color: isFocused ? "#06b6d4" : "#64748b",
+        }}
+        className="absolute left-4 top-3 text-sm font-medium origin-left pointer-events-none transition-colors"
+      >
+        {label}
+        {required && <span className="text-red-500 ml-1">*</span>}
+      </motion.label>
+      
+      <InputComponent
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        required={required}
+        placeholder={isFocused ? placeholder : ""}
+        rows={isTextarea ? 4 : undefined}
+        className={cn(
+          "w-full px-4 pt-6 pb-2 bg-foreground/5 border-2 rounded-xl text-foreground placeholder:text-transparent focus:outline-none transition-all duration-300",
+          isFocused
+            ? "border-cyan-500 bg-cyan-500/5"
+            : "border-transparent hover:border-foreground/10",
+          isTextarea && "resize-none min-h-[120px]"
+        )}
+      />
+
+      {/* Focus indicator */}
+      <motion.div
+        className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-cyan-500 to-purple-500"
+        initial={{ width: "0%" }}
+        animate={{ width: isFocused ? "100%" : "0%" }}
+        transition={{ duration: 0.3 }}
+      />
+    </div>
+  );
+}
 
 export default function Contact() {
   const [formState, setFormState] = useState({
@@ -31,186 +103,198 @@ export default function Contact() {
     setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const socialIcons = [
-    { icon: Github, href: socialLinks.github },
-    { icon: Linkedin, href: socialLinks.linkedin },
-    { icon: Twitter, href: socialLinks.twitter },
-    { icon: Instagram, href: socialLinks.instagram },
+  const contactInfo = [
+    { icon: Mail, label: "Email", value: socialLinks.email, href: `mailto:${socialLinks.email}` },
+    { icon: Phone, label: "Phone", value: socialLinks.phone, href: `tel:${socialLinks.phone}` },
+    { icon: MapPin, label: "Location", value: personalInfo.location },
   ];
 
   return (
-    <section id="contact" className="py-20 bg-gray-50">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
-          Get in Touch
-        </h2>
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Left Column - Contact Info */}
-          <div className="space-y-6">
-            <a
-              href={`mailto:${socialLinks.email}`}
-              className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="p-3 bg-blue-100 rounded-lg">
-                <Mail className="w-5 h-5 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-gray-500 text-xs uppercase tracking-wider mb-1">Email</p>
-                <p className="text-gray-900 font-medium">{socialLinks.email}</p>
-              </div>
-            </a>
+    <AnimatedSection id="contact" className="relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-0 left-1/4 w-1/2 h-full bg-gradient-to-b from-cyan-500/5 via-purple-500/5 to-transparent pointer-events-none" />
+      
+      <div className="container mx-auto px-4">
+        {/* Section Header */}
+        <SlideIn direction="up" className="text-center mb-16">
+          <motion.span 
+            className="inline-block px-4 py-2 rounded-full glass text-sm font-medium text-cyan-500 mb-4"
+            whileHover={{ scale: 1.05 }}
+          >
+            Connect
+          </motion.span>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <TextReveal text="Get in Touch" />
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Have a project in mind? Let&apos;s work together to bring your ideas to life.
+          </p>
+        </SlideIn>
 
-            <a
-              href={`tel:${socialLinks.phone}`}
-              className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="p-3 bg-green-100 rounded-lg">
-                <Phone className="w-5 h-5 text-green-600" />
-              </div>
+        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+          {/* Contact Info */}
+          <SlideIn direction="left">
+            <div className="space-y-8">
               <div>
-                <p className="text-gray-500 text-xs uppercase tracking-wider mb-1">Phone</p>
-                <p className="text-gray-900 font-medium">{socialLinks.phone}</p>
+                <h3 className="text-2xl font-bold text-foreground mb-6">Contact Information</h3>
+                <p className="text-muted-foreground mb-8">
+                  I'm currently available for freelance projects and internships. 
+                  Feel free to reach out!
+                </p>
               </div>
-            </a>
 
-            <div className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm">
-              <div className="p-3 bg-purple-100 rounded-lg">
-                <MapPin className="w-5 h-5 text-purple-600" />
-              </div>
-              <div>
-                <p className="text-gray-500 text-xs uppercase tracking-wider mb-1">Location</p>
-                <p className="text-gray-900 font-medium">{personalInfo.location}</p>
-              </div>
-            </div>
-
-            <div>
-              <p className="text-gray-500 text-xs uppercase tracking-wider mb-3">Connect with me</p>
-              <div className="flex gap-3">
-                {socialIcons.map((social, i) => (
-                  <a
-                    key={i}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 bg-white border border-gray-200 rounded-lg flex items-center justify-center hover:border-blue-500 hover:text-blue-500 transition-colors"
+              {/* Contact cards */}
+              <div className="space-y-4">
+                {contactInfo.map((info, index) => (
+                  <motion.div
+                    key={info.label}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ x: 10 }}
+                    className="glass rounded-xl p-4 flex items-center gap-4 group cursor-pointer"
+                    onClick={() => info.href && window.open(info.href, "_blank")}
                   >
-                    <social.icon className="w-4 h-4 text-gray-400" />
-                  </a>
+                    <motion.div
+                      whileHover={{ rotate: 360, scale: 1.1 }}
+                      transition={{ duration: 0.5 }}
+                      className="w-12 h-12 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center"
+                    >
+                      <info.icon className="w-6 h-6 text-white" />
+                    </motion.div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">{info.label}</p>
+                      <p className="font-medium text-foreground group-hover:text-cyan-500 transition-colors">
+                        {info.value}
+                      </p>
+                    </div>
+                  </motion.div>
                 ))}
               </div>
+
+              {/* Availability badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="glass rounded-xl p-4 flex items-center gap-3"
+              >
+                <span className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+                <span className="text-green-500 font-medium">{personalInfo.availability}</span>
+              </motion.div>
             </div>
+          </SlideIn>
 
-            <a
-              href={socialLinks.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 border border-green-200 rounded-lg text-green-600 text-sm hover:bg-green-200 transition-colors"
-            >
-              <MessageCircle className="w-4 h-4" />
-              Chat on WhatsApp
-            </a>
-
-            <div className="flex items-center gap-2 p-3 bg-green-100 border border-green-200 rounded-lg">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-green-600 text-sm">{personalInfo.availability}</span>
-            </div>
-          </div>
-
-          {/* Right Column - Contact Form */}
-          <div className="bg-white rounded-lg shadow-sm p-8">
-            {isSubmitted ? (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-4">
-                  <CheckCircle className="w-8 h-8 text-green-500" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Message Sent!</h3>
-                <p className="text-gray-600 text-sm mb-4">I'll get back to you within 24 hours.</p>
-                <button
-                  onClick={() => setIsSubmitted(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:text-gray-900 hover:border-gray-400 transition-colors"
-                >
-                  Send Another
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-gray-700 text-sm font-medium mb-2">Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formState.name}
-                      onChange={handleChange}
-                      required
-                      placeholder="Your name"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-gray-700 text-sm font-medium mb-2">Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formState.email}
-                      onChange={handleChange}
-                      required
-                      placeholder="your@email.com"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 text-sm font-medium mb-2">Subject</label>
-                  <select
-                    name="subject"
-                    value={formState.subject}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          {/* Contact Form */}
+          <SlideIn direction="right">
+            <div className="glass rounded-2xl p-8">
+              <AnimatePresence mode="wait">
+                {isSubmitted ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    className="h-full flex flex-col items-center justify-center text-center py-12"
                   >
-                    <option value="General Inquiry">General Inquiry</option>
-                    <option value="Project Discussion">Project Discussion</option>
-                    <option value="Freelance Work">Freelance Work</option>
-                    <option value="Collaboration">Collaboration</option>
-                  </select>
-                </div>
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                    >
+                      <CheckCircle className="w-20 h-20 text-green-500 mb-6" />
+                    </motion.div>
+                    <h3 className="text-2xl font-bold text-foreground mb-2">Message Sent!</h3>
+                    <p className="text-muted-foreground mb-6">I'll get back to you within 24 hours.</p>
+                    <MagneticButton
+                      onClick={() => setIsSubmitted(false)}
+                      variant="outline"
+                    >
+                      Send Another Message
+                    </MagneticButton>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="form"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onSubmit={handleSubmit}
+                    className="space-y-6"
+                  >
+                    <div className="grid sm:grid-cols-2 gap-6">
+                      <AnimatedInput
+                        label="Name"
+                        name="name"
+                        value={formState.name}
+                        onChange={handleChange}
+                        required
+                        placeholder="John Doe"
+                      />
+                      <AnimatedInput
+                        label="Email"
+                        name="email"
+                        type="email"
+                        value={formState.email}
+                        onChange={handleChange}
+                        required
+                        placeholder="john@example.com"
+                      />
+                    </div>
 
-                <div>
-                  <label className="block text-gray-700 text-sm font-medium mb-2">Message</label>
-                  <textarea
-                    name="message"
-                    value={formState.message}
-                    onChange={handleChange}
-                    required
-                    rows={4}
-                    placeholder="Tell me about your project..."
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                  />
-                </div>
+                    <div className="relative">
+                      <label className="block text-sm font-medium text-muted-foreground mb-2">
+                        Subject
+                      </label>
+                      <select
+                        name="subject"
+                        value={formState.subject}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 bg-foreground/5 border-2 border-transparent rounded-xl text-foreground focus:outline-none focus:border-cyan-500 transition-all"
+                      >
+                        <option value="General Inquiry">General Inquiry</option>
+                        <option value="Project Discussion">Project Discussion</option>
+                        <option value="Freelance Work">Freelance Work</option>
+                        <option value="Collaboration">Collaboration</option>
+                      </select>
+                    </div>
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-blue-600 text-white font-bold uppercase tracking-wider rounded-lg hover:bg-blue-700 transition-all disabled:opacity-50"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send size={16} />
-                      Send Message
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
-          </div>
+                    <AnimatedInput
+                      label="Message"
+                      name="message"
+                      value={formState.message}
+                      onChange={handleChange}
+                      required
+                      placeholder="Tell me about your project..."
+                      isTextarea
+                    />
+
+                    <MagneticButton
+                      type="submit"
+                      variant="primary"
+                      size="lg"
+                      className="w-full"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-5 h-5 mr-2" />
+                          Send Message
+                        </>
+                      )}
+                    </MagneticButton>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+            </div>
+          </SlideIn>
         </div>
       </div>
-    </section>
+    </AnimatedSection>
   );
 }

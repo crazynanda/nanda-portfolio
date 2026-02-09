@@ -4,6 +4,9 @@ import "./globals.css";
 import { SITE_CONFIG } from "@/lib/constants";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { ThemeProvider } from "@/components/layout/ThemeProvider";
+import SmoothScroll from "@/components/layout/SmoothScroll";
+import CustomCursor from "@/components/layout/CustomCursor";
 import { cn } from "@/lib/utils";
 
 const inter = Inter({
@@ -46,7 +49,6 @@ export const metadata: Metadata = {
     "India",
     "Next.js",
     "TypeScript",
-    "Tony Stark UI",
   ],
   authors: [{ name: SITE_CONFIG.name }],
   creator: SITE_CONFIG.name,
@@ -99,18 +101,23 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-gray-50 font-sans antialiased",
+          "min-h-screen bg-background font-sans antialiased transition-colors duration-300",
           inter.variable,
           spaceGrotesk.variable,
           jetbrainsMono.variable,
           playfair.variable
         )}
       >
-        <div className="relative flex min-h-screen flex-col">
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
+        <ThemeProvider>
+          <SmoothScroll>
+            <CustomCursor />
+            <div className="relative flex min-h-screen flex-col">
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+          </SmoothScroll>
+        </ThemeProvider>
       </body>
     </html>
   );

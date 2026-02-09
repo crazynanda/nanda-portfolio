@@ -6,11 +6,13 @@ import Experience from '@/components/sections/Experience';
 import Education from '@/components/sections/Education';
 import Contact from '@/components/sections/Contact';
 import Guestbook from '@/components/sections/Guestbook';
+import ScrollProgress from '@/components/layout/ScrollProgress';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-50 text-gray-900">
-      <div className="container mx-auto px-4 py-12">
+    <>
+      <ScrollProgress />
+      <main className="relative">
         <Hero />
         <About />
         <Projects />
@@ -19,7 +21,7 @@ export default function Home() {
         <Education />
         <Contact />
         <Guestbook />
-      </div>
-    </main>
+      </main>
+    </>
   );
 }

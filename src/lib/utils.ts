@@ -47,7 +47,7 @@ export function getRandomNumber(min: number, max: number): number {
 /**
  * Debounce utility to limit how often a function is executed
  */
-export function debounce<T extends (...args: any[]) => void>(
+export function debounce<T extends (...args: unknown[]) => void>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
@@ -61,7 +61,7 @@ export function debounce<T extends (...args: any[]) => void>(
 /**
  * Throttle utility to ensure a function is only called once per specified limit
  */
-export function throttle<T extends (...args: any[]) => void>(
+export function throttle<T extends (...args: unknown[]) => void>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {
