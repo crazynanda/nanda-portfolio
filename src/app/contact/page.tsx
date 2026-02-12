@@ -23,6 +23,15 @@ export default function Contact() {
       ease: "power2.inOut",
       delay: 0.2,
     });
+
+    // Scroll to top on page load/refresh
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+      // Prevent browser from restoring scroll position
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+    }
   }, []);
 
   // Mouse trail effect

@@ -23,6 +23,15 @@ export default function Home() {
 
     revealTransition();
 
+    // Scroll to top on page load/refresh
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+      // Prevent browser from restoring scroll position
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+    }
+
     // Menu Toggle
     const menuToggleBtn = document.querySelector(".menu-toggle-btn");
     const navOverlay = document.querySelector(".nav-overlay");
