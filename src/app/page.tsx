@@ -264,16 +264,24 @@ export default function Home() {
           this.x += this.vx;
           this.y += this.vy;
           this.rotation += this.rotationSpeed;
-          this.element.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${this.rotation}deg)`;
+          this.element.style.transform = `translate3d(${this.x}px, ${this.y}px, 0) rotate(${this.rotation}deg)`;
         }
       }
       
       const createParticles = () => {
         explosionContainer.innerHTML = "";
-        imagePaths.forEach((path) => {
+        const containerWidth = (explosionContainer as HTMLElement).offsetWidth;
+        const containerHeight = (explosionContainer as HTMLElement).offsetHeight;
+        const centerX = containerWidth / 2 - config.imageSize / 2;
+        const centerY = containerHeight / 2 - config.imageSize / 2;
+        
+        imagePaths.forEach((path, index) => {
           const particle = document.createElement("img");
           particle.src = path;
           particle.classList.add("explosion-particle-img");
+          // Position in center with slight offset for each particle
+          const offsetX = (Math.random() - 0.5) * 50;
+          const offsetY = (Math.random() - 0.5) * 50;
           particle.style.cssText = `
             position: absolute;
             width: ${config.imageSize}px;
@@ -282,6 +290,8 @@ export default function Home() {
             border-radius: 0.75em;
             border: 2px solid var(--fg);
             box-shadow: 4px 4px 0px var(--fg);
+            left: ${centerX + offsetX}px;
+            top: ${centerY + offsetY}px;
           `;
           explosionContainer.appendChild(particle);
         });
@@ -298,12 +308,26 @@ export default function Home() {
         );
         
         let animationId: number;
+        let frameCount = 0;
+        const maxFrames = 300; // Maximum animation duration (~5 seconds at 60fps)
+        
         const animate = () => {
           particles.forEach((particle) => particle.update());
-          animationId = requestAnimationFrame(animate);
+          frameCount++;
           
-          if (particles.every((particle) => particle.y > (explosionContainer as HTMLElement).offsetHeight / 2)) {
+          // Continue animation until all particles fall below container or max frames reached
+          const allParticlesFallen = particles.every((particle) => 
+            particle.y > (explosionContainer as HTMLElement).offsetHeight + 200
+          );
+          
+          if (!allParticlesFallen && frameCount < maxFrames) {
+            animationId = requestAnimationFrame(animate);
+          } else {
             cancelAnimationFrame(animationId);
+            // Clean up particles after animation completes
+            setTimeout(() => {
+              explosionContainer.innerHTML = "";
+            }, 100);
           }
         };
         animate();
