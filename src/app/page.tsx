@@ -79,15 +79,19 @@ export default function Home() {
     // Hero Image Cycling Animation (every 250ms)
     const heroImg = document.querySelector(".hero-img");
     if (heroImg) {
-      let currentImageIndex = 1;
-      const totalImages = 10;
+      const heroImages = [
+        "/images/projects/zeridex.png",
+        "/images/projects/academicexpert.png",
+        "/images/projects/academicseva.png",
+        "/images/projects/lango.png"
+      ];
+      let currentImageIndex = 0;
       
       setInterval(() => {
-        currentImageIndex = currentImageIndex >= totalImages ? 1 : currentImageIndex + 1;
-        // Update background image if using div, or src if using img
+        currentImageIndex = currentImageIndex >= heroImages.length - 1 ? 0 : currentImageIndex + 1;
         const imgElement = heroImg.querySelector("img");
         if (imgElement) {
-          imgElement.src = `/images/work-items/work-item-${currentImageIndex}.jpg`;
+          imgElement.src = heroImages[currentImageIndex];
         }
       }, 250);
     }
@@ -235,10 +239,18 @@ export default function Home() {
         rotationSpeed: 10,
       };
       
-      const imagePaths = Array.from(
-        { length: 10 },
-        (_, i) => `/images/work-items/work-item-${i + 1}.jpg`
-      );
+      const imagePaths = [
+        "/images/projects/zeridex.png",
+        "/images/projects/academicexpert.png",
+        "/images/projects/academicseva.png",
+        "/images/projects/lango.png",
+        "/images/frontend.jpg",
+        "/images/backend.jpg",
+        "/images/UIUXdesign.jpg",
+        "/images/AIintegration.png",
+        "/images/about/portrait.jpg",
+        "/images/projects/zeridex.png"
+      ];
       
       // Preload images
       imagePaths.forEach((path) => {
@@ -488,9 +500,11 @@ export default function Home() {
         {/* Hero Image Holder */}
         <section className="hero-img-holder">
           <div className="hero-img" style={{ transform: "translateY(-110%) scale(0.25) rotate(-15deg)" }}>
-            <div style={{ width: "100%", height: "100%", background: "var(--bg2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <p className="mn">Portfolio Preview</p>
-            </div>
+            <img 
+              src="/images/projects/zeridex.png" 
+              alt="Portfolio Preview" 
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
           </div>
         </section>
 
@@ -511,20 +525,29 @@ export default function Home() {
             <p className="mn">Code / Design / Craft / Repeat</p>
           </div>
           <div className="about-hero-portrait">
-            <div style={{ width: "100%", height: "100%", background: "var(--bg)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <p className="mn">Portrait</p>
-            </div>
+            <img 
+              src="/images/about/portrait.jpg" 
+              alt="Nanda Kumar Portrait" 
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
           </div>
         </section>
 
         {/* Featured Work */}
         <section className="featured-work">
           <div className="featured-images">
-            {[1, 2, 3, 4, 5].map((num) => (
-              <div key={num} className={`featured-img-card featured-img-card-${num}`}>
-                <div style={{ width: "100%", height: "100%", background: "var(--bg2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <p className="mn">Project {num}</p>
-                </div>
+            {[
+              { src: "/images/projects/zeridex.png", alt: "Zeridex" },
+              { src: "/images/projects/academicexpert.png", alt: "Academic Expert" },
+              { src: "/images/projects/academicseva.png", alt: "Academic Seva" },
+              { src: "/images/projects/lango.png", alt: "Lango" }
+            ].map((project, index) => (
+              <div key={index} className={`featured-img-card featured-img-card-${index + 1}`}>
+                <img 
+                  src={project.src} 
+                  alt={project.alt}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
               </div>
             ))}
           </div>
@@ -534,25 +557,25 @@ export default function Home() {
             </div>
             <div className="featured-title-wrapper">
               <div className="featured-title-img">
-                <div style={{ width: "100%", height: "100%", background: "var(--bg2)" }}></div>
+                <img src="/images/projects/zeridex.png" alt="Zeridex" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
               <h1 className="featured-title">Zeridex</h1>
             </div>
             <div className="featured-title-wrapper">
               <div className="featured-title-img">
-                <div style={{ width: "100%", height: "100%", background: "var(--bg2)" }}></div>
+                <img src="/images/projects/academicexpert.png" alt="Academic Expert" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
               <h1 className="featured-title">Academic Expert</h1>
             </div>
             <div className="featured-title-wrapper">
               <div className="featured-title-img">
-                <div style={{ width: "100%", height: "100%", background: "var(--bg2)" }}></div>
+                <img src="/images/projects/academicseva.png" alt="Academic Seva" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
               <h1 className="featured-title">Academic Seva</h1>
             </div>
             <div className="featured-title-wrapper">
               <div className="featured-title-img">
-                <div style={{ width: "100%", height: "100%", background: "var(--bg2)" }}></div>
+                <img src="/images/projects/lango.png" alt="Lango" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
               <h1 className="featured-title">Lango</h1>
             </div>
@@ -598,7 +621,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="service-card-img">
-                <div style={{ width: "100%", height: "100%", background: "rgba(0,0,0,0.1)" }}></div>
+                <img src="/images/frontend.jpg" alt="Frontend Development" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
             </div>
           </div>
@@ -612,7 +635,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="service-card-img">
-                <div style={{ width: "100%", height: "100%", background: "rgba(0,0,0,0.1)" }}></div>
+                <img src="/images/backend.jpg" alt="Backend Development" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
             </div>
           </div>
@@ -626,7 +649,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="service-card-img">
-                <div style={{ width: "100%", height: "100%", background: "rgba(0,0,0,0.1)" }}></div>
+                <img src="/images/UIUXdesign.jpg" alt="UI/UX Design" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
             </div>
           </div>
@@ -635,12 +658,12 @@ export default function Home() {
               <div className="service-card-content">
                 <h1>AI Integration</h1>
                 <p className="ss">
-                  Leveraging OpenAI API and modern AI tools to build intelligent applications 
+                  Leveraging OpenAI API and modern AI tools to build intelligent applications
                   and automation systems that enhance user experiences.
                 </p>
               </div>
               <div className="service-card-img">
-                <div style={{ width: "100%", height: "100%", background: "rgba(255,255,255,0.1)" }}></div>
+                <img src="/images/AIintegration.png" alt="AI Integration" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
             </div>
           </div>
