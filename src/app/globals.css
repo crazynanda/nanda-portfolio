@@ -868,6 +868,28 @@ footer {
   border-top: 2px solid var(--fg);
 }
 
+.explosion-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.explosion-particle-img {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 0.75em;
+  border: 2px solid var(--fg);
+  box-shadow: 4px 4px 0px var(--fg);
+  will-change: transform;
+}
+
 /* Mobile Responsive */
 @media (max-width: 1000px) {
   h1 { font-size: 2.5rem; }

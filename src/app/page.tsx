@@ -67,16 +67,34 @@ export default function Home() {
       });
     }
 
-    // Hero Image Animation
-    gsap.to(".hero-img", {
-      y: "0%",
-      scale: 1,
-      rotate: 0,
-      scrollTrigger: {
-        trigger: ".hero-img-holder",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
+    // Hero Image Cycling Animation (every 250ms)
+    const heroImg = document.querySelector(".hero-img");
+    if (heroImg) {
+      let currentImageIndex = 1;
+      const totalImages = 10;
+      
+      setInterval(() => {
+        currentImageIndex = currentImageIndex >= totalImages ? 1 : currentImageIndex + 1;
+        // Update background image if using div, or src if using img
+        const imgElement = heroImg.querySelector("img");
+        if (imgElement) {
+          imgElement.src = `/images/work-items/work-item-${currentImageIndex}.jpg`;
+        }
+      }, 250);
+    }
+
+    // Hero Image Scroll Animation
+    ScrollTrigger.create({
+      trigger: ".hero-img-holder",
+      start: "top bottom",
+      end: "top top",
+      onUpdate: (self) => {
+        const progress = self.progress;
+        gsap.set(".hero-img", {
+          y: `${-110 + 110 * progress}%`,
+          scale: 0.25 + 0.75 * progress,
+          rotation: -15 + 15 * progress,
+        });
       },
     });
 
@@ -176,6 +194,146 @@ export default function Home() {
           });
         }
       });
+    }
+
+    // About Portrait Animation (desktop only)
+    if (window.innerWidth > 1000) {
+      gsap.to(".about-hero-portrait", {
+        y: -200,
+        rotation: -25,
+        scrollTrigger: {
+          trigger: ".about-hero",
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+    }
+
+    // Footer Explosion Animation
+    const footer = document.querySelector("footer");
+    const explosionContainer = document.querySelector(".explosion-container");
+    
+    if (footer && explosionContainer) {
+      let hasExploded = false;
+      
+      const config = {
+        gravity: 0.25,
+        friction: 0.99,
+        imageSize: 150,
+        horizontalForce: 20,
+        verticalForce: 15,
+        rotationSpeed: 10,
+      };
+      
+      const imagePaths = Array.from(
+        { length: 10 },
+        (_, i) => `/images/work-items/work-item-${i + 1}.jpg`
+      );
+      
+      // Preload images
+      imagePaths.forEach((path) => {
+        const img = new Image();
+        img.src = path;
+      });
+      
+      class Particle {
+        element: HTMLImageElement;
+        x: number;
+        y: number;
+        vx: number;
+        vy: number;
+        rotation: number;
+        rotationSpeed: number;
+        
+        constructor(element: HTMLImageElement) {
+          this.element = element;
+          this.x = 0;
+          this.y = 0;
+          this.vx = (Math.random() - 0.5) * config.horizontalForce;
+          this.vy = -config.verticalForce - Math.random() * 10;
+          this.rotation = 0;
+          this.rotationSpeed = (Math.random() - 0.5) * config.rotationSpeed;
+        }
+        
+        update() {
+          this.vy += config.gravity;
+          this.vx *= config.friction;
+          this.vy *= config.friction;
+          this.rotationSpeed *= config.friction;
+          this.x += this.vx;
+          this.y += this.vy;
+          this.rotation += this.rotationSpeed;
+          this.element.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${this.rotation}deg)`;
+        }
+      }
+      
+      const createParticles = () => {
+        explosionContainer.innerHTML = "";
+        imagePaths.forEach((path) => {
+          const particle = document.createElement("img");
+          particle.src = path;
+          particle.classList.add("explosion-particle-img");
+          particle.style.cssText = `
+            position: absolute;
+            width: ${config.imageSize}px;
+            height: ${config.imageSize}px;
+            object-fit: cover;
+            border-radius: 0.75em;
+            border: 2px solid var(--fg);
+            box-shadow: 4px 4px 0px var(--fg);
+          `;
+          explosionContainer.appendChild(particle);
+        });
+      };
+      
+      const explode = () => {
+        if (hasExploded) return;
+        hasExploded = true;
+        
+        createParticles();
+        const particleElements = document.querySelectorAll(".explosion-particle-img");
+        const particles = Array.from(particleElements).map(
+          (element) => new Particle(element as HTMLImageElement)
+        );
+        
+        let animationId: number;
+        const animate = () => {
+          particles.forEach((particle) => particle.update());
+          animationId = requestAnimationFrame(animate);
+          
+          if (particles.every((particle) => particle.y > (explosionContainer as HTMLElement).offsetHeight / 2)) {
+            cancelAnimationFrame(animationId);
+          }
+        };
+        animate();
+      };
+      
+      const checkFooterPosition = () => {
+        const footerRect = footer.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        
+        if (footerRect.top > viewportHeight + 100) {
+          hasExploded = false;
+        }
+        
+        if (!hasExploded && footerRect.top <= viewportHeight + 250) {
+          explode();
+        }
+      };
+      
+      let checkTimeout: NodeJS.Timeout;
+      window.addEventListener("scroll", () => {
+        clearTimeout(checkTimeout);
+        checkTimeout = setTimeout(checkFooterPosition, 5);
+      });
+      
+      window.addEventListener("resize", () => {
+        hasExploded = false;
+      });
+      
+      createParticles();
+      setTimeout(checkFooterPosition, 500);
     }
 
     // Cleanup
@@ -533,6 +691,7 @@ export default function Home() {
               <p className="mn">© - Nanda Kumar // 2025</p>
               <p className="mn"></p>
             </div>
+            <div className="explosion-container" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "hidden" }}></div>
           </div>
         </footer>
       </div>
