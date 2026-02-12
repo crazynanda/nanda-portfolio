@@ -713,15 +713,33 @@ nav .menu-toggle-btn-wrapper p {
   position: relative;
   z-index: 1;
   text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-cta .contact-text-small p {
+  text-align: center;
+  width: 100%;
+  margin: 0;
 }
 
 .contact-cta .contact-text-large {
   position: relative;
   z-index: 1;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .contact-cta .contact-text-large h1 {
   font-size: 7rem;
+  text-align: center;
+  margin: 0;
+  line-height: 1;
 }
 
 @keyframes gradientMove {
@@ -1048,12 +1066,32 @@ footer {
   }
 
   .contact-cta .contact-text-small {
-    width: 75%;
+    width: 90%;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .contact-cta .contact-text-small p {
+    text-align: center;
+    width: 100%;
+    margin: 0;
+  }
+
+  .contact-cta .contact-text-large {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
 
   .contact-cta .contact-text-large h1 {
     font-size: 3rem;
+    text-align: center;
+    margin: 0;
+    line-height: 1;
   }
 
   .contact-section {
