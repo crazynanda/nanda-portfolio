@@ -4,9 +4,7 @@ import "./globals.css";
 import { SITE_CONFIG } from "@/lib/constants";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { ThemeProvider } from "@/components/layout/ThemeProvider";
-import SmoothScroll from "@/components/layout/SmoothScroll";
-import CustomCursor from "@/components/layout/CustomCursor";
+import PageTransition from "@/components/layout/PageTransition";
 import { cn } from "@/lib/utils";
 
 const inter = Inter({
@@ -101,23 +99,19 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased transition-colors duration-300",
+          "min-h-screen bg-background font-sans antialiased",
           inter.variable,
           spaceGrotesk.variable,
           jetbrainsMono.variable,
           playfair.variable
         )}
       >
-        <ThemeProvider>
-          <SmoothScroll>
-            <CustomCursor />
-            <div className="relative flex min-h-screen flex-col">
-              <Navbar />
-              <main className="flex-1">{children}</main>
-              <Footer />
-            </div>
-          </SmoothScroll>
-        </ThemeProvider>
+        <PageTransition />
+        <div className="relative flex min-h-screen flex-col">
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

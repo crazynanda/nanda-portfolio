@@ -2,29 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-/* CSS Variables for theming */
+/* CSS Variables for theming - Awwwards-inspired design */
 :root {
   --background: #ffffff;
-  --foreground: #0f172a;
-  --primary: #06b6d4;
-  --secondary: #a855f7;
-  --accent: #f97316;
-  --muted: #64748b;
-  --border: #e2e8f0;
-  --card: #f8fafc;
-  --card-foreground: #0f172a;
+  --foreground: #1a1a1a;
+  --primary: #1a1a1a;
+  --secondary: #f5f5f5;
+  --accent: #ff6b6b;
+  --muted: #666666;
+  --border: #e5e5e5;
+  --card: #f5f5f5;
+  --card-foreground: #1a1a1a;
 }
 
 .dark {
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  --primary: #22d3ee;
-  --secondary: #c084fc;
-  --accent: #fb923c;
-  --muted: #94a3b8;
-  --border: #1e293b;
-  --card: #1e293b;
-  --card-foreground: #f8fafc;
+  --background: #1a1a1a;
+  --foreground: #f5f5f5;
+  --primary: #f5f5f5;
+  --secondary: #2a2a2a;
+  --accent: #ff6b6b;
+  --muted: #999999;
+  --border: #333333;
+  --card: #2a2a2a;
+  --card-foreground: #f5f5f5;
 }
 
 /* Reset default margin/padding */
@@ -34,45 +34,80 @@
   margin: 0;
 }
 
-/* Body styles */
+/* Body styles - Awwwards-inspired */
+html {
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+}
+
 body {
   font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--background);
   color: var(--foreground);
-  line-height: 1.6;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  line-height: 1.1;
+  font-size: 16px;
+  overflow-x: hidden;
 }
 
-/* Custom scrollbar */
+/* Typography utilities - Awwwards style */
+.text-display {
+  font-size: clamp(2.5rem, 10vw, 8rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.text-headline {
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.text-subhead {
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.text-mono {
+  font-family: var(--font-mono), 'Courier New', monospace;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Custom scrollbar - minimal style */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--card);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--muted);
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  background: var(--foreground);
 }
 
 /* Selection */
 ::selection {
-  background-color: var(--primary);
+  background-color: var(--accent);
   color: white;
 }
 
-/* Smooth scroll behavior */
-html {
-  scroll-behavior: smooth;
+/* Lenis smooth scroll */
+html.lenis {
+  height: auto;
 }
 
-/* Hide scrollbar during smooth scroll animations */
 .lenis.lenis-smooth {
   scroll-behavior: auto;
 }
@@ -85,39 +120,32 @@ html {
   overflow: hidden;
 }
 
-/* Custom cursor styles */
-.cursor-none {
-  cursor: none;
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
-/* Glass morphism utility */
+/* Glass morphism - refined */
 .glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .dark .glass {
-  background: rgba(15, 23, 42, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(26, 26, 26, 0.8);
 }
 
 /* Text gradient */
 .text-gradient {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  background: linear-gradient(135deg, var(--foreground) 0%, var(--muted) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Glow effects */
-.glow {
-  box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary), 0 0 60px var(--primary);
-}
-
-.glow-text {
-  text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+/* Accent text */
+.text-accent {
+  color: var(--accent);
 }
 
 /* Magnetic button base styles */
@@ -129,11 +157,57 @@ html {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Section reveal animation */
+/* Section padding - Awwwards style */
+.section-padding {
+  padding: 8rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding: 10rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding: 12rem 4rem;
+  }
+}
+
+/* Container - full width with max */
+.container-wide {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .container-wide {
+    padding: 0 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-wide {
+    padding: 0 4rem;
+  }
+}
+
+/* Border utilities */
+.border-thin {
+  border-width: 1px;
+}
+
+.border-thick {
+  border-width: 2px;
+}
+
+/* Animation utilities */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(60px);
   }
   to {
     opacity: 1;
@@ -141,21 +215,87 @@ html {
   }
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
 }
 
 /* Stagger children animation */
 .stagger-children > * {
   opacity: 0;
-  animation: fadeInUp 0.5s ease-out forwards;
 }
 
-.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
-.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
-.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
-.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
-.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger-children.animate > * {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.stagger-children.animate > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-children.animate > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-children.animate > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-children.animate > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-children.animate > *:nth-child(5) { animation-delay: 0.5s; }
+
+/* 3D perspective utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* Horizontal scroll container */
+.horizontal-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Clip path utilities */
+.clip-inset-0 {
+  clip-path: inset(0);
+}
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
@@ -166,6 +306,10 @@ html {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  
+  html {
+    scroll-behavior: auto;
   }
 }
 
@@ -178,5 +322,54 @@ html {
   body.custom-cursor-enabled a,
   body.custom-cursor-enabled button {
     cursor: none;
+  }
+}
+
+/* Overlay navigation styles */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--background);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Transition overlays */
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--primary);
+  z-index: 9999;
+  transform-origin: top;
+}
+
+/* Hero specific styles */
+.hero-name {
+  font-size: clamp(3rem, 15vw, 12rem);
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+/* Service card sticky */
+.service-card-sticky {
+  position: sticky;
+  top: 100px;
+}
+
+/* Footer grid */
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .footer-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }

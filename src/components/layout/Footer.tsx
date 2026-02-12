@@ -4,164 +4,186 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { socialLinks } from "@/data/social";
 import { personalInfo } from "@/data/personal";
-import { Github, Linkedin, Twitter, Instagram, Mail, Heart, ArrowUp } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Github, Linkedin, Twitter, Instagram } from "lucide-react";
 
-const socialIcons = [
-  { name: "GitHub", href: socialLinks.github, icon: Github },
-  { name: "LinkedIn", href: socialLinks.linkedin, icon: Linkedin },
-  { name: "Twitter", href: socialLinks.twitter, icon: Twitter },
-  { name: "Instagram", href: socialLinks.instagram, icon: Instagram },
-];
-
-const navLinks = ['About', 'Skills', 'Projects', 'Experience', 'Contact'];
+const footerLinks = {
+  explore: [
+    { label: "Home", href: "#hero" },
+    { label: "About", href: "#about" },
+    { label: "Work", href: "#projects" },
+    { label: "Contact", href: "#contact" },
+  ],
+  creative: [
+    { label: "GitHub", href: socialLinks.github },
+    { label: "Zeridex", href: "https://www.zeridex.space" },
+  ],
+  connect: [
+    { label: "LinkedIn", href: socialLinks.linkedin },
+    { label: "GitHub", href: socialLinks.github },
+    { label: "Twitter", href: socialLinks.twitter },
+  ],
+  extras: [
+    { label: "Awwwards", href: "https://www.awwwards.com" },
+    { label: "References", href: "https://www.pillarstack.com" },
+  ],
+};
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
-    <footer className="relative bg-background border-t border-border overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/5 to-transparent pointer-events-none" />
-      
-      <div className="container mx-auto px-4 py-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-          {/* Brand */}
+    <footer className="bg-background border-t border-border">
+      <div className="container-wide py-20">
+        {/* Large Name Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-20"
+        >
+          <h2 className="text-display text-foreground">{personalInfo.name}</h2>
+        </motion.div>
+
+        {/* Footer Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
+          {/* Explore */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            <h3 className="text-2xl font-bold text-foreground mb-4">{personalInfo.name}</h3>
-            <p className="text-muted-foreground mb-6">
-              Building AI-powered websites and modern web experiences from Bangalore, India.
-            </p>
-            
-            {/* Social Links */}
-            <div className="flex gap-3">
-              {socialIcons.map((social, index) => (
-                <motion.a
-                  key={social.name}
-                  href={social.href}
+            <p className="text-mono text-muted mb-4">Explore</p>
+            <div className="space-y-2">
+              {footerLinks.explore.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="block text-foreground hover:text-accent transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Creative Hub */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            <p className="text-mono text-muted mb-4">Creative Hub</p>
+            <div className="space-y-2">
+              {footerLinks.creative.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 rounded-xl glass flex items-center justify-center text-muted-foreground hover:text-cyan-500 hover:bg-cyan-500/10 transition-colors"
-                  aria-label={social.name}
+                  className="block text-foreground hover:text-accent transition-colors"
                 >
-                  <social.icon className="w-5 h-5" />
-                </motion.a>
+                  {link.label}
+                </a>
               ))}
             </div>
           </motion.div>
 
-          {/* Navigation */}
+          {/* Connect */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h4 className="font-semibold text-foreground mb-4">Quick Links</h4>
-            <div className="space-y-3">
-              {navLinks.map((item, index) => (
-                <motion.div
-                  key={item}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.1 + index * 0.05 }}
+            <p className="text-mono text-muted mb-4">Connect</p>
+            <div className="space-y-2">
+              {footerLinks.connect.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-foreground hover:text-accent transition-colors"
                 >
-                  <Link
-                    href={`#${item.toLowerCase()}`}
-                    className="text-muted-foreground hover:text-cyan-500 transition-colors inline-flex items-center gap-2 group"
-                  >
-                    <span className="w-0 h-0.5 bg-cyan-500 group-hover:w-4 transition-all duration-300" />
-                    {item}
-                  </Link>
-                </motion.div>
+                  {link.label}
+                </a>
               ))}
             </div>
           </motion.div>
 
-          {/* Contact */}
+          {/* Extras */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h4 className="font-semibold text-foreground mb-4">Get in Touch</h4>
-            <div className="space-y-3">
-              <motion.a
-                href={`mailto:${socialLinks.email}`}
-                whileHover={{ x: 5 }}
-                className="flex items-center gap-3 text-muted-foreground hover:text-cyan-500 transition-colors"
-              >
-                <Mail className="w-5 h-5" />
-                {socialLinks.email}
-              </motion.a>
-              <p className="text-muted-foreground">
-                {personalInfo.location}
-              </p>
-              <p className="text-green-500 text-sm">
-                {personalInfo.availability}
-              </p>
+            <p className="text-mono text-muted mb-4">Extras</p>
+            <div className="space-y-2">
+              {footerLinks.extras.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-foreground hover:text-accent transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
             </div>
           </motion.div>
         </div>
 
-        {/* Divider */}
+        {/* Copyright */}
         <motion.div
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="h-px bg-gradient-to-r from-transparent via-border to-transparent mb-8"
-        />
-
-        {/* Bottom */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-muted-foreground text-sm flex items-center gap-1"
-          >
-            © {currentYear} {personalInfo.name}. Made with
-            <motion.span
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
+          className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4"
+        >
+          <p className="text-mono text-muted">
+            © - {personalInfo.name} // {currentYear}
+          </p>
+          
+          <div className="flex items-center gap-6">
+            <a
+              href={socialLinks.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted hover:text-accent transition-colors"
             >
-              <Heart className="w-4 h-4 text-red-500 fill-red-500 inline mx-1" />
-            </motion.span>
-            in Bangalore
-          </motion.p>
-
-          {/* Back to top */}
-          <motion.button
-            onClick={scrollToTop}
-            whileHover={{ y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2 text-muted-foreground hover:text-cyan-500 transition-colors text-sm"
-          >
-            Back to top
-            <motion.div
-              animate={{ y: [0, -3, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+              <Github className="w-5 h-5" />
+            </a>
+            <a
+              href={socialLinks.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted hover:text-accent transition-colors"
             >
-              <ArrowUp className="w-4 h-4" />
-            </motion.div>
-          </motion.button>
-        </div>
+              <Linkedin className="w-5 h-5" />
+            </a>
+            <a
+              href={socialLinks.twitter}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted hover:text-accent transition-colors"
+            >
+              <Twitter className="w-5 h-5" />
+            </a>
+            <a
+              href={socialLinks.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted hover:text-accent transition-colors"
+            >
+              <Instagram className="w-5 h-5" />
+            </a>
+          </div>
+        </motion.div>
       </div>
     </footer>
   );
