@@ -686,6 +686,8 @@ nav .menu-toggle-btn-wrapper p {
   box-shadow: 10px 10px 0px 5px var(--fg);
   overflow: hidden;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 }
 
 .contact-cta .contact-button:hover {

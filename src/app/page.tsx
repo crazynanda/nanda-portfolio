@@ -639,15 +639,14 @@ export default function Home() {
 
         {/* Contact CTA */}
         <section className="contact-cta">
-          <div className="contact-button">
-            <a href="/contact"></a>
+          <a href="/contact" className="contact-button">
             <div className="contact-text-small">
               <p>Let&apos;s build something amazing together</p>
             </div>
             <div className="contact-text-large">
               <h1>Get in touch</h1>
             </div>
-          </div>
+          </a>
         </section>
 
         {/* Footer */}
