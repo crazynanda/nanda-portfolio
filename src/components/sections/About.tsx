@@ -50,7 +50,7 @@ export default function About() {
             About Me
           </motion.span>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <TextReveal text="The Story So Far" />
+            <TextReveal>The Story So Far</TextReveal>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Get to know the person behind the code

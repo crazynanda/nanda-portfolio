@@ -242,7 +242,7 @@ export default function Projects() {
             Portfolio
           </motion.span>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <TextReveal text="Featured Work" />
+            <TextReveal>Featured Work</TextReveal>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             A collection of projects I&apos;ve built, from startups to AI applications

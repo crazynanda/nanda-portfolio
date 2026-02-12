@@ -124,7 +124,7 @@ export default function Contact() {
             Connect
           </motion.span>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <TextReveal text="Get in Touch" />
+            <TextReveal>Get in Touch</TextReveal>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Have a project in mind? Let&apos;s work together to bring your ideas to life.

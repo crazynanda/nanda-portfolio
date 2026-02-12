@@ -10,7 +10,23 @@ interface ThemeToggleProps {
 }
 
 export default function ThemeToggle({ className }: ThemeToggleProps) {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  // Handle case where ThemeProvider might not be available (e.g., during static generation)
+  let themeContext;
+  try {
+    themeContext = useTheme();
+  } catch (e) {
+    // Return a placeholder during static generation
+    return (
+      <div className={cn(
+        "relative p-2 rounded-full glass transition-all duration-300",
+        className
+      )}>
+        <Sun className="w-5 h-5 text-orange-500" />
+      </div>
+    );
+  }
+
+  const { theme, setTheme, resolvedTheme } = themeContext;
 
   const toggleTheme = () => {
     if (theme === "system") {
@@ -59,7 +75,19 @@ export default function ThemeToggle({ className }: ThemeToggleProps) {
 
 // Advanced theme toggle with all three options
 export function ThemeToggleAdvanced({ className }: ThemeToggleProps) {
-  const { theme, setTheme } = useTheme();
+  // Handle case where ThemeProvider might not be available
+  let themeContext;
+  try {
+    themeContext = useTheme();
+  } catch (e) {
+    return (
+      <div className={cn("flex items-center gap-1 p-1 rounded-full glass", className)}>
+        <Sun className="w-4 h-4 text-orange-500" />
+      </div>
+    );
+  }
+
+  const { theme, setTheme } = themeContext;
 
   const options = [
     { value: "light", icon: Sun, label: "Light" },

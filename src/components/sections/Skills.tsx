@@ -183,7 +183,7 @@ export default function Skills() {
             Arsenal
           </motion.span>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <TextReveal text="Skills & Technologies" />
+            <TextReveal>Skills & Technologies</TextReveal>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             The tools and technologies I use to bring ideas to life

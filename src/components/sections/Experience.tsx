@@ -128,7 +128,7 @@ export default function Experience() {
             Journey
           </motion.span>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <TextReveal text="Work Experience" />
+            <TextReveal>Work Experience</TextReveal>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             My professional journey and career highlights

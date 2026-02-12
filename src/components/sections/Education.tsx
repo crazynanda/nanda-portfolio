@@ -154,7 +154,7 @@ export default function Education() {
             Foundation
           </motion.span>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <TextReveal text="Education" />
+            <TextReveal>Education</TextReveal>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             My academic background and learning journey
