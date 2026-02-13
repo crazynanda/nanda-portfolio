@@ -442,23 +442,24 @@ nav .menu-toggle-btn-wrapper p {
 }
 
 .about-hero .about-hero-bio {
-  max-width: 850px;
+  max-width: 55%;
   display: flex;
   flex-direction: column;
   gap: 2em;
+  padding-right: 2em;
 }
 
 .about-hero .about-hero-bio p.ss {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   line-height: 1.5;
 }
 
 .about-hero .about-hero-portrait {
   position: absolute;
   top: 6em;
-  right: 2em;
-  width: 500px;
-  height: 600px;
+  right: 4em;
+  width: 480px;
+  height: 580px;
   border: 0.3em solid var(--fg);
   border-radius: 2em;
   overflow: hidden;
@@ -985,6 +986,11 @@ footer {
 
   .about-hero {
     padding: 6em 1em 1em 1em;
+  }
+
+  .about-hero .about-hero-bio {
+    max-width: 100%;
+    padding-right: 0;
   }
 
   .about-hero .about-hero-portrait {
