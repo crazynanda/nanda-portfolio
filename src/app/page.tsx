@@ -1,11 +1,24 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function Home() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
+    // Detect mobile/tablet devices
+    const checkMobile = () => {
+      const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+      const isSmallScreen = window.innerWidth < 1024;
+      setIsMobile(isTouchDevice || isSmallScreen);
+    };
+    
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
     // Scroll to top on page load/refresh - MUST happen first
     if (typeof window !== "undefined") {
       window.scrollTo(0, 0);
@@ -19,6 +32,9 @@ export default function Home() {
 
     // Register GSAP plugins
     gsap.registerPlugin(ScrollTrigger);
+    
+    // Reduce motion for users who prefer it
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // Page Transition - Reveal
     const revealTransition = () => {
@@ -78,9 +94,9 @@ export default function Home() {
       });
     }
 
-    // Hero Image Cycling Animation (every 250ms)
+    // Hero Image Cycling Animation (every 250ms) - Only on non-mobile for performance
     const heroImg = document.querySelector(".hero-img");
-    if (heroImg) {
+    if (heroImg && !isMobile && !prefersReducedMotion) {
       const heroImages = [
         "/images/projects/zeridex.png",
         "/images/projects/academicexpert.png",
@@ -89,32 +105,44 @@ export default function Home() {
       ];
       let currentImageIndex = 0;
       
-      setInterval(() => {
+      const imageInterval = setInterval(() => {
         currentImageIndex = currentImageIndex >= heroImages.length - 1 ? 0 : currentImageIndex + 1;
         const imgElement = heroImg.querySelector("img");
         if (imgElement) {
           imgElement.src = heroImages[currentImageIndex];
         }
       }, 250);
+      
+      // Cleanup interval on unmount
+      return () => clearInterval(imageInterval);
     }
 
-    // Hero Image Scroll Animation
-    ScrollTrigger.create({
-      trigger: ".hero-img-holder",
-      start: "top bottom",
-      end: "top top",
-      onUpdate: (self) => {
-        const progress = self.progress;
-        gsap.set(".hero-img", {
-          y: `${-110 + 110 * progress}%`,
-          scale: 0.25 + 0.75 * progress,
-          rotation: -15 + 15 * progress,
-        });
-      },
+    // Hero Image Scroll Animation - Simplified for mobile
+    if (!prefersReducedMotion) {
+      ScrollTrigger.create({
+        trigger: ".hero-img-holder",
+        start: "top bottom",
+        end: "top top",
+        onUpdate: (self) => {
+          const progress = self.progress;
+          // Use simpler animation on mobile
+          if (isMobile) {
+            gsap.set(".hero-img", {
+              y: `${-110 + 110 * progress}%`,
+              scale: 0.25 + 0.75 * progress,
+            });
+          } else {
+            gsap.set(".hero-img", {
+              y: `${-110 + 110 * progress}%`,
+              scale: 0.25 + 0.75 * progress,
+              rotation: -15 + 15 * progress,
+            });
+          }
+        },
     });
 
-    // Featured Work Horizontal Scroll
-    if (window.innerWidth > 1000) {
+    // Featured Work Horizontal Scroll - Desktop only
+    if (window.innerWidth > 1000 && !prefersReducedMotion) {
       const featuredTitles = document.querySelector(".featured-titles");
       const moveDistance = window.innerWidth * 4;
 
@@ -177,10 +205,25 @@ export default function Home() {
           });
         },
       });
+    } else {
+      // Mobile: Show featured work as static grid
+      const indicatorContainer = document.querySelector(".featured-work-indicator") as HTMLElement | null;
+      if (indicatorContainer) {
+        indicatorContainer.style.display = "none";
+      }
+      
+      const featuredImgCards = document.querySelectorAll(".featured-img-card");
+      featuredImgCards.forEach((card, index) => {
+        gsap.set(card, { 
+          z: 0, 
+          scale: 1,
+          opacity: 1 
+        });
+      });
     }
 
-    // Services Sticky Cards
-    if (window.innerWidth > 1000) {
+    // Services Sticky Cards - Desktop only, simpler on mobile
+    if (window.innerWidth > 1000 && !prefersReducedMotion) {
       const services = gsap.utils.toArray(".service-card");
       services.forEach((service, index) => {
         const isLastServiceCard = index === services.length - 1;
@@ -225,11 +268,12 @@ export default function Home() {
       });
     }
 
-    // Footer Explosion Animation
+    // Footer Explosion Animation - Desktop only
     const footer = document.querySelector("footer");
     const explosionContainer = document.querySelector(".explosion-container");
     
-    if (footer && explosionContainer) {
+    // Skip explosion animation on mobile/touch devices for performance
+    if (footer && explosionContainer && !isMobile && !prefersReducedMotion) {
       let hasExploded = false;
       
       const config = {
@@ -381,6 +425,7 @@ export default function Home() {
       
       createParticles();
       setTimeout(checkFooterPosition, 500);
+    }
     }
 
     // Cleanup

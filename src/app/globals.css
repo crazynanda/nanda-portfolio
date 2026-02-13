@@ -1539,3 +1539,381 @@ footer {
     font-size: clamp(1.25rem, 6vw, 1.5rem);
   }
 }
+
+/* ============================================
+   COMPREHENSIVE MOBILE OPTIMIZATION
+   ============================================ */
+
+/* Extra Small Devices (phones, 480px and down) */
+@media (max-width: 480px) {
+  /* Typography */
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  
+  p, p.ss {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  
+  p.mn {
+    font-size: 0.75rem;
+  }
+  
+  /* Hero */
+  .hero {
+    padding: 0.75em;
+    min-height: 90svh;
+  }
+  
+  .hero .hero-header h1 {
+    font-size: 18vw;
+    line-height: 0.9;
+  }
+  
+  .hero .hero-footer {
+    padding: 0.75em;
+    flex-direction: column;
+    gap: 0.5em;
+    align-items: flex-start;
+  }
+  
+  .hero .hero-footer .hero-footer-scroll-down {
+    position: relative;
+    left: 0;
+    transform: none;
+  }
+  
+  /* Navigation */
+  nav {
+    padding: 0.75em;
+  }
+  
+  nav .logo {
+    padding: 0.4em 0.5em;
+  }
+  
+  nav .logo a {
+    font-size: 0.8rem;
+  }
+  
+  nav .menu-toggle-btn {
+    padding: 0.5em;
+  }
+  
+  .nav-overlay .nav-items .nav-item p {
+    font-size: 1.25rem;
+  }
+  
+  .nav-overlay .nav-footer {
+    padding: 1em;
+    gap: 1em;
+  }
+  
+  /* Hero Image Holder */
+  .hero-img-holder {
+    padding: 0.75em;
+    height: 60svh;
+  }
+  
+  /* About Section */
+  .about-hero {
+    padding: 5em 0.75em 0.75em 0.75em;
+    gap: 2em;
+  }
+  
+  .about-hero .about-hero-header h1 {
+    font-size: 2.5rem;
+  }
+  
+  .about-hero .about-hero-bio {
+    max-width: 100%;
+  }
+  
+  .about-hero .about-hero-bio p.ss {
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+  
+  .about-hero .about-hero-portrait {
+    height: 350px;
+    margin-top: 1.5em;
+  }
+  
+  /* Featured Work */
+  .featured-work {
+    padding: 2em 0;
+  }
+  
+  .featured-work .featured-titles {
+    width: 100vw;
+    flex-direction: column;
+    gap: 1.5em;
+  }
+  
+  .featured-work .featured-title-wrapper h1 {
+    font-size: 15vw;
+    width: 90%;
+  }
+  
+  .featured-work .featured-title-img {
+    height: 200px;
+    display: block;
+  }
+  
+  /* Services */
+  .services-header {
+    padding: 3em 0.75em;
+  }
+  
+  .services-header .services-header-title h1 {
+    font-size: 1.75rem;
+  }
+  
+  .services .service-card {
+    padding: 0.75em;
+  }
+  
+  .services .service-card-inner {
+    padding: 1.5em;
+    gap: 1em;
+    width: calc(100vw - 2em);
+  }
+  
+  .services .service-card-content h1 {
+    font-size: 1.75rem;
+  }
+  
+  .services .service-card-content p.ss {
+    font-size: 1rem;
+  }
+  
+  .services .service-card-img {
+    aspect-ratio: 16/9;
+  }
+  
+  /* Contact CTA */
+  .contact-cta {
+    padding: 6em 0.75em;
+  }
+  
+  .contact-cta .contact-button {
+    width: 95%;
+    height: 220px;
+    border-radius: 3em;
+    border-width: 0.5em;
+  }
+  
+  .contact-cta .contact-text-small p {
+    font-size: 0.875rem;
+  }
+  
+  .contact-cta .contact-text-large h1 {
+    font-size: 2.5rem;
+  }
+  
+  /* Footer */
+  footer {
+    padding: 0.75em;
+  }
+  
+  .footer-header h1 {
+    font-size: 18vw;
+  }
+  
+  .footer-row {
+    flex-direction: column;
+    gap: 1.5em;
+    margin-bottom: 2em;
+  }
+  
+  .footer-col p:first-child {
+    font-size: 0.625rem;
+  }
+  
+  .footer-col p {
+    font-size: 0.875rem;
+  }
+  
+  .copyright-info {
+    flex-direction: column;
+    gap: 0.5em;
+    text-align: center;
+  }
+}
+
+/* Small Devices (landscape phones, 481px to 767px) */
+@media (min-width: 481px) and (max-width: 767px) {
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  
+  .hero .hero-header h1 {
+    font-size: 16vw;
+  }
+  
+  .about-hero .about-hero-portrait {
+    height: 400px;
+  }
+  
+  .featured-work .featured-title-wrapper h1 {
+    font-size: 14vw;
+  }
+  
+  .contact-cta .contact-button {
+    width: 90%;
+    height: 240px;
+  }
+  
+  .contact-cta .contact-text-large h1 {
+    font-size: 3.5rem;
+  }
+  
+  .footer-header h1 {
+    font-size: 16vw;
+  }
+}
+
+/* Medium Devices (tablets, 768px to 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  h1 { font-size: 3.5rem; }
+  h2 { font-size: 3rem; }
+  
+  .hero .hero-header h1 {
+    font-size: 14vw;
+  }
+  
+  .about-hero .about-hero-portrait {
+    height: 500px;
+  }
+  
+  .contact-cta .contact-button {
+    width: 75%;
+    height: 280px;
+  }
+  
+  .contact-cta .contact-text-large h1 {
+    font-size: 5rem;
+  }
+}
+
+/* Large Devices (desktops, 1024px to 1439px) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .about-hero .about-hero-portrait {
+    width: 400px;
+    height: 500px;
+    right: 3em;
+  }
+  
+  .about-hero .about-hero-bio {
+    max-width: 750px;
+  }
+  
+  .contact-cta .contact-button {
+    width: 65%;
+  }
+}
+
+/* Extra Large Devices (large desktops, 1440px and up) */
+@media (min-width: 1440px) {
+  .about-hero .about-hero-portrait {
+    width: 550px;
+    height: 650px;
+    right: 5em;
+  }
+  
+  .about-hero .about-hero-bio {
+    max-width: 900px;
+  }
+  
+  .about-hero .about-hero-bio p.ss {
+    font-size: 1.75rem;
+  }
+  
+  .contact-cta .contact-button {
+    width: 55%;
+    height: 350px;
+  }
+  
+  .contact-cta .contact-text-large h1 {
+    font-size: 8rem;
+  }
+}
+
+/* ============================================
+   TOUCH DEVICE OPTIMIZATIONS
+   ============================================ */
+
+@media (pointer: coarse) {
+  /* Larger touch targets */
+  .menu-toggle-btn,
+  .nav-overlay .nav-items .nav-item,
+  .contact-cta .contact-button,
+  .submit-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Remove hover effects on touch devices */
+  .contact-cta .contact-button:hover,
+  .submit-btn:hover {
+    transform: none;
+  }
+  
+  /* Smooth scrolling for touch */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Disable complex animations */
+  .featured-img-card {
+    transform: none !important;
+  }
+  
+  .explosion-container {
+    display: none;
+  }
+}
+
+/* ============================================
+   REDUCED MOTION SUPPORT
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .transition-overlay {
+    display: none;
+  }
+  
+  .hero-img {
+    transform: none !important;
+  }
+  
+  .featured-img-card {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  
+  .about-hero-portrait {
+    transform: none !important;
+  }
+  
+  .service-card-inner {
+    transform: none !important;
+  }
+  
+  .explosion-container {
+    display: none;
+  }
+  
+  .floating-elements {
+    display: none;
+  }
+}
