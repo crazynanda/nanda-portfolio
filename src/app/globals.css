@@ -119,7 +119,29 @@ p.mn {
   left: 0;
   width: 100%;
   height: 100%;
+  transform: scaleY(1);
+  transform-origin: top;
+  will-change: transform;
+}
+
+.transition-overlay.overlay-1 {
   background-color: var(--fg);
+}
+
+.transition-overlay.overlay-2 {
+  background-color: var(--accent1);
+}
+
+.transition-overlay.overlay-3 {
+  background-color: var(--accent2);
+}
+
+.transition-overlay.overlay-4 {
+  background-color: var(--accent3);
+}
+
+.transition-overlay.overlay-5 {
+  background-color: var(--accent4);
 }
 
 /* Navbar */
@@ -688,6 +710,10 @@ nav .menu-toggle-btn-wrapper p {
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  margin: 0;
+  padding: 0;
 }
 
 .contact-cta .contact-button:hover {

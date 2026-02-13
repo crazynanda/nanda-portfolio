@@ -391,11 +391,11 @@ export default function Home() {
     <>
       {/* Page Transition */}
       <div className="transition">
-        <div className="transition-overlay"></div>
-        <div className="transition-overlay"></div>
-        <div className="transition-overlay"></div>
-        <div className="transition-overlay"></div>
-        <div className="transition-overlay"></div>
+        <div className="transition-overlay overlay-1"></div>
+        <div className="transition-overlay overlay-2"></div>
+        <div className="transition-overlay overlay-3"></div>
+        <div className="transition-overlay overlay-4"></div>
+        <div className="transition-overlay overlay-5"></div>
       </div>
 
       <div className="page home-page">
@@ -671,14 +671,29 @@ export default function Home() {
 
         {/* Contact CTA */}
         <section className="contact-cta">
-          <a href="/contact" className="contact-button">
+          <button 
+            className="contact-button"
+            onClick={() => {
+              // Animate transition out before navigating
+              gsap.set(".transition-overlay", { scaleY: 0, transformOrigin: "bottom" });
+              gsap.to(".transition-overlay", {
+                scaleY: 1,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: "power2.inOut",
+                onComplete: () => {
+                  window.location.href = "/contact";
+                }
+              });
+            }}
+          >
             <div className="contact-text-small">
               <p>Let&apos;s build something amazing together</p>
             </div>
             <div className="contact-text-large">
               <h1>Get in touch</h1>
             </div>
-          </a>
+          </button>
         </section>
 
         {/* Footer */}
