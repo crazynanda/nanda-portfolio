@@ -1,24 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function Home() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading] = useState(true);
 
   useEffect(() => {
-    // Detect mobile/tablet devices
-    const checkMobile = () => {
-      const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-      const isSmallScreen = window.innerWidth < 1024;
-      setIsMobile(isTouchDevice || isSmallScreen);
-    };
-    
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
     // Scroll to top on page load/refresh - MUST happen first
     if (typeof window !== "undefined") {
       window.scrollTo(0, 0);
@@ -439,7 +429,7 @@ export default function Home() {
           <div className="logo">
             <div className="logo-container">
               <p className="mn">
-                <a href="/">N ✦ K</a>
+                <Link href="/">N ✦ K</Link>
               </p>
             </div>
           </div>
@@ -455,12 +445,12 @@ export default function Home() {
           <div className="nav-items">
             <div className="nav-item active">
               <p>
-                <a href="/">Home</a>
+                <Link href="/">Home</Link>
               </p>
             </div>
             <div className="nav-item">
               <p>
-                <a href="/contact">Contact</a>
+                <Link href="/contact">Contact</Link>
               </p>
             </div>
           </div>
@@ -749,10 +739,10 @@ export default function Home() {
               <div className="footer-col">
                 <p className="mn">Explore</p>
                 <p>
-                  <a href="/">Home</a>
+                  <Link href="/">Home</Link>
                 </p>
                 <p>
-                  <a href="/contact">Contact</a>
+                  <Link href="/contact">Contact</Link>
                 </p>
               </div>
               <div className="footer-col">

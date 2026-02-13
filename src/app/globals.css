@@ -45,6 +45,21 @@ body::-webkit-scrollbar {
   width: 0;
 }
 
+/* Custom Cursor - Hide default cursor on desktop */
+@media (pointer: fine) {
+  body.custom-cursor-active,
+  body.custom-cursor-active * {
+    cursor: none !important;
+  }
+}
+
+/* Ensure interactive elements still work with custom cursor */
+body.custom-cursor-active a,
+body.custom-cursor-active button,
+body.custom-cursor-active [role="button"] {
+  cursor: none !important;
+}
+
 img {
   width: 100%;
   height: 100%;
@@ -438,28 +453,38 @@ nav .menu-toggle-btn-wrapper p {
 .about-hero .about-hero-header {
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
+  gap: 0.2em;
+}
+
+.about-hero .about-hero-header h1 {
+  font-size: 3.5rem;
+  margin: 0;
 }
 
 .about-hero .about-hero-bio {
-  max-width: 55%;
+  max-width: 60%;
   display: flex;
   flex-direction: column;
-  gap: 2em;
+  gap: 1.5em;
   padding-right: 2em;
 }
 
 .about-hero .about-hero-bio p.ss {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   line-height: 1.5;
+}
+
+.about-hero .about-hero-bio p.mn {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
 }
 
 .about-hero .about-hero-portrait {
   position: absolute;
   top: 6em;
   right: 4em;
-  width: 480px;
-  height: 580px;
+  width: 350px;
+  height: 420px;
   border: 0.3em solid var(--fg);
   border-radius: 2em;
   overflow: hidden;
@@ -998,12 +1023,12 @@ footer {
     top: auto;
     right: auto;
     width: 100%;
-    height: 450px;
-    margin-top: 2em;
+    height: 350px;
+    margin-top: 1.5em;
   }
 
   .about-hero .about-hero-bio p.ss {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
   }
 
   .featured-work {
@@ -1629,7 +1654,7 @@ footer {
   }
   
   .about-hero .about-hero-header h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
   
   .about-hero .about-hero-bio {
@@ -1642,8 +1667,8 @@ footer {
   }
   
   .about-hero .about-hero-portrait {
-    height: 350px;
-    margin-top: 1.5em;
+    height: 280px;
+    margin-top: 1em;
   }
   
   /* Featured Work */

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
+import Link from "next/link";
 import { gsap } from "gsap";
 
 export default function Contact() {
@@ -12,6 +13,17 @@ export default function Contact() {
   const animationId = useRef<number | null>(null);
   const isDesktop = useRef(typeof window !== "undefined" ? window.innerWidth > 1000 : false);
   const lastRemovalTime = useRef(0);
+
+  // Pre-compute floating element random values (avoid Math.random in render)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const floatingElements = useMemo(() => {
+    return Array.from({ length: 12 }).map((_, i) => ({
+      key: i,
+      left: Math.random() * 100,
+      delay: Math.random() * 8,
+      duration: 8 + Math.random() * 4,
+    }));
+  }, []);
 
   // Page transition
   useEffect(() => {
@@ -184,7 +196,7 @@ export default function Contact() {
           <div className="logo">
             <div className="logo-container">
               <p className="mn">
-                <a href="/">N ✦ K</a>
+                <Link href="/">N ✦ K</Link>
               </p>
             </div>
           </div>
@@ -193,14 +205,14 @@ export default function Contact() {
         {/* Contact Section */}
         <section className="contact trail-container" ref={containerRef}>
           <div className="floating-elements">
-            {[...Array(12)].map((_, i) => (
+            {floatingElements.map((el) => (
               <div
-                key={i}
+                key={el.key}
                 className="floating-element"
                 style={{
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 8}s`,
-                  animationDuration: `${8 + Math.random() * 4}s`,
+                  left: `${el.left}%`,
+                  animationDelay: `${el.delay}s`,
+                  animationDuration: `${el.duration}s`,
                 }}
               />
             ))}
