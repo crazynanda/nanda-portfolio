@@ -18,24 +18,14 @@
   box-sizing: border-box;
 }
 
-/* Font faces - using system fonts as fallbacks */
+/* Custom Font - Osiris */
 @font-face {
-  font-family: 'rader';
-  src: local('Arial Black'), local('Helvetica Neue Bold');
-  font-weight: 900;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'formula-narrow';
-  src: local('Arial Narrow'), local('Helvetica Neue Condensed');
-  font-weight: 600;
-}
-
-@font-face {
-  font-family: 'supply-mono';
-  src: local('Courier New'), local('Monaco');
-  font-weight: 500;
+  font-family: 'Osiris';
+  src: url('/fonts/Osiris.woff2') format('woff2'),
+       url('/fonts/Osiris.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* Base styles */
@@ -46,7 +36,7 @@ html {
 body {
   background-color: var(--bg);
   color: var(--fg);
-  font-family: 'formula-narrow', 'Arial Narrow', sans-serif;
+  font-family: 'Osiris', Arial, sans-serif;
   overflow-x: hidden;
   font-size: 16px;
 }
@@ -61,13 +51,13 @@ img {
   object-fit: cover;
 }
 
-/* Typography - EXACT from original */
+/* Typography - Using Osiris font */
 h1, h2, h3 {
   text-transform: uppercase;
-  font-family: 'rader', 'Arial Black', sans-serif;
-  font-style: italic;
+  font-family: 'Osiris', Arial, sans-serif;
+  font-style: normal;
   line-height: 0.95;
-  font-weight: 900;
+  font-weight: normal;
 }
 
 h1 {
@@ -88,7 +78,7 @@ a {
 }
 
 p, p.ss {
-  font-family: 'formula-narrow', 'Arial Narrow', sans-serif;
+  font-family: 'Osiris', Arial, sans-serif;
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.125;
@@ -96,7 +86,7 @@ p, p.ss {
 
 p.mn {
   text-transform: uppercase;
-  font-family: 'supply-mono', 'Courier New', monospace;
+  font-family: 'Osiris', Arial, sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.125;
@@ -808,7 +798,7 @@ nav .menu-toggle-btn-wrapper p {
 }
 
 .contact-section .form-group label {
-  font-family: 'supply-mono', monospace;
+  font-family: 'Osiris', Arial, sans-serif;
   font-size: 0.875rem;
   text-transform: uppercase;
 }
@@ -819,7 +809,7 @@ nav .menu-toggle-btn-wrapper p {
   border: 0.2em solid var(--fg);
   border-radius: 0.5em;
   background: var(--bg);
-  font-family: 'formula-narrow', sans-serif;
+  font-family: 'Osiris', Arial, sans-serif;
   font-size: 1rem;
 }
 
@@ -835,7 +825,7 @@ nav .menu-toggle-btn-wrapper p {
   color: var(--bg);
   border: none;
   border-radius: 0.5em;
-  font-family: 'supply-mono', monospace;
+  font-family: 'Osiris', Arial, sans-serif;
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -901,7 +891,7 @@ footer {
 }
 
 .footer-col p:first-child {
-  font-family: 'supply-mono', monospace;
+  font-family: 'Osiris', Arial, sans-serif;
   font-size: 0.75rem;
   margin-bottom: 0.5em;
 }
@@ -1178,7 +1168,7 @@ footer {
 
 .contact-card-header-main h1 {
   text-transform: uppercase;
-  font-family: "rader", "Arial Black", sans-serif;
+  font-family: "Osiris", Arial, sans-serif;
   font-style: italic;
   line-height: 0.95;
   font-size: clamp(2.5rem, 6vw, 4rem);
@@ -1186,7 +1176,7 @@ footer {
 }
 
 .contact-card-header-main p {
-  font-family: "formula-narrow", "Arial Narrow", sans-serif;
+  font-family: "Osiris", Arial, sans-serif;
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.125;
@@ -1209,7 +1199,7 @@ footer {
 
 .contact-info-item .label {
   text-transform: uppercase;
-  font-family: "supply-mono", "Courier New", monospace;
+  font-family: "Osiris", Arial, sans-serif;
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 1.125;
@@ -1221,7 +1211,7 @@ footer {
 }
 
 .contact-info-item a {
-  font-family: "supply-mono", "Courier New", monospace;
+  font-family: "Osiris", Arial, sans-serif;
   font-size: 0.75rem;
   font-weight: 500;
   text-transform: uppercase;
@@ -1281,7 +1271,7 @@ footer {
 
 .form-header h2 {
   text-transform: uppercase;
-  font-family: "rader", "Arial Black", sans-serif;
+  font-family: "Osiris", Arial, sans-serif;
   font-style: italic;
   line-height: 0.95;
   font-size: 3rem;
@@ -1290,7 +1280,7 @@ footer {
 }
 
 .form-header p {
-  font-family: "formula-narrow", "Arial Narrow", sans-serif;
+  font-family: "Osiris", Arial, sans-serif;
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.125;
@@ -1317,7 +1307,7 @@ footer {
 
 .form-group label {
   text-transform: uppercase;
-  font-family: "supply-mono", "Courier New", monospace;
+  font-family: "Osiris", Arial, sans-serif;
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 1.125;
@@ -1333,7 +1323,7 @@ footer {
   border-radius: 0.75em;
   padding: 1em 1.25em;
   color: var(--fg);
-  font-family: "formula-narrow", "Arial Narrow", sans-serif;
+  font-family: "Osiris", Arial, sans-serif;
   font-size: 0.875rem;
   font-weight: 600;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1359,7 +1349,7 @@ footer {
 .form-group textarea {
   resize: vertical;
   min-height: 100px;
-  font-family: "formula-narrow", "Arial Narrow", sans-serif;
+  font-family: "Osiris", Arial, sans-serif;
 }
 
 .form-group select {
@@ -1386,7 +1376,7 @@ footer {
   border: 2px solid var(--fg);
   border-radius: 1.5em;
   padding: 1em 2.5em;
-  font-family: "supply-mono", "Courier New", monospace;
+  font-family: "Osiris", Arial, sans-serif;
   font-size: 0.75rem;
   font-weight: 500;
   text-transform: uppercase;
@@ -1433,7 +1423,7 @@ footer {
   padding: 0.75em 1.25em;
   border-radius: 0.75em;
   text-align: center;
-  font-family: "formula-narrow", "Arial Narrow", sans-serif;
+  font-family: "Osiris", Arial, sans-serif;
   font-weight: 600;
   opacity: 0;
   transform: translateY(15px);
