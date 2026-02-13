@@ -561,25 +561,33 @@ export default function Home() {
               <div className="featured-title-img">
                 <img src="/images/projects/zeridex.png" alt="Zeridex" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
               </div>
-              <h1 className="featured-title">Zeridex</h1>
+              <h1 className="featured-title">
+                <a href="https://zeridex.space" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Zeridex</a>
+              </h1>
             </div>
             <div className="featured-title-wrapper">
               <div className="featured-title-img">
                 <img src="/images/projects/academicexpert.png" alt="Academic Expert" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
               </div>
-              <h1 className="featured-title">Academic Expert</h1>
+              <h1 className="featured-title">
+                <a href="https://academicexpert.in" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Academic Expert</a>
+              </h1>
             </div>
             <div className="featured-title-wrapper">
               <div className="featured-title-img">
                 <img src="/images/projects/academicseva.png" alt="Academic Seva" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
               </div>
-              <h1 className="featured-title">Academic Seva</h1>
+              <h1 className="featured-title">
+                <a href="https://academicseva.org" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Academic Seva</a>
+              </h1>
             </div>
             <div className="featured-title-wrapper">
               <div className="featured-title-img">
                 <img src="/images/projects/lango.png" alt="Lango" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
               </div>
-              <h1 className="featured-title">Lango</h1>
+              <h1 className="featured-title">
+                <a href="https://langoleaf.com" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Lango</a>
+              </h1>
             </div>
           </div>
           <div className="featured-work-indicator"></div>
