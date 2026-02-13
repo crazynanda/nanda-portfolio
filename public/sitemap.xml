@@ -154,34 +154,4 @@
     </image:image>
   </url>
 
-  <!-- External Links (Featured in Portfolio) -->
-  <url>
-    <loc>https://www.zeridex.space</loc>
-    <lastmod>2026-02-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <!-- Social & Professional Links -->
-  <url>
-    <loc>https://github.com/crazynanda</loc>
-    <lastmod>2026-02-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-
-  <url>
-    <loc>https://www.linkedin.com/in/nanda-kumar-544500213/</loc>
-    <lastmod>2026-02-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-
-  <url>
-    <loc>https://x.com/nandablr242</loc>
-    <lastmod>2026-02-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-
 </urlset>
