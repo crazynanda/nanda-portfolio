@@ -94,9 +94,9 @@ export default function Home() {
       });
     }
 
-    // Hero Image Cycling Animation (every 250ms) - Only on non-mobile for performance
+    // Hero Image Cycling Animation (every 250ms)
     const heroImg = document.querySelector(".hero-img");
-    if (heroImg && !isMobile && !prefersReducedMotion) {
+    if (heroImg && !prefersReducedMotion) {
       const heroImages = [
         "/images/projects/zeridex.png",
         "/images/projects/academicexpert.png",
@@ -112,12 +112,9 @@ export default function Home() {
           imgElement.src = heroImages[currentImageIndex];
         }
       }, 250);
-      
-      // Cleanup interval on unmount
-      return () => clearInterval(imageInterval);
     }
 
-    // Hero Image Scroll Animation - Simplified for mobile
+    // Hero Image Scroll Animation
     if (!prefersReducedMotion) {
       ScrollTrigger.create({
         trigger: ".hero-img-holder",
@@ -125,24 +122,17 @@ export default function Home() {
         end: "top top",
         onUpdate: (self) => {
           const progress = self.progress;
-          // Use simpler animation on mobile
-          if (isMobile) {
-            gsap.set(".hero-img", {
-              y: `${-110 + 110 * progress}%`,
-              scale: 0.25 + 0.75 * progress,
-            });
-          } else {
-            gsap.set(".hero-img", {
-              y: `${-110 + 110 * progress}%`,
-              scale: 0.25 + 0.75 * progress,
-              rotation: -15 + 15 * progress,
-            });
-          }
+          gsap.set(".hero-img", {
+            y: `${-110 + 110 * progress}%`,
+            scale: 0.25 + 0.75 * progress,
+            rotation: -15 + 15 * progress,
+          });
         },
-    });
+      });
+    }
 
-    // Featured Work Horizontal Scroll - Desktop only
-    if (window.innerWidth > 1000 && !prefersReducedMotion) {
+    // Featured Work Horizontal Scroll
+    if (!prefersReducedMotion) {
       const featuredTitles = document.querySelector(".featured-titles");
       const moveDistance = window.innerWidth * 4;
 
@@ -222,8 +212,8 @@ export default function Home() {
       });
     }
 
-    // Services Sticky Cards - Desktop only, simpler on mobile
-    if (window.innerWidth > 1000 && !prefersReducedMotion) {
+    // Services Sticky Cards
+    if (!prefersReducedMotion) {
       const services = gsap.utils.toArray(".service-card");
       services.forEach((service, index) => {
         const isLastServiceCard = index === services.length - 1;
@@ -268,12 +258,11 @@ export default function Home() {
       });
     }
 
-    // Footer Explosion Animation - Desktop only
+    // Footer Explosion Animation
     const footer = document.querySelector("footer");
     const explosionContainer = document.querySelector(".explosion-container");
     
-    // Skip explosion animation on mobile/touch devices for performance
-    if (footer && explosionContainer && !isMobile && !prefersReducedMotion) {
+    if (footer && explosionContainer && !prefersReducedMotion) {
       let hasExploded = false;
       
       const config = {
@@ -425,7 +414,6 @@ export default function Home() {
       
       createParticles();
       setTimeout(checkFooterPosition, 500);
-    }
     }
 
     // Cleanup
