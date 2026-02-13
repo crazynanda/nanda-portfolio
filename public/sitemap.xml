@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  
+  <!-- Home Page - Main Landing Page -->
+  <url>
+    <loc>https://nandakumar-portfolio.vercel.app/</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://nandakumar-portfolio.vercel.app/images/projects/zeridex.png</image:loc>
+      <image:title>Nanda Kumar Portfolio - Hero Image</image:title>
+      <image:caption>Zeridex Project Showcase</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nandakumar-portfolio.vercel.app/images/about/portrait.jpg</image:loc>
+      <image:title>Nanda Kumar - Web Developer</image:title>
+      <image:caption>Professional Web Developer and Designer</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Contact Page -->
+  <url>
+    <loc>https://nandakumar-portfolio.vercel.app/contact</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Home Page Sections (Anchors) -->
+  <url>
+    <loc>https://nandakumar-portfolio.vercel.app/#hero</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://nandakumar-portfolio.vercel.app/#about</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://nandakumar-portfolio.vercel.app/images/about/portrait.jpg</image:loc>
+      <image:title>About Nanda Kumar</image:title>
+      <image:caption>Web Designer and Developer from Bangalore</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://nandakumar-portfolio.vercel.app/#projects</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://nandakumar-portfolio.vercel.app/images/projects/zeridex.png</image:loc>
+      <image:title>Zeridex - AI Agency</image:title>
+      <image:caption>AI Websites and Automation for Modern Businesses</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nandakumar-portfolio.vercel.app/images/projects/academicexpert.png</image:loc>
+      <image:title>Academic Expert</image:title>
+      <image:caption>Language Learning Academy Platform</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nandakumar-portfolio.vercel.app/images/projects/academicseva.png</image:loc>
+      <image:title>Academic Seva</image:title>
+      <image:caption>Educational Trust NGO Platform</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nandakumar-portfolio.vercel.app/images/projects/lango.png</image:loc>
+      <image:title>Lango</image:title>
+      <image:caption>Online Tutoring Marketplace</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://nandakumar-portfolio.vercel.app/#skills</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://nandakumar-portfolio.vercel.app/images/frontend.jpg</image:loc>
+      <image:title>Frontend Development</image:title>
+      <image:caption>React, Next.js, TypeScript</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nandakumar-portfolio.vercel.app/images/backend.jpg</image:loc>
+      <image:title>Backend Development</image:title>
+      <image:caption>Convex, PostgreSQL, APIs</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nandakumar-portfolio.vercel.app/images/UIUXdesign.jpg</image:loc>
+      <image:title>UI/UX Design</image:title>
+      <image:caption>Figma, Framer Motion, GSAP</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nandakumar-portfolio.vercel.app/images/AIintegration.png</image:loc>
+      <image:title>AI Integration</image:title>
+      <image:caption>OpenAI API, Automation Systems</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Individual Project Pages (if they exist as separate routes) -->
+  <url>
+    <loc>https://nandakumar-portfolio.vercel.app/projects/zeridex</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://nandakumar-portfolio.vercel.app/images/projects/zeridex.png</image:loc>
+      <image:title>Zeridex Project Details</image:title>
+      <image:caption>AI-powered websites and automation systems</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://nandakumar-portfolio.vercel.app/projects/academic-expert</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://nandakumar-portfolio.vercel.app/images/projects/academicexpert.png</image:loc>
+      <image:title>Academic Expert Project</image:title>
+      <image:caption>Language learning platform with courses</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://nandakumar-portfolio.vercel.app/projects/academic-seva</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://nandakumar-portfolio.vercel.app/images/projects/academicseva.png</image:loc>
+      <image:title>Academic Seva Project</image:title>
+      <image:caption>Educational trust and NGO platform</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://nandakumar-portfolio.vercel.app/projects/lango</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://nandakumar-portfolio.vercel.app/images/projects/lango.png</image:loc>
+      <image:title>Lango Project</image:title>
+      <image:caption>Online tutoring marketplace</image:caption>
+    </image:image>
+  </url>
+
+  <!-- External Links (Featured in Portfolio) -->
+  <url>
+    <loc>https://www.zeridex.space</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Social & Professional Links -->
+  <url>
+    <loc>https://github.com/crazynanda</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <url>
+    <loc>https://www.linkedin.com/in/nanda-kumar-544500213/</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <url>
+    <loc>https://x.com/nandablr242</loc>
+    <lastmod>2026-02-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>
