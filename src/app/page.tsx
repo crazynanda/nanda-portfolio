@@ -546,7 +546,7 @@ export default function Home() {
                 <img 
                   src={project.src} 
                   alt={project.alt}
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  style={{ width: "100%", height: "100%", objectFit: "contain", padding: "1em" }}
                 />
               </div>
             ))}
@@ -557,25 +557,25 @@ export default function Home() {
             </div>
             <div className="featured-title-wrapper">
               <div className="featured-title-img">
-                <img src="/images/projects/zeridex.png" alt="Zeridex" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img src="/images/projects/zeridex.png" alt="Zeridex" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
               </div>
               <h1 className="featured-title">Zeridex</h1>
             </div>
             <div className="featured-title-wrapper">
               <div className="featured-title-img">
-                <img src="/images/projects/academicexpert.png" alt="Academic Expert" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img src="/images/projects/academicexpert.png" alt="Academic Expert" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
               </div>
               <h1 className="featured-title">Academic Expert</h1>
             </div>
             <div className="featured-title-wrapper">
               <div className="featured-title-img">
-                <img src="/images/projects/academicseva.png" alt="Academic Seva" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img src="/images/projects/academicseva.png" alt="Academic Seva" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
               </div>
               <h1 className="featured-title">Academic Seva</h1>
             </div>
             <div className="featured-title-wrapper">
               <div className="featured-title-img">
-                <img src="/images/projects/lango.png" alt="Lango" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img src="/images/projects/lango.png" alt="Lango" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
               </div>
               <h1 className="featured-title">Lango</h1>
             </div>
