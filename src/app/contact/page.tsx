@@ -15,6 +15,17 @@ export default function Contact() {
 
   // Page transition
   useEffect(() => {
+    // Scroll to top on page load/refresh - MUST happen first
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+      // Prevent browser from restoring scroll position
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+    }
+
     gsap.set(".transition-overlay", { scaleY: 1, transformOrigin: "top" });
     gsap.to(".transition-overlay", {
       scaleY: 0,
@@ -23,15 +34,6 @@ export default function Contact() {
       ease: "power2.inOut",
       delay: 0.2,
     });
-
-    // Scroll to top on page load/refresh
-    if (typeof window !== "undefined") {
-      window.scrollTo(0, 0);
-      // Prevent browser from restoring scroll position
-      if ("scrollRestoration" in history) {
-        history.scrollRestoration = "manual";
-      }
-    }
   }, []);
 
   // Mouse trail effect
