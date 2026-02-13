@@ -5,7 +5,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://nandakumar-portfolio.vercel.app/sitemap.xml
+Sitemap: https://nandakumar.site/sitemap.xml
 
 # Disallow private or utility paths
 Disallow: /api/
