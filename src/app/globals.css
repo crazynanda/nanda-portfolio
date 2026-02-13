@@ -456,10 +456,9 @@ nav .menu-toggle-btn-wrapper p {
   gap: 0.2em;
 }
 
-.about-hero .about-hero-header h1 {
-  font-size: 3.5rem;
-  margin: 0;
-}
+  .about-hero .about-hero-header h1 {
+    font-size: 1.5rem;
+  }
 
 .about-hero .about-hero-bio {
   max-width: 60%;
@@ -470,8 +469,8 @@ nav .menu-toggle-btn-wrapper p {
 }
 
 .about-hero .about-hero-bio p.ss {
-  font-size: 1.25rem;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.4;
 }
 
 .about-hero .about-hero-bio p.mn {
@@ -481,10 +480,10 @@ nav .menu-toggle-btn-wrapper p {
 
 .about-hero .about-hero-portrait {
   position: absolute;
-  top: 6em;
-  right: 4em;
-  width: 350px;
-  height: 420px;
+  top: 8em;
+  right: 3em;
+  width: 280px;
+  height: 340px;
   border: 0.3em solid var(--fg);
   border-radius: 2em;
   overflow: hidden;
@@ -1028,7 +1027,7 @@ footer {
   }
 
   .about-hero .about-hero-bio p.ss {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
   }
 
   .featured-work {
@@ -1654,7 +1653,7 @@ footer {
   }
   
   .about-hero .about-hero-header h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
   
   .about-hero .about-hero-bio {
@@ -1662,13 +1661,18 @@ footer {
   }
   
   .about-hero .about-hero-bio p.ss {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     line-height: 1.4;
   }
-  
+
   .about-hero .about-hero-portrait {
     height: 280px;
     margin-top: 1em;
+  }
+  
+  .about-hero .about-hero-portrait {
+    height: 220px;
+    margin-top: 0.8em;
   }
   
   /* Featured Work */
