@@ -453,15 +453,16 @@ nav .menu-toggle-btn-wrapper p {
 .about-hero .about-hero-header {
   display: flex;
   flex-direction: column;
-  gap: 0.2em;
+  gap: 0.1em;
 }
 
-  .about-hero .about-hero-header h1 {
-    font-size: 1.5rem;
-  }
+.about-hero .about-hero-header h1 {
+  font-size: 2.5rem;
+  margin: 0;
+}
 
 .about-hero .about-hero-bio {
-  max-width: 60%;
+  max-width: 55%;
   display: flex;
   flex-direction: column;
   gap: 1.5em;
@@ -469,23 +470,23 @@ nav .menu-toggle-btn-wrapper p {
 }
 
 .about-hero .about-hero-bio p.ss {
-  font-size: 1rem;
-  line-height: 1.4;
+  font-size: 1.1rem;
+  line-height: 1.5;
 }
 
 .about-hero .about-hero-bio p.mn {
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
 }
 
 .about-hero .about-hero-portrait {
   position: absolute;
-  top: 8em;
-  right: 3em;
+  top: 9em;
+  right: 2em;
   width: 280px;
   height: 340px;
-  border: 0.3em solid var(--fg);
-  border-radius: 2em;
+  border: 0.2em solid var(--fg);
+  border-radius: 1.5em;
   overflow: hidden;
 }
 
@@ -1009,7 +1010,7 @@ footer {
   .hero-img-holder { padding: 1em; }
 
   .about-hero {
-    padding: 6em 1em 1em 1em;
+    padding: 5em 0.75em 0.75em 0.75em;
   }
 
   .about-hero .about-hero-bio {
@@ -1022,12 +1023,12 @@ footer {
     top: auto;
     right: auto;
     width: 100%;
-    height: 350px;
-    margin-top: 1.5em;
+    height: 250px;
+    margin-top: 1em;
   }
 
   .about-hero .about-hero-bio p.ss {
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
 
   .featured-work {
@@ -1648,31 +1649,26 @@ footer {
   
   /* About Section */
   .about-hero {
-    padding: 5em 0.75em 0.75em 0.75em;
-    gap: 2em;
+    padding: 4em 0.5em 0.5em 0.5em;
+    gap: 1.5em;
   }
-  
+
   .about-hero .about-hero-header h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
-  
+
   .about-hero .about-hero-bio {
     max-width: 100%;
   }
-  
+
   .about-hero .about-hero-bio p.ss {
-    font-size: 0.9rem;
-    line-height: 1.4;
+    font-size: 0.95rem;
+    line-height: 1.45;
   }
 
   .about-hero .about-hero-portrait {
-    height: 280px;
-    margin-top: 1em;
-  }
-  
-  .about-hero .about-hero-portrait {
     height: 220px;
-    margin-top: 0.8em;
+    margin-top: 0.5em;
   }
   
   /* Featured Work */
@@ -1834,15 +1830,19 @@ footer {
 /* Large Devices (desktops, 1024px to 1439px) */
 @media (min-width: 1024px) and (max-width: 1439px) {
   .about-hero .about-hero-portrait {
-    width: 400px;
-    height: 500px;
-    right: 3em;
+    width: 260px;
+    height: 320px;
+    right: 2.5em;
   }
-  
+
   .about-hero .about-hero-bio {
-    max-width: 750px;
+    max-width: 58%;
   }
-  
+
+  .about-hero .about-hero-bio p.ss {
+    font-size: 1rem;
+  }
+
   .contact-cta .contact-button {
     width: 65%;
   }
@@ -1851,17 +1851,17 @@ footer {
 /* Extra Large Devices (large desktops, 1440px and up) */
 @media (min-width: 1440px) {
   .about-hero .about-hero-portrait {
-    width: 550px;
-    height: 650px;
-    right: 5em;
+    width: 300px;
+    height: 360px;
+    right: 4em;
   }
-  
+
   .about-hero .about-hero-bio {
-    max-width: 900px;
+    max-width: 55%;
   }
-  
+
   .about-hero .about-hero-bio p.ss {
-    font-size: 1.75rem;
+    font-size: 1.15rem;
   }
   
   .contact-cta .contact-button {
