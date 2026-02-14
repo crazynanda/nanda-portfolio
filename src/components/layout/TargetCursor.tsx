@@ -16,7 +16,10 @@ export default function TargetCursor({
 }: TargetCursorProps) {
   const cursorRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
-  const cornersRef = useRef<HTMLDivElement>(null);
+  const corner1Ref = useRef<HTMLDivElement>(null);
+  const corner2Ref = useRef<HTMLDivElement>(null);
+  const corner3Ref = useRef<HTMLDivElement>(null);
+  const corner4Ref = useRef<HTMLDivElement>(null);
   const spinTl = useRef<gsap.core.Timeline | null>(null);
   const isHoveringRef = useRef(false);
   const currentTargetRef = useRef<HTMLElement | null>(null);
@@ -24,22 +27,6 @@ export default function TargetCursor({
   const checkIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const INTERACTIVE_SELECTORS = 'a, button, input, textarea, select, [role="button"], .cursor-target, .featured-title-wrapper';
-
-  // Update corners position to stay locked on target
-  const updateCornerPositions = useCallback(() => {
-    const target = currentTargetRef.current;
-    if (!target || !cornersRef.current) return;
-
-    const rect = target.getBoundingClientRect();
-    const padding = 8;
-
-    gsap.set(cornersRef.current, {
-      x: rect.left - padding,
-      y: rect.top - padding,
-      width: rect.width + padding * 2,
-      height: rect.height + padding * 2,
-    });
-  }, []);
 
   // Check what element is under the cursor
   const checkElementUnderCursor = useCallback(() => {
@@ -71,43 +58,72 @@ export default function TargetCursor({
   }, []);
 
   const handleMouseEnter = useCallback((target: HTMLElement) => {
-    if (!target) return;
+    if (!target || !cursorRef.current) return;
 
     isHoveringRef.current = true;
     currentTargetRef.current = target;
 
-    if (cornersRef.current) {
-      gsap.killTweensOf(cornersRef.current);
-      gsap.set(cornersRef.current, { 
-        opacity: 1,
-        scale: 1 
-      });
-    }
-    
+    // Stop spinning
     spinTl.current?.pause();
-    updateCornerPositions();
 
+    // Get target bounds
+    const rect = target.getBoundingClientRect();
+    const cursorX = mousePosRef.current.x;
+    const cursorY = mousePosRef.current.y;
+    const padding = 8;
+    
+    // Expand corners to surround the target
+    const corners = [corner1Ref.current, corner2Ref.current, corner3Ref.current, corner4Ref.current];
+    const positions = [
+      { x: rect.left - cursorX - padding, y: rect.top - cursorY - padding },           // Top Left
+      { x: rect.right - cursorX + padding - 12, y: rect.top - cursorY - padding },     // Top Right  
+      { x: rect.right - cursorX + padding - 12, y: rect.bottom - cursorY + padding - 12 }, // Bottom Right
+      { x: rect.left - cursorX - padding, y: rect.bottom - cursorY + padding - 12 },   // Bottom Left
+    ];
+
+    corners.forEach((corner, i) => {
+      if (!corner) return;
+      gsap.to(corner, {
+        x: positions[i].x,
+        y: positions[i].y,
+        duration: hoverDuration,
+        ease: "power2.out",
+      });
+    });
+
+    // Scale down dot
     if (dotRef.current) {
       gsap.to(dotRef.current, {
         scale: 0.8,
         duration: 0.1,
       });
     }
-  }, [updateCornerPositions]);
+  }, [hoverDuration]);
 
   const handleMouseLeave = useCallback(() => {
     isHoveringRef.current = false;
     currentTargetRef.current = null;
 
-    if (cornersRef.current) {
-      gsap.to(cornersRef.current, {
-        opacity: 0,
-        scale: 0.8,
+    // Reset corners to their original spinning positions
+    const corners = [corner1Ref.current, corner2Ref.current, corner3Ref.current, corner4Ref.current];
+    const centerPositions = [
+      { x: -12, y: -12 },
+      { x: 4, y: -12 },
+      { x: 4, y: 4 },
+      { x: -12, y: 4 },
+    ];
+
+    corners.forEach((corner, i) => {
+      if (!corner) return;
+      gsap.to(corner, {
+        x: centerPositions[i].x,
+        y: centerPositions[i].y,
         duration: hoverDuration,
         ease: "power2.out",
       });
-    }
+    });
 
+    // Reset dot
     if (dotRef.current) {
       gsap.to(dotRef.current, {
         scale: 1,
@@ -115,6 +131,7 @@ export default function TargetCursor({
       });
     }
 
+    // Resume spinning
     spinTl.current?.resume();
   }, [hoverDuration]);
 
@@ -141,6 +158,7 @@ export default function TargetCursor({
       y: window.innerHeight / 2,
     });
 
+    // Start spinning animation for the whole cursor container
     spinTl.current = gsap.timeline({ repeat: -1 })
       .to(cursor, { rotation: "+=360", duration: spinDuration, ease: "none" });
 
@@ -153,20 +171,59 @@ export default function TargetCursor({
         y: e.clientY,
       });
 
-      // Check element under cursor on every move
       checkElementUnderCursor();
 
-      // If hovering, update corner positions
-      if (isHoveringRef.current) {
-        updateCornerPositions();
+      // If hovering, update corner positions to stay locked on target
+      if (isHoveringRef.current && currentTargetRef.current) {
+        const target = currentTargetRef.current;
+        const rect = target.getBoundingClientRect();
+        const cursorX = e.clientX;
+        const cursorY = e.clientY;
+        const padding = 8;
+        
+        const corners = [corner1Ref.current, corner2Ref.current, corner3Ref.current, corner4Ref.current];
+        const positions = [
+          { x: rect.left - cursorX - padding, y: rect.top - cursorY - padding },
+          { x: rect.right - cursorX + padding - 12, y: rect.top - cursorY - padding },
+          { x: rect.right - cursorX + padding - 12, y: rect.bottom - cursorY + padding - 12 },
+          { x: rect.left - cursorX - padding, y: rect.bottom - cursorY + padding - 12 },
+        ];
+
+        corners.forEach((corner, i) => {
+          if (!corner) return;
+          gsap.set(corner, {
+            x: positions[i].x,
+            y: positions[i].y,
+          });
+        });
       }
     };
 
-    // Scroll handler - check if cursor is now over an element
+    // Scroll handler
     const scrollHandler = () => {
       checkElementUnderCursor();
-      if (isHoveringRef.current) {
-        updateCornerPositions();
+      if (isHoveringRef.current && currentTargetRef.current) {
+        const target = currentTargetRef.current;
+        const rect = target.getBoundingClientRect();
+        const cursorX = mousePosRef.current.x;
+        const cursorY = mousePosRef.current.y;
+        const padding = 8;
+        
+        const corners = [corner1Ref.current, corner2Ref.current, corner3Ref.current, corner4Ref.current];
+        const positions = [
+          { x: rect.left - cursorX - padding, y: rect.top - cursorY - padding },
+          { x: rect.right - cursorX + padding - 12, y: rect.top - cursorY - padding },
+          { x: rect.right - cursorX + padding - 12, y: rect.bottom - cursorY + padding - 12 },
+          { x: rect.left - cursorX - padding, y: rect.bottom - cursorY + padding - 12 },
+        ];
+
+        corners.forEach((corner, i) => {
+          if (!corner) return;
+          gsap.set(corner, {
+            x: positions[i].x,
+            y: positions[i].y,
+          });
+        });
       }
     };
 
@@ -185,12 +242,32 @@ export default function TargetCursor({
       });
     };
 
-    // Periodic check for animated elements (like horizontal scrolling)
+    // Periodic check for animated elements
     checkIntervalRef.current = setInterval(() => {
-      if (isHoveringRef.current) {
-        updateCornerPositions();
+      if (isHoveringRef.current && currentTargetRef.current) {
+        const target = currentTargetRef.current;
+        const rect = target.getBoundingClientRect();
+        const cursorX = mousePosRef.current.x;
+        const cursorY = mousePosRef.current.y;
+        const padding = 8;
+        
+        const corners = [corner1Ref.current, corner2Ref.current, corner3Ref.current, corner4Ref.current];
+        const positions = [
+          { x: rect.left - cursorX - padding, y: rect.top - cursorY - padding },
+          { x: rect.right - cursorX + padding - 12, y: rect.top - cursorY - padding },
+          { x: rect.right - cursorX + padding - 12, y: rect.bottom - cursorY + padding - 12 },
+          { x: rect.left - cursorX - padding, y: rect.bottom - cursorY + padding - 12 },
+        ];
+
+        corners.forEach((corner, i) => {
+          if (!corner) return;
+          gsap.set(corner, {
+            x: positions[i].x,
+            y: positions[i].y,
+          });
+        });
       }
-    }, 16); // ~60fps
+    }, 16);
 
     window.addEventListener("mousemove", moveHandler);
     window.addEventListener("scroll", scrollHandler, { passive: true });
@@ -210,109 +287,103 @@ export default function TargetCursor({
       const style = document.getElementById("cursor-hide-style");
       if (style) style.remove();
     };
-  }, [hideDefaultCursor, spinDuration, checkElementUnderCursor, updateCornerPositions]);
+  }, [hideDefaultCursor, spinDuration, checkElementUnderCursor, hoverDuration]);
 
   return (
-    <>
-      {/* Corners container */}
+    <div
+      ref={cursorRef}
+      className="custom-cursor"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "20px",
+        height: "20px",
+        pointerEvents: "none",
+        zIndex: 99999,
+        marginLeft: "-10px",
+        marginTop: "-10px",
+      }}
+    >
+      {/* Center dot */}
       <div
-        ref={cornersRef}
-        className="cursor-corners"
+        ref={dotRef}
         style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          pointerEvents: "none",
-          zIndex: 99998,
-          opacity: 0,
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "8px",
+          height: "8px",
+          backgroundColor: "#ffffff",
+          borderRadius: "50%",
+          transform: "translate(-50%, -50%)",
+          boxShadow: "0 0 12px rgba(255, 255, 255, 0.9), 0 0 24px rgba(237, 106, 90, 0.6)",
         }}
-      >
-        {/* Corner 1 - Top Left */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "12px",
-            height: "12px",
-            border: "2px solid #ed6a5a",
-            borderRight: "none",
-            borderBottom: "none",
-          }}
-        />
-        {/* Corner 2 - Top Right */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            width: "12px",
-            height: "12px",
-            border: "2px solid #ed6a5a",
-            borderLeft: "none",
-            borderBottom: "none",
-          }}
-        />
-        {/* Corner 3 - Bottom Right */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 0,
-            right: 0,
-            width: "12px",
-            height: "12px",
-            border: "2px solid #ed6a5a",
-            borderLeft: "none",
-            borderTop: "none",
-          }}
-        />
-        {/* Corner 4 - Bottom Left */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            width: "12px",
-            height: "12px",
-            border: "2px solid #ed6a5a",
-            borderRight: "none",
-            borderTop: "none",
-          }}
-        />
-      </div>
-
-      {/* Main cursor with dot */}
+      />
+      
+      {/* Corner 1 - Top Left */}
       <div
-        ref={cursorRef}
-        className="custom-cursor"
+        ref={corner1Ref}
         style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "20px",
-          height: "20px",
-          pointerEvents: "none",
-          zIndex: 99999,
-          marginLeft: "-10px",
-          marginTop: "-10px",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "12px",
+          height: "12px",
+          border: "2px solid #ed6a5a",
+          borderRight: "none",
+          borderBottom: "none",
+          transform: "translate(-12px, -12px)",
         }}
-      >
-        {/* Center dot */}
-        <div
-          ref={dotRef}
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            width: "8px",
-            height: "8px",
-            backgroundColor: "#ffffff",
-            borderRadius: "50%",
-            transform: "translate(-50%, -50%)",
-            boxShadow: "0 0 12px rgba(255, 255, 255, 0.9), 0 0 24px rgba(237, 106, 90, 0.6)",
-          }}
-        />
-      </div>
-    </>
+      />
+      
+      {/* Corner 2 - Top Right */}
+      <div
+        ref={corner2Ref}
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "12px",
+          height: "12px",
+          border: "2px solid #ed6a5a",
+          borderLeft: "none",
+          borderBottom: "none",
+          transform: "translate(4px, -12px)",
+        }}
+      />
+      
+      {/* Corner 3 - Bottom Right */}
+      <div
+        ref={corner3Ref}
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "12px",
+          height: "12px",
+          border: "2px solid #ed6a5a",
+          borderLeft: "none",
+          borderTop: "none",
+          transform: "translate(4px, 4px)",
+        }}
+      />
+      
+      {/* Corner 4 - Bottom Left */}
+      <div
+        ref={corner4Ref}
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "12px",
+          height: "12px",
+          border: "2px solid #ed6a5a",
+          borderRight: "none",
+          borderTop: "none",
+          transform: "translate(-12px, 4px)",
+        }}
+      />
+    </div>
   );
 }
