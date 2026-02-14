@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
 interface TargetCursorProps {
@@ -23,44 +23,53 @@ export default function TargetCursor({
   const corner3Ref = useRef<HTMLDivElement>(null);
   const corner4Ref = useRef<HTMLDivElement>(null);
   const spinTl = useRef<gsap.core.Timeline | null>(null);
-  
-  const [mounted, setMounted] = useState(false);
+  const isActiveRef = useRef(false);
 
   useEffect(() => {
-    setMounted(true);
+    // Only run on client
+    if (typeof window === "undefined") return;
     
-    // Check if mobile
+    // Check if mobile/touch device
     const hasTouchScreen = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     const isSmallScreen = window.innerWidth <= 768;
     if (hasTouchScreen && isSmallScreen) {
-      return;
+      return; // Don't initialize on mobile
     }
 
-    if (!cursorRef.current) return;
-
     const cursor = cursorRef.current;
-    
-    // Set initial position
-    gsap.set(cursor, {
-      x: window.innerWidth / 2,
-      y: window.innerHeight / 2,
-    });
+    if (!cursor) return;
 
     // Hide default cursor
     if (hideDefaultCursor) {
       document.body.style.cursor = "none";
+      // Also hide on all elements
+      const style = document.createElement("style");
+      style.textContent = `
+        * { cursor: none !important; }
+      `;
+      style.id = "cursor-hide-style";
+      document.head.appendChild(style);
     }
 
-    // Create spinning animation for the corners container
+    // Set initial position to mouse position or center
+    const initialX = window.innerWidth / 2;
+    const initialY = window.innerHeight / 2;
+    
+    gsap.set(cursor, {
+      x: initialX,
+      y: initialY,
+    });
+
+    // Start spinning animation
     spinTl.current = gsap.timeline({ repeat: -1 })
       .to(cursor, { rotation: "+=360", duration: spinDuration, ease: "none" });
 
-    // Mouse move handler
+    // Mouse move handler - follows mouse precisely
     const moveHandler = (e: MouseEvent) => {
       gsap.to(cursor, {
         x: e.clientX,
         y: e.clientY,
-        duration: 0.08,
+        duration: 0.05,
         ease: "power2.out",
       });
     };
@@ -68,15 +77,15 @@ export default function TargetCursor({
     // Click handlers
     const mouseDownHandler = () => {
       gsap.to([dotRef.current, corner1Ref.current, corner2Ref.current, corner3Ref.current, corner4Ref.current], {
-        scale: 0.8,
-        duration: 0.15,
+        scale: 0.7,
+        duration: 0.1,
       });
     };
 
     const mouseUpHandler = () => {
       gsap.to([dotRef.current, corner1Ref.current, corner2Ref.current, corner3Ref.current, corner4Ref.current], {
         scale: 1,
-        duration: 0.15,
+        duration: 0.2,
       });
     };
 
@@ -88,6 +97,7 @@ export default function TargetCursor({
       if (!target || activeTarget === target) return;
 
       activeTarget = target;
+      isActiveRef.current = true;
       
       // Stop spinning
       spinTl.current?.pause();
@@ -100,11 +110,12 @@ export default function TargetCursor({
       
       // Expand corners to surround the target
       const corners = [corner1Ref.current, corner2Ref.current, corner3Ref.current, corner4Ref.current];
+      const offset = 8;
       const positions = [
-        { x: rect.left - cursorX - 6, y: rect.top - cursorY - 6 },
-        { x: rect.right - cursorX + 6, y: rect.top - cursorY - 6 },
-        { x: rect.right - cursorX + 6, y: rect.bottom - cursorY + 6 },
-        { x: rect.left - cursorX - 6, y: rect.bottom - cursorY + 6 },
+        { x: rect.left - cursorX - offset, y: rect.top - cursorY - offset },
+        { x: rect.right - cursorX + offset - 10, y: rect.top - cursorY - offset },
+        { x: rect.right - cursorX + offset - 10, y: rect.bottom - cursorY + offset - 10 },
+        { x: rect.left - cursorX - offset, y: rect.bottom - cursorY + offset - 10 },
       ];
 
       corners.forEach((corner, i) => {
@@ -120,6 +131,7 @@ export default function TargetCursor({
       // Leave handler
       const leaveHandler = () => {
         activeTarget = null;
+        isActiveRef.current = false;
         
         // Reset corners to center positions
         const centerPositions = [
@@ -139,12 +151,12 @@ export default function TargetCursor({
           });
         });
 
-        // Resume spinning after a short delay
+        // Resume spinning
         setTimeout(() => {
-          if (!activeTarget) {
-            spinTl.current?.resume();
+          if (!isActiveRef.current && spinTl.current) {
+            spinTl.current.resume();
           }
-        }, 100);
+        }, 50);
 
         target.removeEventListener("mouseleave", leaveHandler);
       };
@@ -164,79 +176,104 @@ export default function TargetCursor({
       document.removeEventListener("mouseover", enterHandler);
       spinTl.current?.kill();
       document.body.style.cursor = "";
+      const style = document.getElementById("cursor-hide-style");
+      if (style) style.remove();
     };
   }, [hideDefaultCursor, spinDuration, hoverDuration, targetSelector]);
-
-  // Don't render on server or mobile
-  if (!mounted) return null;
 
   return (
     <div
       ref={cursorRef}
-      className="fixed top-0 left-0 pointer-events-none"
+      className="custom-cursor"
       style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
         width: "20px",
         height: "20px",
+        pointerEvents: "none",
         zIndex: 99999,
         marginLeft: "-10px",
         marginTop: "-10px",
       }}
     >
-      {/* Center dot - WHITE for visibility */}
+      {/* Center dot - WHITE with glow */}
       <div
         ref={dotRef}
-        className="absolute top-1/2 left-1/2 w-2 h-2 bg-white rounded-full"
         style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "8px",
+          height: "8px",
+          backgroundColor: "#ffffff",
+          borderRadius: "50%",
           transform: "translate(-50%, -50%)",
-          boxShadow: "0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(237, 106, 90, 0.4)",
+          boxShadow: "0 0 12px rgba(255, 255, 255, 0.9), 0 0 24px rgba(237, 106, 90, 0.6)",
         }}
       />
       
       {/* Corner 1 - Top Left */}
       <div
         ref={corner1Ref}
-        className="absolute top-1/2 left-1/2 w-2.5 h-2.5 border-2"
         style={{
-          transform: "translate(-10px, -10px)",
-          borderColor: "#ed6a5a",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "10px",
+          height: "10px",
+          border: "2px solid #ed6a5a",
           borderRight: "none",
           borderBottom: "none",
+          transform: "translate(-10px, -10px)",
         }}
       />
       
       {/* Corner 2 - Top Right */}
       <div
         ref={corner2Ref}
-        className="absolute top-1/2 left-1/2 w-2.5 h-2.5 border-2"
         style={{
-          transform: "translate(6px, -10px)",
-          borderColor: "#ed6a5a",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "10px",
+          height: "10px",
+          border: "2px solid #ed6a5a",
           borderLeft: "none",
           borderBottom: "none",
+          transform: "translate(6px, -10px)",
         }}
       />
       
       {/* Corner 3 - Bottom Right */}
       <div
         ref={corner3Ref}
-        className="absolute top-1/2 left-1/2 w-2.5 h-2.5 border-2"
         style={{
-          transform: "translate(6px, 6px)",
-          borderColor: "#ed6a5a",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "10px",
+          height: "10px",
+          border: "2px solid #ed6a5a",
           borderLeft: "none",
           borderTop: "none",
+          transform: "translate(6px, 6px)",
         }}
       />
       
       {/* Corner 4 - Bottom Left */}
       <div
         ref={corner4Ref}
-        className="absolute top-1/2 left-1/2 w-2.5 h-2.5 border-2"
         style={{
-          transform: "translate(-10px, 6px)",
-          borderColor: "#ed6a5a",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "10px",
+          height: "10px",
+          border: "2px solid #ed6a5a",
           borderRight: "none",
           borderTop: "none",
+          transform: "translate(-10px, 6px)",
         }}
       />
     </div>
