@@ -67,7 +67,6 @@ export default function RootLayout({
         <TargetCursor
           spinDuration={2}
           hideDefaultCursor
-          parallaxOn
           hoverDuration={0.2}
         />
         {children}

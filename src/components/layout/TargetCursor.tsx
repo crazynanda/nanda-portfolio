@@ -1,69 +1,57 @@
 "use client";
 
-import React, { useEffect, useRef, useCallback, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 
-export interface TargetCursorProps {
+interface TargetCursorProps {
   targetSelector?: string;
   spinDuration?: number;
   hideDefaultCursor?: boolean;
   hoverDuration?: number;
-  parallaxOn?: boolean;
 }
 
-const TargetCursor: React.FC<TargetCursorProps> = ({
+export default function TargetCursor({
   targetSelector = ".cursor-target",
   spinDuration = 2,
   hideDefaultCursor = true,
   hoverDuration = 0.2,
-  parallaxOn = true,
-}) => {
+}: TargetCursorProps) {
   const cursorRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
-  const cornersRef = useRef<HTMLDivElement[]>([]);
+  const corner1Ref = useRef<HTMLDivElement>(null);
+  const corner2Ref = useRef<HTMLDivElement>(null);
+  const corner3Ref = useRef<HTMLDivElement>(null);
+  const corner4Ref = useRef<HTMLDivElement>(null);
   const spinTl = useRef<gsap.core.Timeline | null>(null);
   
-  const [isVisible, setIsVisible] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  // Check for mobile on mount
   useEffect(() => {
-    const checkMobile = () => {
-      const hasTouchScreen = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-      const isSmallScreen = window.innerWidth <= 768;
-      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-      const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
-      const isMobileUserAgent = mobileRegex.test(userAgent.toLowerCase());
-      const mobile = (hasTouchScreen && isSmallScreen) || isMobileUserAgent;
-      setIsMobile(mobile);
-    };
+    setMounted(true);
     
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+    // Check if mobile
+    const hasTouchScreen = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    const isSmallScreen = window.innerWidth <= 768;
+    if (hasTouchScreen && isSmallScreen) {
+      return;
+    }
 
-  // Initialize cursor
-  useEffect(() => {
-    if (isMobile || !cursorRef.current) return;
+    if (!cursorRef.current) return;
 
     const cursor = cursorRef.current;
     
-    // Set initial position to center of screen
+    // Set initial position
     gsap.set(cursor, {
       x: window.innerWidth / 2,
       y: window.innerHeight / 2,
     });
-
-    // Make cursor visible
-    setIsVisible(true);
 
     // Hide default cursor
     if (hideDefaultCursor) {
       document.body.style.cursor = "none";
     }
 
-    // Create spinning animation
+    // Create spinning animation for the corners container
     spinTl.current = gsap.timeline({ repeat: -1 })
       .to(cursor, { rotation: "+=360", duration: spinDuration, ease: "none" });
 
@@ -72,24 +60,24 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
       gsap.to(cursor, {
         x: e.clientX,
         y: e.clientY,
-        duration: 0.1,
-        ease: "power3.out",
+        duration: 0.08,
+        ease: "power2.out",
       });
     };
 
-    // Mouse down/up handlers for click effect
+    // Click handlers
     const mouseDownHandler = () => {
-      if (dotRef.current) {
-        gsap.to(dotRef.current, { scale: 0.7, duration: 0.3 });
-      }
-      gsap.to(cursor, { scale: 0.9, duration: 0.2 });
+      gsap.to([dotRef.current, corner1Ref.current, corner2Ref.current, corner3Ref.current, corner4Ref.current], {
+        scale: 0.8,
+        duration: 0.15,
+      });
     };
 
     const mouseUpHandler = () => {
-      if (dotRef.current) {
-        gsap.to(dotRef.current, { scale: 1, duration: 0.3 });
-      }
-      gsap.to(cursor, { scale: 1, duration: 0.2 });
+      gsap.to([dotRef.current, corner1Ref.current, corner2Ref.current, corner3Ref.current, corner4Ref.current], {
+        scale: 1,
+        duration: 0.15,
+      });
     };
 
     // Hover detection
@@ -97,13 +85,13 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
 
     const enterHandler = (e: MouseEvent) => {
       const target = (e.target as Element).closest(targetSelector);
-      if (!target || activeTarget === target || !cursor) return;
+      if (!target || activeTarget === target) return;
 
       activeTarget = target;
       
       // Stop spinning
       spinTl.current?.pause();
-      gsap.to(cursor, { rotation: 0, duration: 0.3 });
+      gsap.to(cursor, { rotation: 0, duration: 0.3, overwrite: true });
 
       // Get target bounds
       const rect = target.getBoundingClientRect();
@@ -111,16 +99,16 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
       const cursorY = gsap.getProperty(cursor, "y") as number;
       
       // Expand corners to surround the target
-      cornersRef.current.forEach((corner, i) => {
-        if (!corner) return;
-        
-        const positions = [
-          { x: rect.left - cursorX - 8, y: rect.top - cursorY - 8 },
-          { x: rect.right - cursorX - 8, y: rect.top - cursorY - 8 },
-          { x: rect.right - cursorX - 8, y: rect.bottom - cursorY - 8 },
-          { x: rect.left - cursorX - 8, y: rect.bottom - cursorY - 8 },
-        ];
+      const corners = [corner1Ref.current, corner2Ref.current, corner3Ref.current, corner4Ref.current];
+      const positions = [
+        { x: rect.left - cursorX - 6, y: rect.top - cursorY - 6 },
+        { x: rect.right - cursorX + 6, y: rect.top - cursorY - 6 },
+        { x: rect.right - cursorX + 6, y: rect.bottom - cursorY + 6 },
+        { x: rect.left - cursorX - 6, y: rect.bottom - cursorY + 6 },
+      ];
 
+      corners.forEach((corner, i) => {
+        if (!corner) return;
         gsap.to(corner, {
           x: positions[i].x,
           y: positions[i].y,
@@ -129,29 +117,29 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
         });
       });
 
-      // Add leave handler
+      // Leave handler
       const leaveHandler = () => {
         activeTarget = null;
         
-        // Reset corners to center
-        cornersRef.current.forEach((corner, i) => {
+        // Reset corners to center positions
+        const centerPositions = [
+          { x: -10, y: -10 },
+          { x: 6, y: -10 },
+          { x: 6, y: 6 },
+          { x: -10, y: 6 },
+        ];
+
+        corners.forEach((corner, i) => {
           if (!corner) return;
-          const offset = 12;
-          const positions = [
-            { x: -offset, y: -offset },
-            { x: offset, y: -offset },
-            { x: offset, y: offset },
-            { x: -offset, y: offset },
-          ];
           gsap.to(corner, {
-            x: positions[i].x,
-            y: positions[i].y,
+            x: centerPositions[i].x,
+            y: centerPositions[i].y,
             duration: 0.3,
             ease: "power3.out",
           });
         });
 
-        // Resume spinning
+        // Resume spinning after a short delay
         setTimeout(() => {
           if (!activeTarget) {
             spinTl.current?.resume();
@@ -167,48 +155,50 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
     window.addEventListener("mousemove", moveHandler);
     window.addEventListener("mousedown", mouseDownHandler);
     window.addEventListener("mouseup", mouseUpHandler);
-    window.addEventListener("mouseover", enterHandler);
+    document.addEventListener("mouseover", enterHandler);
 
     return () => {
       window.removeEventListener("mousemove", moveHandler);
       window.removeEventListener("mousedown", mouseDownHandler);
       window.removeEventListener("mouseup", mouseUpHandler);
-      window.removeEventListener("mouseover", enterHandler);
+      document.removeEventListener("mouseover", enterHandler);
       spinTl.current?.kill();
       document.body.style.cursor = "";
     };
-  }, [isMobile, hideDefaultCursor, spinDuration, hoverDuration, targetSelector]);
+  }, [hideDefaultCursor, spinDuration, hoverDuration, targetSelector]);
 
-  if (isMobile) {
-    return null;
-  }
+  // Don't render on server or mobile
+  if (!mounted) return null;
 
   return (
     <div
       ref={cursorRef}
-      className="fixed top-0 left-0 pointer-events-none z-[9999]"
+      className="fixed top-0 left-0 pointer-events-none"
       style={{
-        width: "24px",
-        height: "24px",
-        marginLeft: "-12px",
-        marginTop: "-12px",
-        opacity: isVisible ? 1 : 0,
-        transition: "opacity 0.3s ease",
+        width: "20px",
+        height: "20px",
+        zIndex: 99999,
+        marginLeft: "-10px",
+        marginTop: "-10px",
       }}
     >
-      {/* Center dot */}
+      {/* Center dot - WHITE for visibility */}
       <div
         ref={dotRef}
-        className="absolute top-1/2 left-1/2 w-2 h-2 bg-[#ed6a5a] rounded-full -translate-x-1/2 -translate-y-1/2"
-        style={{ boxShadow: "0 0 8px rgba(237, 106, 90, 0.6)" }}
+        className="absolute top-1/2 left-1/2 w-2 h-2 bg-white rounded-full"
+        style={{
+          transform: "translate(-50%, -50%)",
+          boxShadow: "0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(237, 106, 90, 0.4)",
+        }}
       />
       
       {/* Corner 1 - Top Left */}
       <div
-        ref={(el) => { if (el) cornersRef.current[0] = el; }}
-        className="absolute top-1/2 left-1/2 w-3 h-3 border-2 border-[#ed6a5a]"
+        ref={corner1Ref}
+        className="absolute top-1/2 left-1/2 w-2.5 h-2.5 border-2"
         style={{
-          transform: "translate(-12px, -12px)",
+          transform: "translate(-10px, -10px)",
+          borderColor: "#ed6a5a",
           borderRight: "none",
           borderBottom: "none",
         }}
@@ -216,10 +206,11 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
       
       {/* Corner 2 - Top Right */}
       <div
-        ref={(el) => { if (el) cornersRef.current[1] = el; }}
-        className="absolute top-1/2 left-1/2 w-3 h-3 border-2 border-[#ed6a5a]"
+        ref={corner2Ref}
+        className="absolute top-1/2 left-1/2 w-2.5 h-2.5 border-2"
         style={{
-          transform: "translate(4px, -12px)",
+          transform: "translate(6px, -10px)",
+          borderColor: "#ed6a5a",
           borderLeft: "none",
           borderBottom: "none",
         }}
@@ -227,10 +218,11 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
       
       {/* Corner 3 - Bottom Right */}
       <div
-        ref={(el) => { if (el) cornersRef.current[2] = el; }}
-        className="absolute top-1/2 left-1/2 w-3 h-3 border-2 border-[#ed6a5a]"
+        ref={corner3Ref}
+        className="absolute top-1/2 left-1/2 w-2.5 h-2.5 border-2"
         style={{
-          transform: "translate(4px, 4px)",
+          transform: "translate(6px, 6px)",
+          borderColor: "#ed6a5a",
           borderLeft: "none",
           borderTop: "none",
         }}
@@ -238,16 +230,15 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
       
       {/* Corner 4 - Bottom Left */}
       <div
-        ref={(el) => { if (el) cornersRef.current[3] = el; }}
-        className="absolute top-1/2 left-1/2 w-3 h-3 border-2 border-[#ed6a5a]"
+        ref={corner4Ref}
+        className="absolute top-1/2 left-1/2 w-2.5 h-2.5 border-2"
         style={{
-          transform: "translate(-12px, 4px)",
+          transform: "translate(-10px, 6px)",
+          borderColor: "#ed6a5a",
           borderRight: "none",
           borderTop: "none",
         }}
       />
     </div>
   );
-};
-
-export default TargetCursor;
+}
