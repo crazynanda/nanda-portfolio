@@ -194,7 +194,7 @@ export default function Contact() {
         {/* Navigation */}
         <nav>
           <div className="logo">
-            <div className="logo-container">
+            <div className="logo-container cursor-target">
               <p className="mn">
                 <Link href="/">N ✦ K</Link>
               </p>
@@ -228,7 +228,7 @@ export default function Contact() {
             <div className="contact-info">
               <div className="contact-info-item">
                 <p className="label">Project Inquiries</p>
-                <p>
+                <p className="cursor-target">
                   <a href="mailto:nandablr242@gmail.com" target="_blank" rel="noopener noreferrer">
                     nandablr242@gmail.com
                   </a>
@@ -236,7 +236,7 @@ export default function Contact() {
               </div>
               <div className="contact-info-item">
                 <p className="label">Quick Chat</p>
-                <p>
+                <p className="cursor-target">
                   <a href="https://x.com/nandablr242" target="_blank" rel="noopener noreferrer">
                     @nandablr242
                   </a>
@@ -293,7 +293,7 @@ export default function Contact() {
                 />
                 <label htmlFor="message">Project Details</label>
               </div>
-              <button type="submit" className="submit-btn" disabled={isLoading}>
+              <button type="submit" className="submit-btn cursor-target" disabled={isLoading}>
                 {isLoading ? "Sending..." : "Send Message"}
               </button>
               <div className={`success-message ${isSubmitted ? "show" : ""}`}>

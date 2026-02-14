@@ -427,13 +427,13 @@ export default function Home() {
         {/* Navigation */}
         <nav>
           <div className="logo">
-            <div className="logo-container">
+            <div className="logo-container cursor-target">
               <p className="mn">
                 <Link href="/">N ✦ K</Link>
               </p>
             </div>
           </div>
-          <div className="menu-toggle-btn">
+          <div className="menu-toggle-btn cursor-target">
             <div className="menu-toggle-btn-wrapper">
               <p className="mn open-label">Menu</p>
               <p className="mn close-label">Close</p>
@@ -443,12 +443,12 @@ export default function Home() {
 
         <div className="nav-overlay">
           <div className="nav-items">
-            <div className="nav-item active">
+            <div className="nav-item active cursor-target">
               <p>
                 <Link href="/">Home</Link>
               </p>
             </div>
-            <div className="nav-item">
+            <div className="nav-item cursor-target">
               <p>
                 <Link href="/contact">Contact</Link>
               </p>
@@ -460,12 +460,12 @@ export default function Home() {
                 <p className="mn">Find Me</p>
               </div>
               <div className="nav-footer-item-copy">
-                <p className="mn">
+                <p className="mn cursor-target">
                   <a href="https://github.com/crazynanda" target="_blank" rel="noopener noreferrer">
                     Github
                   </a>
                 </p>
-                <p className="mn">
+                <p className="mn cursor-target">
                   <a href="https://www.linkedin.com/in/nanda-kumar-544500213/" target="_blank" rel="noopener noreferrer">
                     LinkedIn
                   </a>
@@ -485,7 +485,7 @@ export default function Home() {
                 <p className="mn">Get in Touch</p>
               </div>
               <div className="nav-footer-item-copy">
-                <p className="mn">
+                <p className="mn cursor-target">
                   <a href="mailto:nandablr242@gmail.com" target="_blank">
                     nandablr242@gmail.com
                   </a>
@@ -509,7 +509,7 @@ export default function Home() {
             <div className="hero-footer-symbols">
               <p className="mn">Available for Work</p>
             </div>
-            <div className="hero-footer-scroll-down">
+            <div className="hero-footer-scroll-down cursor-target">
               <p className="mn">
                 <a href="#about" className="resume-link">
                   Fetch // Resume
@@ -580,7 +580,7 @@ export default function Home() {
             <div className="featured-title-wrapper">
               <h1 className="featured-title">Featured Projects</h1>
             </div>
-            <div className="featured-title-wrapper">
+            <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
                 <img src="/images/projects/zeridex.png" alt="Zeridex" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
               </div>
@@ -588,7 +588,7 @@ export default function Home() {
                 <a href="https://zeridex.space" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Zeridex</a>
               </h1>
             </div>
-            <div className="featured-title-wrapper">
+            <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
                 <img src="/images/projects/academicexpert.png" alt="Academic Expert" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
               </div>
@@ -596,7 +596,7 @@ export default function Home() {
                 <a href="https://academicexpert.in" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Academic Expert</a>
               </h1>
             </div>
-            <div className="featured-title-wrapper">
+            <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
                 <img src="/images/projects/academicseva.png" alt="Academic Seva" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
               </div>
@@ -604,7 +604,7 @@ export default function Home() {
                 <a href="https://academicseva.org" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Academic Seva</a>
               </h1>
             </div>
-            <div className="featured-title-wrapper">
+            <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
                 <img src="/images/projects/lango.png" alt="Lango" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
               </div>
@@ -617,7 +617,7 @@ export default function Home() {
           <div className="featured-work-footer">
             <p className="mn">Project Portfolio [ 5 ]</p>
             <p className="mn">///////////////////</p>
-            <p className="mn">
+            <p className="mn cursor-target">
               <a href="#">View All Projects</a>
             </p>
           </div>
@@ -705,7 +705,7 @@ export default function Home() {
         {/* Contact CTA */}
         <section className="contact-cta">
           <button 
-            className="contact-button"
+            className="contact-button cursor-target"
             onClick={() => {
               // Animate transition out before navigating
               gsap.set(".transition-overlay", { scaleY: 0, transformOrigin: "bottom" });
@@ -738,21 +738,21 @@ export default function Home() {
             <div className="footer-row">
               <div className="footer-col">
                 <p className="mn">Explore</p>
-                <p>
+                <p className="cursor-target">
                   <Link href="/">Home</Link>
                 </p>
-                <p>
+                <p className="cursor-target">
                   <Link href="/contact">Contact</Link>
                 </p>
               </div>
               <div className="footer-col">
                 <p className="mn">Creative Hub</p>
-                <p>
+                <p className="cursor-target">
                   <a href="https://www.zeridex.space" target="_blank" rel="noopener noreferrer">
                     View Portfolio
                   </a>
                 </p>
-                <p>
+                <p className="cursor-target">
                   <a href="https://github.com/crazynanda" target="_blank" rel="noopener noreferrer">
                     GitHub
                   </a>
@@ -760,17 +760,17 @@ export default function Home() {
               </div>
               <div className="footer-col">
                 <p className="mn">Connect</p>
-                <p>
+                <p className="cursor-target">
                   <a href="https://www.linkedin.com/in/nanda-kumar-544500213/" target="_blank" rel="noopener noreferrer">
                     LinkedIn
                   </a>
                 </p>
-                <p>
+                <p className="cursor-target">
                   <a href="https://github.com/crazynanda" target="_blank" rel="noopener noreferrer">
                     Github
                   </a>
                 </p>
-                <p>
+                <p className="cursor-target">
                   <a href="https://x.com/nandablr242" target="_blank" rel="noopener noreferrer">
                     Twitter
                   </a>
@@ -778,12 +778,12 @@ export default function Home() {
               </div>
               <div className="footer-col">
                 <p className="mn">Extras</p>
-                <p>
+                <p className="cursor-target">
                   <a href="https://www.awwwards.com" target="_blank" rel="noopener noreferrer">
                     Design Archive
                   </a>
                 </p>
-                <p>
+                <p className="cursor-target">
                   <a href="https://www.pillarstack.com" target="_blank" rel="noopener noreferrer">
                     Basic References
                   </a>

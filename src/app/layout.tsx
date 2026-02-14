@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import CustomCursor from "@/components/layout/CustomCursor";
+import TargetCursor from "@/components/layout/TargetCursor";
 
 export const metadata: Metadata = {
   title: "Nanda Kumar | Portfolio",
@@ -64,7 +64,12 @@ export default function RootLayout({
         <link rel="canonical" href="https://nandakumar.site" />
       </head>
       <body className="custom-cursor-active">
-        <CustomCursor />
+        <TargetCursor
+          spinDuration={2}
+          hideDefaultCursor
+          parallaxOn
+          hoverDuration={0.2}
+        />
         {children}
       </body>
     </html>
