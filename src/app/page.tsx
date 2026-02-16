@@ -5,6 +5,49 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+// Particle class for footer explosion animation - defined outside component to avoid React hooks issues
+interface ParticleConfig {
+  gravity: number;
+  friction: number;
+  imageSize: number;
+  horizontalForce: number;
+  verticalForce: number;
+  rotationSpeed: number;
+}
+
+class Particle {
+  element: HTMLImageElement;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  rotation: number;
+  rotationSpeed: number;
+  config: ParticleConfig;
+  
+  constructor(element: HTMLImageElement, config: ParticleConfig) {
+    this.element = element;
+    this.config = config;
+    this.x = 0;
+    this.y = 0;
+    this.vx = (Math.random() - 0.5) * config.horizontalForce;
+    this.vy = -config.verticalForce - Math.random() * 10;
+    this.rotation = 0;
+    this.rotationSpeed = (Math.random() - 0.5) * config.rotationSpeed;
+  }
+  
+  update() {
+    this.vy += this.config.gravity;
+    this.vx *= this.config.friction;
+    this.vy *= this.config.friction;
+    this.rotationSpeed *= this.config.friction;
+    this.x += this.vx;
+    this.y += this.vy;
+    this.rotation += this.rotationSpeed;
+    this.element.style.transform = `translate3d(${this.x}px, ${this.y}px, 0) rotate(${this.rotation}deg)`;
+  }
+}
+
 export default function Home() {
   const [isLoading] = useState(true);
 
@@ -268,37 +311,6 @@ export default function Home() {
         img.src = path;
       });
       
-      class Particle {
-        element: HTMLImageElement;
-        x: number;
-        y: number;
-        vx: number;
-        vy: number;
-        rotation: number;
-        rotationSpeed: number;
-        
-        constructor(element: HTMLImageElement) {
-          this.element = element;
-          this.x = 0;
-          this.y = 0;
-          this.vx = (Math.random() - 0.5) * config.horizontalForce;
-          this.vy = -config.verticalForce - Math.random() * 10;
-          this.rotation = 0;
-          this.rotationSpeed = (Math.random() - 0.5) * config.rotationSpeed;
-        }
-        
-        update() {
-          this.vy += config.gravity;
-          this.vx *= config.friction;
-          this.vy *= config.friction;
-          this.rotationSpeed *= config.friction;
-          this.x += this.vx;
-          this.y += this.vy;
-          this.rotation += this.rotationSpeed;
-          this.element.style.transform = `translate3d(${this.x}px, ${this.y}px, 0) rotate(${this.rotation}deg)`;
-        }
-      }
-      
       const createParticles = () => {
         explosionContainer.innerHTML = "";
         const containerWidth = (explosionContainer as HTMLElement).offsetWidth;
@@ -335,7 +347,7 @@ export default function Home() {
         createParticles();
         const particleElements = document.querySelectorAll(".explosion-particle-img");
         const particles = Array.from(particleElements).map(
-          (element) => new Particle(element as HTMLImageElement)
+          (element) => new Particle(element as HTMLImageElement, config)
         );
         
         let animationId: number;
