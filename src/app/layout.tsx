@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/react";
 import TargetCursor from "@/components/layout/TargetCursor";
 
 export const metadata: Metadata = {
@@ -70,6 +71,7 @@ export default function RootLayout({
           hoverDuration={0.2}
         />
         {children}
+        <Analytics />
       </body>
     </html>
   );
