@@ -1038,10 +1038,13 @@ footer {
 
   .featured-work,
   .featured-work .featured-titles {
-    height: 100vh;
+    height: 100svh;
   }
 
   .featured-work .featured-title-wrapper {
+    flex: 1;
+    min-width: 100vw;
+    max-width: 100vw;
     gap: 1em;
     padding: 1em;
   }

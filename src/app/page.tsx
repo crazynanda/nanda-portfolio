@@ -167,7 +167,13 @@ export default function Home() {
     // Featured Work Horizontal Scroll
     if (!prefersReducedMotion) {
       const featuredTitles = document.querySelector(".featured-titles");
+      const isMobile = window.matchMedia("(max-width: 1000px)").matches;
       const moveDistance = window.innerWidth * 4;
+      
+      // Use longer scroll distance on mobile for smoother animation
+      const scrollEnd = isMobile 
+        ? `+=${window.innerHeight * 6}px` 
+        : `+=${window.innerHeight * 5}px`;
 
       // Create indicators
       const indicatorContainer = document.querySelector(".featured-work-indicator");
@@ -195,24 +201,27 @@ export default function Home() {
       ScrollTrigger.create({
         trigger: ".featured-work",
         start: "top top",
-        end: `+=${window.innerHeight * 5}px`,
+        end: scrollEnd,
         pin: true,
         scrub: 1,
+        anticipatePin: 1,
         onUpdate: (self) => {
           // Move titles
           if (featuredTitles) {
             gsap.set(featuredTitles, { x: -moveDistance * self.progress });
           }
 
-          // Animate image cards
-          featuredImgCards.forEach((card, index) => {
-            const staggerOffset = index * 0.075;
-            const scaledProgress = (self.progress - staggerOffset) * 2;
-            const individualProgress = Math.max(0, Math.min(1, scaledProgress));
-            const newZ = -1500 + 3000 * individualProgress;
-            const scale = Math.max(0, Math.min(1, individualProgress * 10));
-            gsap.set(card, { z: newZ, scale: scale });
-          });
+          // Animate image cards (disable on mobile for performance)
+          if (!isMobile) {
+            featuredImgCards.forEach((card, index) => {
+              const staggerOffset = index * 0.075;
+              const scaledProgress = (self.progress - staggerOffset) * 2;
+              const individualProgress = Math.max(0, Math.min(1, scaledProgress));
+              const newZ = -1500 + 3000 * individualProgress;
+              const scale = Math.max(0, Math.min(1, individualProgress * 10));
+              gsap.set(card, { z: newZ, scale: scale });
+            });
+          }
 
           // Update indicators
           const indicators = document.querySelectorAll(".indicator");
