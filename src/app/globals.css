@@ -1032,80 +1032,68 @@ footer {
   }
 
   .featured-work {
-    height: 100svh;
-    padding: 0;
+    height: auto;
+    min-height: 100svh;
+    padding: 4em 0;
+    overflow: visible;
   }
 
-  .featured-work,
   .featured-work .featured-titles {
-    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    gap: 3em;
   }
 
   .featured-work .featured-title-wrapper {
-    flex: 0 0 100vw;
-    min-width: 100vw;
-    max-width: 100vw;
-    width: 100vw;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    flex: none;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1em;
-    padding: 1em;
-  }
-
-  .featured-work .featured-title-wrapper:nth-child(1) {
-    margin-bottom: 0;
+    padding: 2em 1em;
   }
 
   .featured-work .featured-title-wrapper h1 {
-    transform: translateY(-0.5em);
+    transform: translateY(0);
     width: 90%;
-    font-size: 10vw;
+    font-size: 12vw;
   }
 
   .featured-work .featured-work-footer {
-    position: absolute;
-    bottom: 0;
-    margin-top: 0;
-    justify-content: space-between;
-    padding: 1.5em;
+    position: relative;
+    margin-top: 2em;
+    justify-content: center;
   }
 
   .featured-work .featured-work-footer p:nth-child(1),
   .featured-work .featured-work-footer p:nth-child(2) {
-    display: block;
-    font-size: 0.75rem;
-  }
-
-  .featured-work .featured-work-indicator {
-    display: flex;
-    right: 1em;
-    width: 1.5rem;
-    padding: 1rem 0.5rem;
-  }
-
-  .featured-work .featured-images {
-    display: block;
-    width: 150vw;
-    height: 150vh;
-  }
-
-  .featured-work .featured-img-card {
-    width: 200px;
-    height: 200px;
-  }
-
-  .featured-title-img {
     display: none;
   }
 
-  .featured-work .featured-titles {
-    width: 500vw;
-    display: flex;
-    flex-direction: row;
-    gap: 0;
-    will-change: transform;
+  .featured-work .featured-work-indicator {
+    display: none;
+  }
+
+  .featured-work .featured-images {
+    display: none;
+  }
+
+  .featured-title-img {
+    display: block;
+    width: calc(100% - 2em);
+    max-width: 400px;
+    height: 120px;
+    margin: 0 auto 1em;
+  }
+
+  .featured-work .featured-img-card {
+    display: none;
   }
 
   .services-header { height: auto; padding: 4em 1em; }

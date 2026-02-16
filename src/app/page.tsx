@@ -164,8 +164,10 @@ export default function Home() {
       });
     }
 
-    // Featured Work Horizontal Scroll
-    if (!prefersReducedMotion) {
+    // Featured Work Horizontal Scroll (desktop/tablet only, not small mobile)
+    const isSmallMobile = window.innerWidth <= 768;
+    
+    if (!prefersReducedMotion && !isSmallMobile) {
       const featuredTitles = document.querySelector(".featured-titles") as HTMLElement;
       
       // Move distance: scroll through 4 viewport widths (showing 5 projects)
@@ -209,17 +211,15 @@ export default function Home() {
             gsap.set(featuredTitles, { x: -moveDistance * self.progress });
           }
 
-          // Animate image cards (desktop only)
-          if (window.innerWidth > 1000) {
-            featuredImgCards.forEach((card, index) => {
-              const staggerOffset = index * 0.075;
-              const scaledProgress = (self.progress - staggerOffset) * 2;
-              const individualProgress = Math.max(0, Math.min(1, scaledProgress));
-              const newZ = -1500 + 3000 * individualProgress;
-              const scale = Math.max(0, Math.min(1, individualProgress * 10));
-              gsap.set(card, { z: newZ, scale: scale });
-            });
-          }
+          // Animate image cards
+          featuredImgCards.forEach((card, index) => {
+            const staggerOffset = index * 0.075;
+            const scaledProgress = (self.progress - staggerOffset) * 2;
+            const individualProgress = Math.max(0, Math.min(1, scaledProgress));
+            const newZ = -1500 + 3000 * individualProgress;
+            const scale = Math.max(0, Math.min(1, individualProgress * 10));
+            gsap.set(card, { z: newZ, scale: scale });
+          });
 
           // Update indicators
           const indicators = document.querySelectorAll(".indicator");
