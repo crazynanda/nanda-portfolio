@@ -89,6 +89,10 @@ export default function Home() {
         stagger: -0.1,
         ease: "power2.inOut",
         delay: 0.2,
+        onComplete: () => {
+          // Hide transition overlays after animation completes
+          document.querySelector(".page")?.classList.add("loaded");
+        },
       });
     };
 

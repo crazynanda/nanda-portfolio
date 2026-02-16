@@ -150,15 +150,16 @@ p.mn {
 }
 
 /* Safety: Hide transition overlays after animation completes */
-@media (prefers-reduced-motion: no-preference) {
-  .page.home-page .transition {
-    animation: hideTransition 2s forwards;
-  }
-  
-  @keyframes hideTransition {
-    0%, 90% { opacity: 1; }
-    100% { opacity: 0; }
-  }
+.transition {
+  pointer-events: none;
+}
+
+.transition-overlay {
+  visibility: visible;
+}
+
+.page.loaded .transition-overlay {
+  visibility: hidden;
 }
 
 /* Navbar */
