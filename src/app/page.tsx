@@ -166,25 +166,13 @@ export default function Home() {
 
     // Featured Work Horizontal Scroll
     if (!prefersReducedMotion) {
-      const featuredTitles = document.querySelector(".featured-titles");
-      const isMobile = window.matchMedia("(max-width: 1000px)").matches;
+      const featuredTitles = document.querySelector(".featured-titles") as HTMLElement;
       
-      // Calculate move distance based on actual container width
-      // 5 projects = 500vw total, move 400vw to show all (last project fills viewport)
-      const getMoveDistance = () => {
-        if (!featuredTitles) return 0;
-        const containerWidth = featuredTitles.scrollWidth;
-        const viewportWidth = window.innerWidth;
-        // Move distance is total width minus one viewport (to keep last project visible)
-        return containerWidth - viewportWidth;
-      };
+      // Move distance: scroll through 4 viewport widths (showing 5 projects)
+      const moveDistance = window.innerWidth * 4;
       
-      let moveDistance = getMoveDistance();
-      
-      // Use longer scroll distance on mobile for smoother, one-by-one reveal
-      const scrollEnd = isMobile 
-        ? `+=${window.innerHeight * 7}px` 
-        : `+=${window.innerHeight * 5}px`;
+      // Standard scroll distance
+      const scrollEnd = `+=${window.innerHeight * 5}px`;
 
       // Create indicators
       const indicatorContainer = document.querySelector(".featured-work-indicator");
@@ -209,28 +197,20 @@ export default function Home() {
         gsap.set(card, { z: -1500, scale: 0 });
       });
 
-      // Recalculate on resize
-      const handleResize = () => {
-        moveDistance = getMoveDistance();
-      };
-      window.addEventListener("resize", handleResize);
-
       ScrollTrigger.create({
         trigger: ".featured-work",
         start: "top top",
         end: scrollEnd,
         pin: true,
-        scrub: isMobile ? 0.5 : 1,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
+        scrub: 1,
         onUpdate: (self) => {
-          // Move titles
+          // Move titles horizontally
           if (featuredTitles) {
             gsap.set(featuredTitles, { x: -moveDistance * self.progress });
           }
 
-          // Animate image cards (disable on mobile for performance)
-          if (!isMobile) {
+          // Animate image cards (desktop only)
+          if (window.innerWidth > 1000) {
             featuredImgCards.forEach((card, index) => {
               const staggerOffset = index * 0.075;
               const scaledProgress = (self.progress - staggerOffset) * 2;
@@ -253,9 +233,6 @@ export default function Home() {
               indicator.classList.remove("active");
             }
           });
-        },
-        onRefresh: () => {
-          moveDistance = getMoveDistance();
         },
       });
     }
