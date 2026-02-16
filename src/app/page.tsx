@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import NextImage from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -522,10 +523,13 @@ export default function Home() {
         {/* Hero Image Holder */}
         <section className="hero-img-holder">
           <div className="hero-img" style={{ transform: "translateY(-110%) scale(0.25) rotate(-15deg)" }}>
-            <img 
+            <NextImage 
               src="/images/projects/zeridex.png" 
-              alt="Portfolio Preview" 
-              style={{ width: "100%", height: "100%", objectFit: "contain", padding: "2em" }}
+              alt="Portfolio Preview"
+              fill
+              style={{ objectFit: "contain", padding: "2em" }}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
             />
           </div>
         </section>
@@ -547,10 +551,12 @@ export default function Home() {
             <p className="mn">Code / Design / Craft / Repeat</p>
           </div>
           <div className="about-hero-portrait">
-            <img 
+            <NextImage 
               src="/images/about/portrait.jpg" 
-              alt="Nanda Kumar Portrait" 
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              alt="Nanda Kumar Portrait"
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 768px) 100vw, 35vw"
             />
           </div>
         </section>
@@ -565,10 +571,12 @@ export default function Home() {
               { src: "/images/projects/lango.png", alt: "Lango" }
             ].map((project, index) => (
               <div key={index} className={`featured-img-card featured-img-card-${index + 1}`}>
-                <img 
+                <NextImage 
                   src={project.src} 
                   alt={project.alt}
-                  style={{ width: "100%", height: "100%", objectFit: "contain", padding: "1em" }}
+                  fill
+                  style={{ objectFit: "contain", padding: "1em" }}
+                  sizes="300px"
                 />
               </div>
             ))}
@@ -579,7 +587,7 @@ export default function Home() {
             </div>
             <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
-                <img src="/images/projects/zeridex.png" alt="Zeridex" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
+                <NextImage src="/images/projects/zeridex.png" alt="Zeridex" fill style={{ objectFit: "contain", padding: "0.5em" }} sizes="150px" />
               </div>
               <h1 className="featured-title">
                 <a href="https://zeridex.space" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Zeridex</a>
@@ -587,7 +595,7 @@ export default function Home() {
             </div>
             <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
-                <img src="/images/projects/academicexpert.png" alt="Academic Expert" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
+                <NextImage src="/images/projects/academicexpert.png" alt="Academic Expert" fill style={{ objectFit: "contain", padding: "0.5em" }} sizes="150px" />
               </div>
               <h1 className="featured-title">
                 <a href="https://academicexpert.in" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Academic Expert</a>
@@ -595,7 +603,7 @@ export default function Home() {
             </div>
             <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
-                <img src="/images/projects/academicseva.png" alt="Academic Seva" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
+                <NextImage src="/images/projects/academicseva.png" alt="Academic Seva" fill style={{ objectFit: "contain", padding: "0.5em" }} sizes="150px" />
               </div>
               <h1 className="featured-title">
                 <a href="https://academicseva.org" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Academic Seva</a>
@@ -603,7 +611,7 @@ export default function Home() {
             </div>
             <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
-                <img src="/images/projects/lango.png" alt="Lango" style={{ width: "100%", height: "100%", objectFit: "contain", padding: "0.5em" }} />
+                <NextImage src="/images/projects/lango.png" alt="Lango" fill style={{ objectFit: "contain", padding: "0.5em" }} sizes="150px" />
               </div>
               <h1 className="featured-title">
                 <a href="https://langoleaf.com" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Lango</a>
@@ -651,7 +659,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="service-card-img">
-                <img src="/images/frontend.jpg" alt="Frontend Development" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <NextImage src="/images/frontend.jpg" alt="Frontend Development" fill style={{ objectFit: "cover" }} sizes="(max-width: 768px) 100vw, 50vw" />
               </div>
             </div>
           </div>
@@ -665,7 +673,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="service-card-img">
-                <img src="/images/backend.jpg" alt="Backend Development" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <NextImage src="/images/backend.jpg" alt="Backend Development" fill style={{ objectFit: "cover" }} sizes="(max-width: 768px) 100vw, 50vw" />
               </div>
             </div>
           </div>
@@ -679,7 +687,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="service-card-img">
-                <img src="/images/UIUXdesign.jpg" alt="UI/UX Design" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <NextImage src="/images/UIUXdesign.jpg" alt="UI/UX Design" fill style={{ objectFit: "cover" }} sizes="(max-width: 768px) 100vw, 50vw" />
               </div>
             </div>
           </div>
@@ -693,7 +701,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="service-card-img">
-                <img src="/images/AIintegration.png" alt="AI Integration" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <NextImage src="/images/AIintegration.png" alt="AI Integration" fill style={{ objectFit: "cover" }} sizes="(max-width: 768px) 100vw, 50vw" />
               </div>
             </div>
           </div>
