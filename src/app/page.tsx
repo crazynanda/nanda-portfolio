@@ -613,7 +613,7 @@ export default function Home() {
           <div className="featured-work-indicator"></div>
           <div className="featured-work-footer">
             <p className="mn">Project Portfolio [ 5 ]</p>
-            <p className="mn">///////////////////</p>
+            <p className="mn">{"///////////////////"}</p>
             <p className="mn cursor-target">
               <a href="#">View All Projects</a>
             </p>
