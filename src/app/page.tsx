@@ -185,21 +185,6 @@ export default function Home() {
           });
         },
       });
-    } else {
-      // Mobile: Show featured work as static grid
-      const indicatorContainer = document.querySelector(".featured-work-indicator") as HTMLElement | null;
-      if (indicatorContainer) {
-        indicatorContainer.style.display = "none";
-      }
-      
-      const featuredImgCards = document.querySelectorAll(".featured-img-card");
-      featuredImgCards.forEach((card, index) => {
-        gsap.set(card, { 
-          z: 0, 
-          scale: 1,
-          opacity: 1 
-        });
-      });
     }
 
     // Services Sticky Cards
