@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -49,8 +49,6 @@ class Particle {
 }
 
 export default function Home() {
-  const [isLoading] = useState(true);
-
   useEffect(() => {
     // Scroll to top on page load/refresh - MUST happen first
     if (typeof window !== "undefined") {
@@ -128,6 +126,7 @@ export default function Home() {
     }
 
     // Hero Image Cycling Animation (every 250ms)
+    let imageInterval: NodeJS.Timeout | null = null;
     const heroImg = document.querySelector(".hero-img");
     if (heroImg && !prefersReducedMotion) {
       const heroImages = [
@@ -138,7 +137,7 @@ export default function Home() {
       ];
       let currentImageIndex = 0;
       
-      const imageInterval = setInterval(() => {
+      imageInterval = setInterval(() => {
         currentImageIndex = currentImageIndex >= heroImages.length - 1 ? 0 : currentImageIndex + 1;
         const imgElement = heroImg.querySelector("img");
         if (imgElement) {
@@ -318,7 +317,7 @@ export default function Home() {
         const centerX = containerWidth / 2 - config.imageSize / 2;
         const centerY = containerHeight / 2 - config.imageSize / 2;
         
-        imagePaths.forEach((path, index) => {
+        imagePaths.forEach((path) => {
           const particle = document.createElement("img");
           particle.src = path;
           particle.classList.add("explosion-particle-img");
@@ -406,6 +405,7 @@ export default function Home() {
     // Cleanup
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      if (imageInterval) clearInterval(imageInterval);
     };
   }, []);
 
