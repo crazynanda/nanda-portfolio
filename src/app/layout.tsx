@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import TargetCursor from "@/components/layout/TargetCursor";
+import LenisProvider from "@/components/layout/LenisProvider";
 
 export const metadata: Metadata = {
   title: "Nanda Kumar | Portfolio",
@@ -65,13 +66,15 @@ export default function RootLayout({
         <link rel="canonical" href="https://nandakumar.site" />
       </head>
       <body className="custom-cursor-active">
-        <TargetCursor
-          spinDuration={2}
-          hideDefaultCursor
-          hoverDuration={0.2}
-        />
-        {children}
-        <Analytics />
+        <LenisProvider>
+          <TargetCursor
+            spinDuration={2}
+            hideDefaultCursor
+            hoverDuration={0.2}
+          />
+          {children}
+          <Analytics />
+        </LenisProvider>
       </body>
     </html>
   );

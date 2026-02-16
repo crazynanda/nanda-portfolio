@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import NextImage from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// Particle class for footer explosion animation - defined outside component to avoid React hooks issues
+// Particle class for footer explosion animation
 interface ParticleConfig {
   gravity: number;
   friction: number;
@@ -50,23 +50,35 @@ class Particle {
 }
 
 export default function Home() {
+  const scrollTriggersRef = useRef<ScrollTrigger[]>([]);
+  const imageIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const hasExplodedRef = useRef(false);
+  const isMenuOpenRef = useRef(false);
+  const scrollYRef = useRef(0);
+
+  const clearAllScrollTriggers = useCallback(() => {
+    scrollTriggersRef.current.forEach(trigger => {
+      if (trigger) trigger.kill();
+    });
+    scrollTriggersRef.current = [];
+  }, []);
+
   useEffect(() => {
-    // Scroll to top on page load/refresh - MUST happen first
+    // Scroll to top on page load/refresh
     if (typeof window !== "undefined") {
       window.scrollTo(0, 0);
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
-      // Prevent browser from restoring scroll position
       if ("scrollRestoration" in history) {
         history.scrollRestoration = "manual";
       }
     }
 
-    // Register GSAP plugins
     gsap.registerPlugin(ScrollTrigger);
     
-    // Reduce motion for users who prefer it
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isMobile = window.innerWidth <= 1000;
+    const isSmallMobile = window.innerWidth <= 768;
 
     // Page Transition - Reveal
     const revealTransition = () => {
@@ -82,31 +94,31 @@ export default function Home() {
 
     revealTransition();
 
-    // Menu Toggle
+    // Menu Toggle with GSAP animations
     const menuToggleBtn = document.querySelector(".menu-toggle-btn");
     const navOverlay = document.querySelector(".nav-overlay");
     const openLabel = document.querySelector(".open-label");
     const closeLabel = document.querySelector(".close-label");
-    let isMenuOpen = false;
-    let scrollY = 0;
 
     if (menuToggleBtn && navOverlay) {
       menuToggleBtn.addEventListener("click", () => {
-        if (!isMenuOpen) {
+        if (!isMenuOpenRef.current) {
           // Open menu
           navOverlay.classList.add("active");
           menuToggleBtn.classList.add("menu-open");
-          scrollY = window.scrollY;
+          scrollYRef.current = window.scrollY;
           document.body.style.position = "fixed";
-          document.body.style.top = `-${scrollY}px`;
+          document.body.style.top = `-${scrollYRef.current}px`;
           document.body.style.width = "100%";
 
+          // GSAP animation for menu labels
           gsap.to([openLabel, closeLabel], {
             y: "-1rem",
             duration: 0.3,
+            ease: "power2.out",
           });
 
-          isMenuOpen = true;
+          isMenuOpenRef.current = true;
         } else {
           // Close menu
           navOverlay.classList.remove("active");
@@ -114,42 +126,48 @@ export default function Home() {
           document.body.style.position = "";
           document.body.style.top = "";
           document.body.style.width = "";
-          window.scrollTo(0, scrollY);
+          window.scrollTo(0, scrollYRef.current);
 
+          // GSAP animation for menu labels
           gsap.to([openLabel, closeLabel], {
             y: "0rem",
             duration: 0.3,
+            ease: "power2.out",
           });
 
-          isMenuOpen = false;
+          isMenuOpenRef.current = false;
         }
       });
     }
 
     // Hero Image Cycling Animation (every 250ms)
-    let imageInterval: NodeJS.Timeout | null = null;
-    const heroImg = document.querySelector(".hero-img");
+    const heroImg = document.querySelector(".hero-img img") as HTMLImageElement;
     if (heroImg && !prefersReducedMotion) {
       const heroImages = [
         "/images/projects/zeridex.png",
         "/images/projects/academicexpert.png",
         "/images/projects/academicseva.png",
-        "/images/projects/lango.png"
+        "/images/projects/lango.png",
+        "/images/projects/zeridex.png",
+        "/images/projects/academicexpert.png",
+        "/images/projects/academicseva.png",
+        "/images/projects/lango.png",
+        "/images/frontend.jpg",
+        "/images/backend.jpg",
       ];
       let currentImageIndex = 0;
       
-      imageInterval = setInterval(() => {
+      imageIntervalRef.current = setInterval(() => {
         currentImageIndex = currentImageIndex >= heroImages.length - 1 ? 0 : currentImageIndex + 1;
-        const imgElement = heroImg.querySelector("img");
-        if (imgElement) {
-          imgElement.src = heroImages[currentImageIndex];
+        if (heroImg) {
+          heroImg.src = heroImages[currentImageIndex];
         }
       }, 250);
     }
 
     // Hero Image Scroll Animation
     if (!prefersReducedMotion) {
-      ScrollTrigger.create({
+      const heroTrigger = ScrollTrigger.create({
         trigger: ".hero-img-holder",
         start: "top bottom",
         end: "top top",
@@ -162,90 +180,154 @@ export default function Home() {
           });
         },
       });
+      scrollTriggersRef.current.push(heroTrigger);
     }
 
-    // Featured Work Horizontal Scroll (desktop/tablet only, not small mobile)
-    const isSmallMobile = window.innerWidth <= 768;
-    
+    // Featured Work Section - 10 Cards with 3D Animation
     if (!prefersReducedMotion && !isSmallMobile) {
-      const featuredTitles = document.querySelector(".featured-titles") as HTMLElement;
-      
-      // Move distance: scroll through 4 viewport widths (showing 5 projects)
-      const moveDistance = window.innerWidth * 4;
-      
-      // Standard scroll distance
-      const scrollEnd = `+=${window.innerHeight * 5}px`;
+      const initFeaturedWork = () => {
+        // Clear existing
+        clearAllScrollTriggers();
 
-      // Create indicators
-      const indicatorContainer = document.querySelector(".featured-work-indicator");
-      if (indicatorContainer) {
-        indicatorContainer.innerHTML = "";
-        for (let section = 1; section <= 5; section++) {
-          const sectionNumber = document.createElement("p");
-          sectionNumber.className = "mn";
-          sectionNumber.textContent = `0${section}`;
-          indicatorContainer.appendChild(sectionNumber);
-          for (let i = 0; i < 10; i++) {
-            const indicator = document.createElement("div");
-            indicator.className = "indicator";
-            indicatorContainer.appendChild(indicator);
+        // Create indicators
+        const indicatorContainer = document.querySelector(".featured-work-indicator");
+        if (indicatorContainer) {
+          indicatorContainer.innerHTML = "";
+          for (let section = 1; section <= 5; section++) {
+            const sectionNumber = document.createElement("p");
+            sectionNumber.className = "mn";
+            sectionNumber.textContent = `0${section}`;
+            indicatorContainer.appendChild(sectionNumber);
+            for (let i = 0; i < 10; i++) {
+              const indicator = document.createElement("div");
+              indicator.className = "indicator";
+              indicatorContainer.appendChild(indicator);
+            }
           }
         }
-      }
 
-      // Set initial state for image cards
-      const featuredImgCards = document.querySelectorAll(".featured-img-card");
-      featuredImgCards.forEach((card) => {
-        gsap.set(card, { z: -1500, scale: 0 });
-      });
+        // Define image card positions for different screen sizes
+        const featuredCardPosSmall = [
+          { y: 100, x: 1000 },
+          { y: 1500, x: 100 },
+          { y: 1250, x: 1950 },
+          { y: 1500, x: 850 },
+          { y: 200, x: 2100 },
+          { y: 250, x: 600 },
+          { y: 1100, x: 1650 },
+          { y: 1000, x: 800 },
+          { y: 900, x: 2200 },
+          { y: 150, x: 1600 },
+        ];
+        
+        const featuredCardPosLarge = [
+          { y: 800, x: 5000 },
+          { y: 2000, x: 3000 },
+          { y: 240, x: 4450 },
+          { y: 1200, x: 3450 },
+          { y: 500, x: 2200 },
+          { y: 750, x: 1100 },
+          { y: 1850, x: 3350 },
+          { y: 2200, x: 1300 },
+          { y: 3000, x: 1950 },
+          { y: 500, x: 4500 },
+        ];
+        
+        const featuredCardPos = window.innerWidth >= 1600 ? featuredCardPosLarge : featuredCardPosSmall;
 
-      ScrollTrigger.create({
-        trigger: ".featured-work",
-        start: "top top",
-        end: scrollEnd,
-        pin: true,
-        scrub: 1,
-        onUpdate: (self) => {
-          // Move titles horizontally
-          if (featuredTitles) {
-            gsap.set(featuredTitles, { x: -moveDistance * self.progress });
+        // Create image cards dynamically
+        const imagesContainer = document.querySelector(".featured-images");
+        if (imagesContainer) {
+          imagesContainer.innerHTML = "";
+          const projectImages = [
+            "/images/projects/zeridex.png",
+            "/images/projects/academicexpert.png",
+            "/images/projects/academicseva.png",
+            "/images/projects/lango.png",
+            "/images/frontend.jpg",
+            "/images/backend.jpg",
+            "/images/UIUXdesign.jpg",
+            "/images/AIintegration.png",
+            "/images/about/portrait.jpg",
+            "/images/projects/zeridex.png",
+          ];
+          
+          for (let i = 0; i < 10; i++) {
+            const featuredImgCard = document.createElement("div");
+            featuredImgCard.className = `featured-img-card featured-img-card-${i + 1}`;
+            const img = document.createElement("img");
+            img.src = projectImages[i];
+            img.alt = `featured work image ${i + 1}`;
+            featuredImgCard.appendChild(img);
+            
+            const position = featuredCardPos[i];
+            gsap.set(featuredImgCard, {
+              x: position.x,
+              y: position.y,
+              z: -1500,
+              scale: 0,
+            });
+            
+            imagesContainer.appendChild(featuredImgCard);
           }
+        }
 
-          // Animate image cards
-          featuredImgCards.forEach((card, index) => {
-            const staggerOffset = index * 0.075;
-            const scaledProgress = (self.progress - staggerOffset) * 2;
-            const individualProgress = Math.max(0, Math.min(1, scaledProgress));
-            const newZ = -1500 + 3000 * individualProgress;
-            const scale = Math.max(0, Math.min(1, individualProgress * 10));
-            gsap.set(card, { z: newZ, scale: scale });
-          });
+        const featuredTitles = document.querySelector(".featured-titles") as HTMLElement;
+        const moveDistance = window.innerWidth * 4;
+        const scrollEnd = `+=${window.innerHeight * 5}px`;
 
-          // Update indicators
-          const indicators = document.querySelectorAll(".indicator");
-          const totalIndicators = indicators.length;
-          const progressPerIndicator = 1 / totalIndicators;
-          indicators.forEach((indicator, index) => {
-            const indicatorStart = index * progressPerIndicator;
-            if (self.progress > indicatorStart) {
-              indicator.classList.add("active");
-            } else {
-              indicator.classList.remove("active");
+        const featuredTrigger = ScrollTrigger.create({
+          trigger: ".featured-work",
+          start: "top top",
+          end: scrollEnd,
+          pin: true,
+          scrub: 1,
+          onUpdate: (self) => {
+            // Move titles horizontally
+            if (featuredTitles) {
+              gsap.set(featuredTitles, { x: -moveDistance * self.progress });
             }
-          });
-        },
-      });
+
+            // Animate image cards
+            const featuredImgCards = document.querySelectorAll(".featured-img-card");
+            featuredImgCards.forEach((card, index) => {
+              const staggerOffset = index * 0.075;
+              const scaledProgress = (self.progress - staggerOffset) * 2;
+              const individualProgress = Math.max(0, Math.min(1, scaledProgress));
+              const newZ = -1500 + 3000 * individualProgress;
+              const scale = Math.max(0, Math.min(1, individualProgress * 10));
+              gsap.set(card, { z: newZ, scale: scale });
+            });
+
+            // Update indicators
+            const indicators = document.querySelectorAll(".indicator");
+            const totalIndicators = indicators.length;
+            const progressPerIndicator = 1 / totalIndicators;
+            indicators.forEach((indicator, index) => {
+              const indicatorStart = index * progressPerIndicator;
+              if (self.progress > indicatorStart) {
+                indicator.classList.add("active");
+              } else {
+                indicator.classList.remove("active");
+              }
+            });
+          },
+        });
+        scrollTriggersRef.current.push(featuredTrigger);
+      };
+
+      initFeaturedWork();
     }
 
     // Services Sticky Cards
-    if (!prefersReducedMotion) {
+    if (!prefersReducedMotion && !isMobile) {
       const services = gsap.utils.toArray(".service-card");
       services.forEach((service, index) => {
         const isLastServiceCard = index === services.length - 1;
         const serviceCardInner = (service as Element).querySelector(".service-card-inner");
 
         if (!isLastServiceCard && serviceCardInner) {
-          ScrollTrigger.create({
+          const pinTrigger = ScrollTrigger.create({
             trigger: service as Element,
             start: "top 45%",
             endTrigger: ".contact-cta",
@@ -253,8 +335,9 @@ export default function Home() {
             pin: true,
             pinSpacing: false,
           });
+          scrollTriggersRef.current.push(pinTrigger);
 
-          gsap.to(serviceCardInner, {
+          const scrollAnim = gsap.to(serviceCardInner, {
             y: `-${(services.length - index) * 14}vh`,
             ease: "none",
             scrollTrigger: {
@@ -265,13 +348,16 @@ export default function Home() {
               scrub: true,
             },
           });
+          if (scrollAnim.scrollTrigger) {
+            scrollTriggersRef.current.push(scrollAnim.scrollTrigger);
+          }
         }
       });
     }
 
     // About Portrait Animation (desktop only)
-    if (window.innerWidth > 1000) {
-      gsap.to(".about-hero-portrait", {
+    if (!isMobile && !prefersReducedMotion) {
+      const aboutAnim = gsap.to(".about-hero-portrait", {
         y: -200,
         rotation: -25,
         scrollTrigger: {
@@ -281,15 +367,16 @@ export default function Home() {
           scrub: 1,
         },
       });
+      if (aboutAnim.scrollTrigger) {
+        scrollTriggersRef.current.push(aboutAnim.scrollTrigger);
+      }
     }
 
     // Footer Explosion Animation
     const footer = document.querySelector("footer");
     const explosionContainer = document.querySelector(".explosion-container");
     
-    if (footer && explosionContainer && !prefersReducedMotion) {
-      let hasExploded = false;
-      
+    if (footer && explosionContainer && !prefersReducedMotion && !isMobile) {
       const config = {
         gravity: 0.25,
         friction: 0.99,
@@ -309,7 +396,7 @@ export default function Home() {
         "/images/UIUXdesign.jpg",
         "/images/AIintegration.png",
         "/images/about/portrait.jpg",
-        "/images/projects/zeridex.png"
+        "/images/projects/zeridex.png",
       ];
       
       // Preload images
@@ -329,7 +416,6 @@ export default function Home() {
           const particle = document.createElement("img");
           particle.src = path;
           particle.classList.add("explosion-particle-img");
-          // Position in center with slight offset for each particle
           const offsetX = (Math.random() - 0.5) * 50;
           const offsetY = (Math.random() - 0.5) * 50;
           particle.style.cssText = `
@@ -348,8 +434,8 @@ export default function Home() {
       };
       
       const explode = () => {
-        if (hasExploded) return;
-        hasExploded = true;
+        if (hasExplodedRef.current) return;
+        hasExplodedRef.current = true;
         
         createParticles();
         const particleElements = document.querySelectorAll(".explosion-particle-img");
@@ -359,13 +445,12 @@ export default function Home() {
         
         let animationId: number;
         let frameCount = 0;
-        const maxFrames = 300; // Maximum animation duration (~5 seconds at 60fps)
+        const maxFrames = 300;
         
         const animate = () => {
           particles.forEach((particle) => particle.update());
           frameCount++;
           
-          // Continue animation until all particles fall below container or max frames reached
           const allParticlesFallen = particles.every((particle) => 
             particle.y > (explosionContainer as HTMLElement).offsetHeight + 200
           );
@@ -374,7 +459,6 @@ export default function Home() {
             animationId = requestAnimationFrame(animate);
           } else {
             cancelAnimationFrame(animationId);
-            // Clean up particles after animation completes
             setTimeout(() => {
               explosionContainer.innerHTML = "";
             }, 100);
@@ -388,22 +472,23 @@ export default function Home() {
         const viewportHeight = window.innerHeight;
         
         if (footerRect.top > viewportHeight + 100) {
-          hasExploded = false;
+          hasExplodedRef.current = false;
         }
         
-        if (!hasExploded && footerRect.top <= viewportHeight + 250) {
+        if (!hasExplodedRef.current && footerRect.top <= viewportHeight + 250) {
           explode();
         }
       };
       
       let checkTimeout: NodeJS.Timeout;
-      window.addEventListener("scroll", () => {
+      const handleScroll = () => {
         clearTimeout(checkTimeout);
         checkTimeout = setTimeout(checkFooterPosition, 5);
-      });
+      };
       
+      window.addEventListener("scroll", handleScroll);
       window.addEventListener("resize", () => {
-        hasExploded = false;
+        hasExplodedRef.current = false;
       });
       
       createParticles();
@@ -412,10 +497,23 @@ export default function Home() {
 
     // Cleanup
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-      if (imageInterval) clearInterval(imageInterval);
+      clearAllScrollTriggers();
+      if (imageIntervalRef.current) clearInterval(imageIntervalRef.current);
     };
-  }, []);
+  }, [clearAllScrollTriggers]);
+
+  const handleContactClick = () => {
+    gsap.set(".transition-overlay", { scaleY: 0, transformOrigin: "bottom" });
+    gsap.to(".transition-overlay", {
+      scaleY: 1,
+      duration: 0.6,
+      stagger: 0.1,
+      ease: "power2.inOut",
+      onComplete: () => {
+        window.location.href = "/contact";
+      }
+    });
+  };
 
   return (
     <>
@@ -530,13 +628,11 @@ export default function Home() {
         {/* Hero Image Holder */}
         <section className="hero-img-holder">
           <div className="hero-img" style={{ transform: "translateY(-110%) scale(0.25) rotate(-15deg)" }}>
-            <NextImage 
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img 
               src="/images/projects/zeridex.png" 
               alt="Portfolio Preview"
-              fill
-              style={{ objectFit: "contain", padding: "2em" }}
-              sizes="(max-width: 768px) 100vw, 50vw"
-              priority
+              style={{ width: "100%", height: "100%", objectFit: "cover", padding: "2em" }}
             />
           </div>
         </section>
@@ -570,31 +666,14 @@ export default function Home() {
 
         {/* Featured Work */}
         <section className="featured-work">
-          <div className="featured-images">
-            {[
-              { src: "/images/projects/zeridex.png", alt: "Zeridex" },
-              { src: "/images/projects/academicexpert.png", alt: "Academic Expert" },
-              { src: "/images/projects/academicseva.png", alt: "Academic Seva" },
-              { src: "/images/projects/lango.png", alt: "Lango" }
-            ].map((project, index) => (
-              <div key={index} className={`featured-img-card featured-img-card-${index + 1}`}>
-                <NextImage 
-                  src={project.src} 
-                  alt={project.alt}
-                  fill
-                  style={{ objectFit: "contain", padding: "1em" }}
-                  sizes="300px"
-                />
-              </div>
-            ))}
-          </div>
+          <div className="featured-images"></div>
           <div className="featured-titles">
             <div className="featured-title-wrapper">
               <h1 className="featured-title">Featured Projects</h1>
             </div>
             <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
-                <NextImage src="/images/projects/zeridex.png" alt="Zeridex" fill style={{ objectFit: "contain", padding: "0.5em" }} sizes="150px" />
+                <NextImage src="/images/projects/zeridex.png" alt="Zeridex" fill style={{ objectFit: "cover" }} sizes="150px" />
               </div>
               <h1 className="featured-title">
                 <a href="https://zeridex.space" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Zeridex</a>
@@ -602,7 +681,7 @@ export default function Home() {
             </div>
             <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
-                <NextImage src="/images/projects/academicexpert.png" alt="Academic Expert" fill style={{ objectFit: "contain", padding: "0.5em" }} sizes="150px" />
+                <NextImage src="/images/projects/academicexpert.png" alt="Academic Expert" fill style={{ objectFit: "cover" }} sizes="150px" />
               </div>
               <h1 className="featured-title">
                 <a href="https://academicexpert.in" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Academic Expert</a>
@@ -610,7 +689,7 @@ export default function Home() {
             </div>
             <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
-                <NextImage src="/images/projects/academicseva.png" alt="Academic Seva" fill style={{ objectFit: "contain", padding: "0.5em" }} sizes="150px" />
+                <NextImage src="/images/projects/academicseva.png" alt="Academic Seva" fill style={{ objectFit: "cover" }} sizes="150px" />
               </div>
               <h1 className="featured-title">
                 <a href="https://academicseva.org" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Academic Seva</a>
@@ -618,7 +697,7 @@ export default function Home() {
             </div>
             <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
-                <NextImage src="/images/projects/lango.png" alt="Lango" fill style={{ objectFit: "contain", padding: "0.5em" }} sizes="150px" />
+                <NextImage src="/images/projects/lango.png" alt="Lango" fill style={{ objectFit: "cover" }} sizes="150px" />
               </div>
               <h1 className="featured-title">
                 <a href="https://langoleaf.com" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Lango</a>
@@ -718,19 +797,7 @@ export default function Home() {
         <section className="contact-cta">
           <button 
             className="contact-button cursor-target"
-            onClick={() => {
-              // Animate transition out before navigating
-              gsap.set(".transition-overlay", { scaleY: 0, transformOrigin: "bottom" });
-              gsap.to(".transition-overlay", {
-                scaleY: 1,
-                duration: 0.6,
-                stagger: 0.1,
-                ease: "power2.inOut",
-                onComplete: () => {
-                  window.location.href = "/contact";
-                }
-              });
-            }}
+            onClick={handleContactClick}
           >
             <div className="contact-text-small">
               <p>Let&apos;s build something amazing together</p>

@@ -584,6 +584,10 @@ nav .menu-toggle-btn-wrapper p {
   opacity: 1;
 }
 
+.featured-work .featured-work-indicator .indicator.active {
+  opacity: 1;
+}
+
 .featured-work .featured-work-footer {
   position: absolute;
   bottom: 0;
