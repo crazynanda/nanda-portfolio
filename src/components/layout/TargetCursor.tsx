@@ -25,33 +25,35 @@ export default function TargetCursor({
 
   const INTERACTIVE_SELECTORS = 'a, button, input, textarea, select, [role="button"], .cursor-target, .featured-title-wrapper';
 
-  // Check what element is under the cursor
-  const checkElementUnderCursor = useCallback(() => {
-    if (!mousePosRef.current.x && !mousePosRef.current.y) return;
+  // Define handlers first to avoid reference issues
+  const handleMouseLeave = useCallback(() => {
+    isHoveringRef.current = false;
+    currentTargetRef.current = null;
 
-    const elementUnderCursor = document.elementFromPoint(
-      mousePosRef.current.x,
-      mousePosRef.current.y
-    );
+    if (!cursorRef.current || !cornersContainerRef.current) return;
 
-    if (!elementUnderCursor) {
-      if (isHoveringRef.current) {
-        handleMouseLeave();
-      }
-      return;
+    // Resume spinning
+    spinTl.current?.resume();
+
+    // Reset corners container to center
+    gsap.to(cornersContainerRef.current, {
+      x: 0,
+      y: 0,
+      width: 40,
+      height: 40,
+      rotation: 0,
+      duration: hoverDuration,
+      ease: "power2.out",
+    });
+
+    // Reset dot
+    if (dotRef.current) {
+      gsap.to(dotRef.current, {
+        scale: 1,
+        duration: 0.2,
+      });
     }
-
-    const target = elementUnderCursor.closest(INTERACTIVE_SELECTORS) as HTMLElement;
-
-    if (target && !isHoveringRef.current) {
-      handleMouseEnter(target);
-    } else if (!target && isHoveringRef.current) {
-      handleMouseLeave();
-    } else if (target && isHoveringRef.current && target !== currentTargetRef.current) {
-      handleMouseLeave();
-      handleMouseEnter(target);
-    }
-  }, []);
+  }, [hoverDuration]);
 
   const handleMouseEnter = useCallback((target: HTMLElement) => {
     if (!target || !cursorRef.current || !cornersContainerRef.current) return;
@@ -94,34 +96,33 @@ export default function TargetCursor({
     }
   }, [hoverDuration]);
 
-  const handleMouseLeave = useCallback(() => {
-    isHoveringRef.current = false;
-    currentTargetRef.current = null;
+  // Check what element is under the cursor
+  const checkElementUnderCursor = useCallback(() => {
+    if (!mousePosRef.current.x && !mousePosRef.current.y) return;
 
-    if (!cursorRef.current || !cornersContainerRef.current) return;
+    const elementUnderCursor = document.elementFromPoint(
+      mousePosRef.current.x,
+      mousePosRef.current.y
+    );
 
-    // Resume spinning
-    spinTl.current?.resume();
-
-    // Reset corners container to center
-    gsap.to(cornersContainerRef.current, {
-      x: 0,
-      y: 0,
-      width: 40,
-      height: 40,
-      rotation: 0,
-      duration: hoverDuration,
-      ease: "power2.out",
-    });
-
-    // Reset dot
-    if (dotRef.current) {
-      gsap.to(dotRef.current, {
-        scale: 1,
-        duration: 0.2,
-      });
+    if (!elementUnderCursor) {
+      if (isHoveringRef.current) {
+        handleMouseLeave();
+      }
+      return;
     }
-  }, [hoverDuration]);
+
+    const target = elementUnderCursor.closest(INTERACTIVE_SELECTORS) as HTMLElement;
+
+    if (target && !isHoveringRef.current) {
+      handleMouseEnter(target);
+    } else if (!target && isHoveringRef.current) {
+      handleMouseLeave();
+    } else if (target && isHoveringRef.current && target !== currentTargetRef.current) {
+      handleMouseLeave();
+      handleMouseEnter(target);
+    }
+  }, [handleMouseEnter, handleMouseLeave]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -253,7 +254,7 @@ export default function TargetCursor({
       const style = document.getElementById("cursor-hide-style");
       if (style) style.remove();
     };
-  }, [hideDefaultCursor, spinDuration, checkElementUnderCursor, hoverDuration]);
+  }, [hideDefaultCursor, spinDuration, hoverDuration, checkElementUnderCursor]);
 
   return (
     <div
