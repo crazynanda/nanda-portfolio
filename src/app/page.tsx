@@ -141,29 +141,34 @@ export default function Home() {
     }
 
     // Hero Image Cycling Animation (every 250ms)
-    const heroImg = document.querySelector(".hero-img img") as HTMLImageElement;
-    if (heroImg && !prefersReducedMotion) {
-      const heroImages = [
-        "/images/projects/zeridex.png",
-        "/images/projects/academicexpert.png",
-        "/images/projects/academicseva.png",
-        "/images/projects/lango.png",
-        "/images/projects/zeridex.png",
-        "/images/projects/academicexpert.png",
-        "/images/projects/academicseva.png",
-        "/images/projects/lango.png",
-        "/images/frontend.jpg",
-        "/images/backend.jpg",
-      ];
-      let currentImageIndex = 0;
+    // Small delay to ensure DOM is ready
+    setTimeout(() => {
+      const heroImg = document.querySelector(".hero-img img") as HTMLImageElement;
+      console.log("Hero img element:", heroImg);
       
-      imageIntervalRef.current = setInterval(() => {
-        currentImageIndex = currentImageIndex >= heroImages.length - 1 ? 0 : currentImageIndex + 1;
-        if (heroImg) {
-          heroImg.src = heroImages[currentImageIndex];
-        }
-      }, 250);
-    }
+      if (heroImg && !prefersReducedMotion) {
+        const heroImages = [
+          "/images/projects/zeridex.png",
+          "/images/projects/academicexpert.png",
+          "/images/projects/academicseva.png",
+          "/images/projects/lango.png",
+          "/images/frontend.jpg",
+          "/images/backend.jpg",
+          "/images/UIUXdesign.jpg",
+          "/images/AIintegration.png",
+          "/images/about/portrait.jpg",
+          "/images/projects/zeridex.png",
+        ];
+        let currentImageIndex = 0;
+        
+        imageIntervalRef.current = setInterval(() => {
+          currentImageIndex = currentImageIndex >= heroImages.length - 1 ? 0 : currentImageIndex + 1;
+          if (heroImg) {
+            heroImg.src = heroImages[currentImageIndex];
+          }
+        }, 250);
+      }
+    }, 100);
 
     // Hero Image Scroll Animation
     if (!prefersReducedMotion) {
