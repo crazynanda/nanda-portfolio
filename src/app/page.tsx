@@ -172,35 +172,46 @@ export default function Home() {
       }
     }, 100);
 
-    // Hero Image Scroll Animation - Move from top to bottom while scrolling
-    if (!prefersReducedMotion) {
-      const heroImgHolder = document.querySelector(".hero-img-holder") as HTMLElement;
-      const heroImg = document.querySelector(".hero-img") as HTMLElement;
-      
-      if (heroImgHolder && heroImg) {
-        // Set initial position
-        gsap.set(heroImgHolder, { y: 0 });
-        
-        const heroScrollTrigger = ScrollTrigger.create({
-          trigger: ".hero",
-          start: "top top",
-          end: "bottom top",
-          scrub: 1,
-          onUpdate: (self) => {
-            // Move the entire hero-img-holder down as we scroll
-            const yPos = self.progress * (window.innerHeight * 0.5);
-            heroImgHolder.style.transform = `translateY(${yPos}px)`;
-            
-            // Animate the inner hero-img element
-            gsap.set(heroImg, {
-              y: `${-110 + 110 * self.progress}%`,
-              scale: 0.25 + 0.75 * self.progress,
-              rotation: -15 + 15 * self.progress,
-            });
-          },
-        });
-        scrollTriggersRef.current.push(heroScrollTrigger);
+    // Hero Image Scroll Animation - Reference implementation
+    let heroScrollTrigger: ScrollTrigger | null = null;
+    
+    const initHeroAnimations = () => {
+      // Kill existing ScrollTrigger instance to prevent duplicates
+      if (heroScrollTrigger) {
+        heroScrollTrigger.kill();
       }
+
+      // Set initial state
+      gsap.set(".hero-img", {
+        y: "-110%",
+        scale: 0.25,
+        rotation: -15,
+      });
+
+      // Create new ScrollTrigger instance - exactly like reference
+      heroScrollTrigger = ScrollTrigger.create({
+        trigger: ".hero-img-holder",
+        start: "top bottom",
+        end: "top top",
+        onUpdate: (self) => {
+          const progress = self.progress;
+          // Animate hero image properties based on scroll progress
+          gsap.set(".hero-img", {
+            y: `${-110 + 110 * progress}%`,
+            scale: 0.25 + 0.75 * progress,
+            rotation: -15 + 15 * progress,
+          });
+        },
+      });
+      scrollTriggersRef.current.push(heroScrollTrigger);
+    };
+
+    // Run animations on page load
+    if (!prefersReducedMotion) {
+      initHeroAnimations();
+
+      // Re-run animations on window resize
+      window.addEventListener("resize", initHeroAnimations);
     }
 
     // Featured Work Section - 10 Cards with 3D Animation
@@ -647,7 +658,7 @@ export default function Home() {
 
         {/* Hero Image Holder */}
         <section className="hero-img-holder">
-          <div className="hero-img" style={{ transform: "translateY(-110%) scale(0.25) rotate(-15deg)" }}>
+          <div className="hero-img">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src="/images/projects/zeridex.png" 
