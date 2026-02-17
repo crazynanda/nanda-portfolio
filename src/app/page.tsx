@@ -646,7 +646,6 @@ export default function Home() {
             <img 
               src="/images/projects/zeridex.png" 
               alt="Portfolio Preview"
-              style={{ width: "100%", height: "100%", objectFit: "cover", padding: "2em" }}
             />
           </div>
         </section>
@@ -672,7 +671,7 @@ export default function Home() {
               src="/images/about/portrait.jpg" 
               alt="Nanda Kumar Portrait"
               fill
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: "contain" }}
               sizes="(max-width: 768px) 100vw, 35vw"
             />
           </div>
@@ -687,7 +686,7 @@ export default function Home() {
             </div>
             <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
-                <NextImage src="/images/projects/zeridex.png" alt="Zeridex" fill style={{ objectFit: "cover" }} sizes="150px" />
+                <NextImage src="/images/projects/zeridex.png" alt="Zeridex" fill style={{ objectFit: "contain" }} sizes="150px" />
               </div>
               <h1 className="featured-title">
                 <a href="https://zeridex.space" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Zeridex</a>
@@ -695,7 +694,7 @@ export default function Home() {
             </div>
             <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
-                <NextImage src="/images/projects/academicexpert.png" alt="Academic Expert" fill style={{ objectFit: "cover" }} sizes="150px" />
+                <NextImage src="/images/projects/academicexpert.png" alt="Academic Expert" fill style={{ objectFit: "contain" }} sizes="150px" />
               </div>
               <h1 className="featured-title">
                 <a href="https://academicexpert.in" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Academic Expert</a>
@@ -703,7 +702,7 @@ export default function Home() {
             </div>
             <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
-                <NextImage src="/images/projects/academicseva.png" alt="Academic Seva" fill style={{ objectFit: "cover" }} sizes="150px" />
+                <NextImage src="/images/projects/academicseva.png" alt="Academic Seva" fill style={{ objectFit: "contain" }} sizes="150px" />
               </div>
               <h1 className="featured-title">
                 <a href="https://academicseva.org" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Academic Seva</a>
@@ -711,7 +710,7 @@ export default function Home() {
             </div>
             <div className="featured-title-wrapper cursor-target">
               <div className="featured-title-img">
-                <NextImage src="/images/projects/lango.png" alt="Lango" fill style={{ objectFit: "cover" }} sizes="150px" />
+                <NextImage src="/images/projects/lango.png" alt="Lango" fill style={{ objectFit: "contain" }} sizes="150px" />
               </div>
               <h1 className="featured-title">
                 <a href="https://langoleaf.com" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Lango</a>
@@ -759,7 +758,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="service-card-img">
-                <NextImage src="/images/frontend.jpg" alt="Frontend Development" fill style={{ objectFit: "cover" }} sizes="(max-width: 768px) 100vw, 50vw" />
+                <NextImage src="/images/frontend.jpg" alt="Frontend Development" fill style={{ objectFit: "contain" }} sizes="(max-width: 768px) 100vw, 50vw" />
               </div>
             </div>
           </div>
@@ -773,7 +772,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="service-card-img">
-                <NextImage src="/images/backend.jpg" alt="Backend Development" fill style={{ objectFit: "cover" }} sizes="(max-width: 768px) 100vw, 50vw" />
+                <NextImage src="/images/backend.jpg" alt="Backend Development" fill style={{ objectFit: "contain" }} sizes="(max-width: 768px) 100vw, 50vw" />
               </div>
             </div>
           </div>
@@ -787,7 +786,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="service-card-img">
-                <NextImage src="/images/UIUXdesign.jpg" alt="UI/UX Design" fill style={{ objectFit: "cover" }} sizes="(max-width: 768px) 100vw, 50vw" />
+                <NextImage src="/images/UIUXdesign.jpg" alt="UI/UX Design" fill style={{ objectFit: "contain" }} sizes="(max-width: 768px) 100vw, 50vw" />
               </div>
             </div>
           </div>
@@ -801,7 +800,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="service-card-img">
-                <NextImage src="/images/AIintegration.png" alt="AI Integration" fill style={{ objectFit: "cover" }} sizes="(max-width: 768px) 100vw, 50vw" />
+                <NextImage src="/images/AIintegration.png" alt="AI Integration" fill style={{ objectFit: "contain" }} sizes="(max-width: 768px) 100vw, 50vw" />
               </div>
             </div>
           </div>
