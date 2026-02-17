@@ -144,11 +144,9 @@ export default function Home() {
       });
     }
 
-    // Hero Image Cycling Animation (every 250ms)
-    // Small delay to ensure DOM is ready
+    // Hero Image Cycling Animation (every 250ms) - Only project images
     setTimeout(() => {
       const heroImg = document.querySelector(".hero-img img") as HTMLImageElement;
-      console.log("Hero img element:", heroImg);
       
       if (heroImg && !prefersReducedMotion) {
         const heroImages = [
@@ -156,12 +154,12 @@ export default function Home() {
           "/images/projects/academicexpert.png",
           "/images/projects/academicseva.png",
           "/images/projects/lango.png",
-          "/images/frontend.jpg",
-          "/images/backend.jpg",
-          "/images/UIUXdesign.jpg",
-          "/images/AIintegration.png",
-          "/images/about/portrait.jpg",
           "/images/projects/zeridex.png",
+          "/images/projects/academicexpert.png",
+          "/images/projects/academicseva.png",
+          "/images/projects/lango.png",
+          "/images/projects/zeridex.png",
+          "/images/projects/academicexpert.png",
         ];
         let currentImageIndex = 0;
         
@@ -174,22 +172,35 @@ export default function Home() {
       }
     }, 100);
 
-    // Hero Image Scroll Animation
+    // Hero Image Scroll Animation - Pin and move from top to bottom
     if (!prefersReducedMotion) {
-      const heroTrigger = ScrollTrigger.create({
-        trigger: ".hero-img-holder",
-        start: "top bottom",
-        end: "top top",
-        onUpdate: (self) => {
-          const progress = self.progress;
-          gsap.set(".hero-img", {
-            y: `${-110 + 110 * progress}%`,
-            scale: 0.25 + 0.75 * progress,
-            rotation: -15 + 15 * progress,
-          });
-        },
-      });
-      scrollTriggersRef.current.push(heroTrigger);
+      const heroSection = document.querySelector(".hero-img-holder");
+      if (heroSection) {
+        const heroTrigger = ScrollTrigger.create({
+          trigger: ".hero",
+          start: "top top",
+          end: "bottom top",
+          pin: ".hero-img-holder",
+          pinSpacing: false,
+          scrub: 1,
+        });
+        scrollTriggersRef.current.push(heroTrigger);
+
+        // Also animate the hero-img inner element
+        const heroImgAnim = ScrollTrigger.create({
+          trigger: ".hero",
+          start: "top top",
+          end: "bottom top",
+          onUpdate: (self) => {
+            gsap.set(".hero-img", {
+              y: `${-110 + 110 * self.progress}%`,
+              scale: 0.25 + 0.75 * self.progress,
+              rotation: -15 + 15 * self.progress,
+            });
+          },
+        });
+        scrollTriggersRef.current.push(heroImgAnim);
+      }
     }
 
     // Featured Work Section - 10 Cards with 3D Animation
