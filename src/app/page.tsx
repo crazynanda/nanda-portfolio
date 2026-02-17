@@ -174,28 +174,33 @@ export default function Home() {
 
     // Hero Image Scroll Animation - Move from top to bottom while scrolling
     if (!prefersReducedMotion) {
-      // Animate hero-img-holder to move down as user scrolls
-      const heroScrollTrigger = ScrollTrigger.create({
-        trigger: ".hero",
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-        onUpdate: (self) => {
-          const heroImgHolder = document.querySelector(".hero-img-holder") as HTMLElement;
-          if (heroImgHolder) {
-            // Move from 0 to 50% of viewport height
-            const yPos = self.progress * window.innerHeight * 0.5;
-            gsap.set(heroImgHolder, { y: yPos });
-          }
-          // Also animate the hero-img inner element
-          gsap.set(".hero-img", {
-            y: `${-110 + 110 * self.progress}%`,
-            scale: 0.25 + 0.75 * self.progress,
-            rotation: -15 + 15 * self.progress,
-          });
-        },
-      });
-      scrollTriggersRef.current.push(heroScrollTrigger);
+      const heroImgHolder = document.querySelector(".hero-img-holder") as HTMLElement;
+      const heroImg = document.querySelector(".hero-img") as HTMLElement;
+      
+      if (heroImgHolder && heroImg) {
+        // Set initial position
+        gsap.set(heroImgHolder, { y: 0 });
+        
+        const heroScrollTrigger = ScrollTrigger.create({
+          trigger: ".hero",
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+          onUpdate: (self) => {
+            // Move the entire hero-img-holder down as we scroll
+            const yPos = self.progress * (window.innerHeight * 0.5);
+            heroImgHolder.style.transform = `translateY(${yPos}px)`;
+            
+            // Animate the inner hero-img element
+            gsap.set(heroImg, {
+              y: `${-110 + 110 * self.progress}%`,
+              scale: 0.25 + 0.75 * self.progress,
+              rotation: -15 + 15 * self.progress,
+            });
+          },
+        });
+        scrollTriggersRef.current.push(heroScrollTrigger);
+      }
     }
 
     // Featured Work Section - 10 Cards with 3D Animation
