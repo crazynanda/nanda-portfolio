@@ -173,46 +173,29 @@ export default function Home() {
     }, 100);
 
     // Hero Image Scroll Animation - Reference implementation
-    let heroScrollTrigger: ScrollTrigger | null = null;
-    
-    const initHeroAnimations = () => {
-      // Kill existing ScrollTrigger instance to prevent duplicates
-      if (heroScrollTrigger) {
-        heroScrollTrigger.kill();
-      }
+    // Set initial state immediately
+    gsap.set(".hero-img", {
+      y: "-110%",
+      scale: 0.25,
+      rotation: -15,
+    });
 
-      // Set initial state
-      gsap.set(".hero-img", {
-        y: "-110%",
-        scale: 0.25,
-        rotation: -15,
-      });
-
-      // Create new ScrollTrigger instance - exactly like reference
-      heroScrollTrigger = ScrollTrigger.create({
-        trigger: ".hero-img-holder",
-        start: "top bottom",
-        end: "top top",
-        onUpdate: (self) => {
-          const progress = self.progress;
-          // Animate hero image properties based on scroll progress
-          gsap.set(".hero-img", {
-            y: `${-110 + 110 * progress}%`,
-            scale: 0.25 + 0.75 * progress,
-            rotation: -15 + 15 * progress,
-          });
-        },
-      });
-      scrollTriggersRef.current.push(heroScrollTrigger);
-    };
-
-    // Run animations on page load
-    if (!prefersReducedMotion) {
-      initHeroAnimations();
-
-      // Re-run animations on window resize
-      window.addEventListener("resize", initHeroAnimations);
-    }
+    // Create ScrollTrigger instance - separate from others so it won't be cleared
+    const heroScrollTrigger = ScrollTrigger.create({
+      trigger: ".hero-img-holder",
+      start: "top bottom",
+      end: "top top",
+      onUpdate: (self) => {
+        const progress = self.progress;
+        // Animate hero image properties based on scroll progress
+        gsap.set(".hero-img", {
+          y: `${-110 + 110 * progress}%`,
+          scale: 0.25 + 0.75 * progress,
+          rotation: -15 + 15 * progress,
+        });
+      },
+    });
+    // Don't add to scrollTriggersRef so it won't be cleared by featured work
 
     // Featured Work Section - 10 Cards with 3D Animation
     if (!prefersReducedMotion && !isSmallMobile) {
