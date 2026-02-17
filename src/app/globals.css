@@ -450,6 +450,17 @@ nav .menu-toggle-btn-wrapper p {
   border: 0.3em solid var(--fg);
   border-radius: 2em;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-img-holder .hero-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  padding: 1.5em;
 }
 
 /* About Hero */
@@ -503,6 +514,13 @@ nav .menu-toggle-btn-wrapper p {
   overflow: hidden;
 }
 
+.about-hero .about-hero-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
 /* Featured Work */
 .featured-work {
   position: relative;
@@ -539,6 +557,14 @@ nav .menu-toggle-btn-wrapper p {
   margin-bottom: 1em;
 }
 
+.featured-title-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  padding: 0.5em;
+}
+
 .featured-work .featured-title-wrapper h1 {
   text-align: center;
   transform: translateY(-0.5em);
@@ -564,6 +590,17 @@ nav .menu-toggle-btn-wrapper p {
   border-radius: 2em;
   overflow: hidden;
   border: 0.2em solid var(--fg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.featured-work .featured-img-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  padding: 1em;
 }
 
 .featured-work .featured-work-indicator {
@@ -692,6 +729,14 @@ nav .menu-toggle-btn-wrapper p {
   border-radius: 2em;
   overflow: hidden;
   border: 0.2em solid var(--fg);
+  position: relative;
+}
+
+.services .service-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
 }
 
 .services #service-card-1 .service-card-inner {
