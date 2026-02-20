@@ -236,11 +236,19 @@ export default function Contact() {
               </div>
               <div className="contact-info-item">
                 <p className="label">Quick Chat</p>
-                <p className="cursor-target">
-                  <a href="https://x.com/nandablr242" target="_blank" rel="noopener noreferrer">
-                    @nandablr242
-                  </a>
-                </p>
+                <div className="quick-chat-links">
+                  <p className="cursor-target">
+                    <a href="https://wa.me/918073607257" target="_blank" rel="noopener noreferrer">
+                      WhatsApp
+                    </a>
+                  </p>
+                  <span className="separator">|</span>
+                  <p className="cursor-target">
+                    <a href="https://www.instagram.com/nandakumar4699/" target="_blank" rel="noopener noreferrer">
+                      Instagram
+                    </a>
+                  </p>
+                </div>
               </div>
             </div>
           </div>

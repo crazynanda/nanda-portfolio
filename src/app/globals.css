@@ -1317,6 +1317,23 @@ footer {
   transform: translateX(8px);
 }
 
+.contact-info-item .quick-chat-links {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+}
+
+.contact-info-item .quick-chat-links .separator {
+  font-family: "Osiris", Arial, sans-serif;
+  font-size: 0.75rem;
+  color: var(--fg);
+  opacity: 0.5;
+}
+
+.contact-info-item .quick-chat-links p {
+  margin: 0;
+}
+
 .contact-form-container {
   background-color: var(--bg2);
   border: 2px solid var(--fg);
