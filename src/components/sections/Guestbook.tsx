@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Send } from "lucide-react";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 interface GuestbookEntry {
   _id: string;
@@ -28,50 +29,76 @@ const sampleEntries: GuestbookEntry[] = [
   },
 ];
 
+// Generate a simple client identifier for rate limiting
+const getClientIdentifier = (): string => {
+  if (typeof window === "undefined") return "server";
+  
+  // Try to get existing identifier from sessionStorage
+  let identifier = sessionStorage.getItem("guestbook_client_id");
+  if (!identifier) {
+    // Generate a simple identifier based on browser fingerprint
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    let fingerprint = "";
+    
+    if (ctx) {
+      ctx.textBaseline = "top";
+      ctx.font = "14px Arial";
+      ctx.fillText("fingerprint", 2, 2);
+      fingerprint = canvas.toDataURL().slice(-50);
+    }
+    
+    identifier = `${navigator.userAgent.length}-${screen.width}x${screen.height}-${fingerprint}`;
+    sessionStorage.setItem("guestbook_client_id", identifier);
+  }
+  
+  return identifier;
+};
+
 export default function Guestbook() {
-  const [entries, setEntries] = useState<GuestbookEntry[]>([]);
   const [formData, setFormData] = useState({ name: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
-    const stored = localStorage.getItem("nanda-portfolio-guestbook");
-    if (stored) {
-      try {
-        setEntries(JSON.parse(stored));
-      } catch {
-        setEntries(sampleEntries);
-      }
-    } else {
-      setEntries(sampleEntries);
-    }
-    setIsLoaded(true);
-  }, []);
+  // Fetch entries from Convex
+  const convexEntries = useQuery(api.guestbook.getEntries);
+  
+  // Mutation for adding entries
+  const addEntry = useMutation(api.guestbook.addEntry);
+
+  // Use Convex entries if available, otherwise fall back to sample
+  const entries: GuestbookEntry[] = convexEntries && convexEntries.length > 0 
+    ? convexEntries as GuestbookEntry[]
+    : sampleEntries;
 
   useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem("nanda-portfolio-guestbook", JSON.stringify(entries));
-    }
-  }, [entries, isLoaded]);
+    setIsLoaded(true);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.message.trim()) return;
 
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setError(null);
 
-    const newEntry: GuestbookEntry = {
-      _id: Date.now().toString(),
-      _creationTime: Date.now(),
-      name: formData.name.trim(),
-      message: formData.message.trim(),
-      timestamp: Date.now(),
-    };
-
-    setEntries([newEntry, ...entries]);
-    setFormData({ name: "", message: "" });
-    setIsSubmitting(false);
+    try {
+      await addEntry({
+        name: formData.name.trim(),
+        message: formData.message.trim(),
+        clientIdentifier: getClientIdentifier(),
+      });
+      
+      setFormData({ name: "", message: "" });
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to submit. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const formatDate = (timestamp: number) => {
@@ -117,6 +144,7 @@ export default function Guestbook() {
                   placeholder="John Doe"
                   className="w-full px-3 py-2 border border-gray-300 rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
+                  maxLength={100}
                 />
               </div>
               <div>
@@ -128,16 +156,21 @@ export default function Guestbook() {
                   placeholder="Great portfolio!"
                   className="w-full px-3 py-2 border border-gray-300 rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
+                  maxLength={500}
                 />
               </div>
             </div>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
-            >
-              {isSubmitting ? "Sending..." : "Sign Guestbook"}
-            </button>
+            <div className="flex items-center gap-4">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+              >
+                {isSubmitting ? "Sending..." : "Sign Guestbook"}
+              </button>
+              {error && <span className="text-red-500 text-sm">{error}</span>}
+              {success && <span className="text-green-500 text-sm">Message sent!</span>}
+            </div>
           </form>
         </div>
 
