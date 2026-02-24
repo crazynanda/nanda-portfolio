@@ -67,6 +67,10 @@ const DefaultTheme: FC<Props> = ({ onThemeToggle }) => {
   }, []);
 
   useEffect(() => {
+    // Cleanup fun-theme classes when default theme renders
+    document.documentElement.classList.remove("fun-theme-scroll");
+    document.body.classList.remove("fun-theme-body");
+
     if (typeof window !== "undefined") {
       window.scrollTo(0, 0);
       document.body.scrollTop = 0;

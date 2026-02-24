@@ -18,6 +18,10 @@ const FunPage = ({ onThemeToggle }: Props) => {
   }, [onThemeToggle]);
 
   useEffect(() => {
+    // Add fun-theme-scroll class to html for proper scrolling
+    document.documentElement.classList.add("fun-theme-scroll");
+    document.body.classList.add("fun-theme-body");
+
     const loader = document.getElementById("loader");
     const progressFill = document.getElementById("progress-fill");
     const checkpoints = document.querySelectorAll(".checkpoint");
@@ -57,6 +61,8 @@ const FunPage = ({ onThemeToggle }: Props) => {
     updateProgress();
 
     return () => {
+      document.documentElement.classList.remove("fun-theme-scroll");
+      document.body.classList.remove("fun-theme-body");
       window.removeEventListener("scroll", updateProgress);
     };
   }, []);
