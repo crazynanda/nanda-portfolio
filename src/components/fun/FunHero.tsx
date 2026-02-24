@@ -1,0 +1,183 @@
+"use client";
+
+import { type FC } from "react";
+import Link from "next/link";
+import Image from "next/image";
+
+interface Props {
+  onThemeToggle: () => void;
+}
+
+const FunHero: FC<Props> = ({ onThemeToggle }) => {
+  return (
+    <>
+      {/* Loading Screen */}
+      <div className="loader-overlay" id="loader">
+        <div className="loader-shapes">
+          <div className="loader-shape-svg loader-shape-1">
+            <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
+              <rect x="6" y="6" width="88" height="88" rx="8" fill="#66d9ef" stroke="#000" strokeWidth="4" />
+              <rect x="3" y="3" width="88" height="88" rx="8" fill="#66d9ef" stroke="#000" strokeWidth="4" />
+              <path d="M35 40 L20 50 L35 60" stroke="#000" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M65 40 L80 50 L65 60" stroke="#000" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+              <line x1="55" y1="35" x2="45" y2="65" stroke="#000" strokeWidth="5" strokeLinecap="round" />
+            </svg>
+          </div>
+          <div className="loader-shape-svg loader-shape-2">
+            <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
+              <rect x="6" y="6" width="88" height="88" rx="8" fill="#ffd93d" stroke="#000" strokeWidth="4" />
+              <rect x="3" y="3" width="88" height="88" rx="8" fill="#ffd93d" stroke="#000" strokeWidth="4" />
+              <path d="M25 35 L40 50 L25 65" stroke="#000" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+              <line x1="50" y1="65" x2="75" y2="65" stroke="#000" strokeWidth="5" strokeLinecap="round" />
+            </svg>
+          </div>
+          <div className="loader-shape-svg loader-shape-3">
+            <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
+              <rect x="6" y="6" width="88" height="88" rx="8" fill="#a8e6cf" stroke="#000" strokeWidth="4" />
+              <rect x="3" y="3" width="88" height="88" rx="8" fill="#a8e6cf" stroke="#000" strokeWidth="4" />
+              <rect x="20" y="20" width="60" height="60" rx="3" fill="#ffd93d" stroke="#000" strokeWidth="4" />
+              <rect x="30" y="20" width="40" height="20" fill="#66d9ef" stroke="#000" strokeWidth="3" />
+              <rect x="35" y="55" width="30" height="15" rx="2" fill="#000" />
+              <circle cx="50" cy="35" r="3" fill="#000" />
+            </svg>
+          </div>
+        </div>
+        <div className="loader-wrapper">
+          <div className="loader-letter">N</div>
+          <div className="loader-letter">K</div>
+        </div>
+        <div className="loader-progress-bar">
+          <div className="loader-progress-fill"></div>
+        </div>
+      </div>
+
+      {/* Progress Bar */}
+      <div className="progress-bar-container">
+        <div className="progress-bar-fill" id="progress-fill"></div>
+        <div className="progress-checkpoints">
+          <div className="checkpoint" data-section="hero">
+            <div className="checkpoint-dot"></div>
+          </div>
+          <div className="checkpoint" data-section="about">
+            <div className="checkpoint-dot"></div>
+          </div>
+          <div className="checkpoint" data-section="experience">
+            <div className="checkpoint-dot"></div>
+          </div>
+          <div className="checkpoint" data-section="skills">
+            <div className="checkpoint-dot"></div>
+          </div>
+          <div className="checkpoint" data-section="contact">
+            <div className="checkpoint-dot"></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Navbar */}
+      <nav className="navbar">
+        <div className="nav-content">
+          <Link href="/" className="nav-brand">NK</Link>
+          <div className="nav-right">
+            <Link href="#hero" className="nav-link">Home</Link>
+            <Link href="#about" className="nav-link">About</Link>
+            <Link href="#experience" className="nav-link">Journey</Link>
+            <Link href="#skills" className="nav-link">Skills</Link>
+            <Link href="#contact" className="nav-cta">Get in Touch!</Link>
+            <button className="theme-toggle-nav" onClick={onThemeToggle} aria-label="Toggle theme">
+              <i className="fas fa-palette"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="hero" id="hero">
+        <div className="hero-content">
+          <div className="hero-left">
+            <p className="hero-greeting">Hi there! 👋</p>
+            <h1 className="hero-name">I&apos;m Nanda Kumar.</h1>
+            <p className="hero-description">
+              Based in Bangalore, India, I&apos;m a Web Designer & Developer. 
+              I love to work with modern web technologies, creative interfaces, and AI-powered solutions. 
+              I&apos;m passionate about building award-worthy digital experiences.
+            </p>
+            <div className="hero-social">
+              <a href="https://github.com/crazynanda" target="_blank" rel="noopener noreferrer" className="social-btn">
+                <i className="fab fa-github"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/nanda-kumar-544500213/" target="_blank" rel="noopener noreferrer" className="social-btn">
+                <i className="fab fa-linkedin"></i>
+              </a>
+              <a href="https://x.com/nandablr242" target="_blank" rel="noopener noreferrer" className="social-btn">
+                <i className="fab fa-twitter"></i>
+              </a>
+            </div>
+            <div className="hero-cta-container">
+              <Link href="#contact" className="btn-cta">Get in Touch!</Link>
+            </div>
+          </div>
+          <div className="hero-right">
+            <div className="hero-image-wrapper">
+              <div className="tape-sticker"></div>
+              <Image 
+                src="/images/about/portrait.jpg" 
+                alt="Nanda Kumar" 
+                className="hero-photo"
+                width={400}
+                height={400}
+              />
+              <div className="deco-code">
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+                  <rect x="6" y="6" width="88" height="88" rx="8" fill="#66d9ef" stroke="#000" strokeWidth="4" />
+                  <rect x="3" y="3" width="88" height="88" rx="8" fill="#66d9ef" stroke="#000" strokeWidth="4" />
+                  <path d="M35 40 L20 50 L35 60" stroke="#000" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M65 40 L80 50 L65 60" stroke="#000" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+                  <line x1="55" y1="35" x2="45" y2="65" stroke="#000" strokeWidth="5" strokeLinecap="round" />
+                </svg>
+              </div>
+              <div className="deco-terminal">
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+                  <rect x="6" y="6" width="88" height="88" rx="8" fill="#ffd93d" stroke="#000" strokeWidth="4" />
+                  <rect x="3" y="3" width="88" height="88" rx="8" fill="#ffd93d" stroke="#000" strokeWidth="4" />
+                  <path d="M25 35 L40 50 L25 65" stroke="#000" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+                  <line x1="50" y1="65" x2="75" y2="65" stroke="#000" strokeWidth="5" strokeLinecap="round" />
+                </svg>
+              </div>
+              <div className="deco-floppy">
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+                  <rect x="6" y="6" width="88" height="88" rx="8" fill="#a8e6cf" stroke="#000" strokeWidth="4" />
+                  <rect x="3" y="3" width="88" height="88" rx="8" fill="#a8e6cf" stroke="#000" strokeWidth="4" />
+                  <rect x="20" y="20" width="60" height="60" rx="3" fill="#ffd93d" stroke="#000" strokeWidth="4" />
+                  <rect x="30" y="20" width="40" height="20" fill="#66d9ef" stroke="#000" strokeWidth="3" />
+                  <rect x="35" y="55" width="30" height="15" rx="2" fill="#000" />
+                  <circle cx="50" cy="35" r="3" fill="#000" />
+                </svg>
+              </div>
+              <div className="deco-label">Web Developer</div>
+            </div>
+          </div>
+        </div>
+        <div className="tech-badges">
+          <span className="tech-badge"><i className="fab fa-react"></i> React</span>
+          <span className="tech-badge"><i className="fab fa-node-js"></i> Node.js</span>
+          <span className="tech-badge"><i className="fab fa-js"></i> JavaScript</span>
+          <span className="tech-badge"><i className="fab fa-python"></i> Python</span>
+          <span className="tech-badge"><i className="fab fa-html5"></i> HTML</span>
+          <span className="tech-badge"><i className="fab fa-css3"></i> CSS</span>
+          <span className="tech-badge"><i className="fab fa-aws"></i> AWS</span>
+          <span className="tech-badge"><i className="fab fa-docker"></i> Docker</span>
+        </div>
+      </section>
+
+      {/* Paper Tear */}
+      <div className="paper-tear paper-tear-top">
+        <svg width="100%" height="30" viewBox="0 0 1440 30" preserveAspectRatio="none">
+          <path d="M0,0 L0,15 Q10,5 20,15 T40,15 Q50,5 60,15 T80,15 Q90,20 100,15 T120,15 Q130,10 140,15 T160,15 Q170,5 180,15 T200,15 Q210,20 220,15 T240,15 Q250,8 260,15 T280,15 Q290,18 300,15 T320,15 Q330,5 340,15 T360,15 Q370,12 380,15 T400,15 Q410,20 420,15 T440,15 Q450,6 460,15 T480,15 Q490,16 500,15 T520,15 Q530,8 540,15 T560,15 Q570,20 580,15 T600,15 Q610,10 620,15 T640,15 Q650,5 660,15 T680,15 Q690,18 700,15 T720,15 Q730,12 740,15 T760,15 Q770,7 780,15 T800,15 Q810,20 820,15 T840,15 Q850,9 860,15 T880,15 Q890,14 900,15 T920,15 Q930,6 940,15 T960,15 Q970,19 980,15 T1000,15 Q1010,11 1020,15 T1040,15 Q1050,5 1060,15 T1080,15 Q1090,17 1100,15 T1120,15 Q1130,8 1140,15 T1160,15 Q1170,13 1180,15 T1200,15 Q1210,20 1220,15 T1240,15 Q1250,7 1260,15 T1280,15 Q1290,16 1300,15 T1320,15 Q1330,10 1340,15 T1360,15 Q1370,5 1380,15 T1400,15 Q1410,18 1420,15 T1440,15 L1440,0 Z" fill="#ffffff" />
+          <path d="M0,30 L0,15 Q10,5 20,15 T40,15 Q50,5 60,15 T80,15 Q90,20 100,15 T120,15 Q130,10 140,15 T160,15 Q170,5 180,15 T200,15 Q210,20 220,15 T240,15 Q250,8 260,15 T280,15 Q290,18 300,15 T320,15 Q330,5 340,15 T360,15 Q370,12 380,15 T400,15 Q410,20 420,15 T440,15 Q450,6 460,15 T480,15 Q490,16 500,15 T520,15 Q530,8 540,15 T560,15 Q570,20 580,15 T600,15 Q610,10 620,15 T640,15 Q650,5 660,15 T680,15 Q690,18 700,15 T720,15 Q730,12 740,15 T760,15 Q770,7 780,15 T800,15 Q810,20 820,15 T840,15 Q850,9 860,15 T880,15 Q890,14 900,15 T920,15 Q930,6 940,15 T960,15 Q970,19 980,15 T1000,15 Q1010,11 1020,15 T1040,15 Q1050,5 1060,15 T1080,15 Q1090,17 1100,15 T1120,15 Q1130,8 1140,15 T1160,15 Q1170,13 1180,15 T1200,15 Q1210,20 1220,15 T1240,15 Q1250,7 1260,15 T1280,15 Q1290,16 1300,15 T1320,15 Q1330,10 1340,15 T1360,15 Q1370,5 1380,15 T1400,15 Q1410,18 1420,15 T1440,15 L1440,30 Z" fill="#d0d0d0" />
+        </svg>
+      </div>
+    </>
+  );
+};
+
+export default FunHero;

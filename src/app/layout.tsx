@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "@/styles/fun.css";
 import { Analytics } from "@vercel/analytics/next";
 import TargetCursor from "@/components/layout/TargetCursor";
 import LenisProvider from "@/components/layout/LenisProvider";
 import GoogleAnalytics from "@/components/layout/GoogleAnalytics";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 
 export const metadata: Metadata = {
   title: "Nanda Kumar | Portfolio",
@@ -65,18 +67,23 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Nanda Kumar" />
         <link rel="canonical" href="https://nandakumar.site" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet" />
       </head>
       <body className="custom-cursor-active">
         <GoogleAnalytics />
-        <LenisProvider>
-          <TargetCursor
-            spinDuration={2}
-            hideDefaultCursor
-            hoverDuration={0.2}
-          />
-          {children}
-          <Analytics />
-        </LenisProvider>
+        <ThemeProvider>
+          <LenisProvider>
+            <TargetCursor
+              spinDuration={2}
+              hideDefaultCursor
+              hoverDuration={0.2}
+            />
+            {children}
+            <Analytics />
+          </LenisProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
