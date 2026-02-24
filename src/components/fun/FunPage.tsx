@@ -22,6 +22,10 @@ const FunPage = ({ onThemeToggle }: Props) => {
     document.documentElement.classList.add("fun-theme-scroll");
     document.body.classList.add("fun-theme-body");
 
+    // Enable scrolling
+    document.body.style.overflow = "auto";
+    document.documentElement.style.overflow = "auto";
+
     const loader = document.getElementById("loader");
     const progressFill = document.getElementById("progress-fill");
     const checkpoints = document.querySelectorAll(".checkpoint");
@@ -35,7 +39,7 @@ const FunPage = ({ onThemeToggle }: Props) => {
     const updateProgress = () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollTop / docHeight) * 100;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       
       if (progressFill) {
         progressFill.style.width = `${progress}%`;
@@ -56,30 +60,48 @@ const FunPage = ({ onThemeToggle }: Props) => {
       });
     };
 
-    setTimeout(hideLoader, 1500);
+    // Hide loader after animation
+    const timer = setTimeout(hideLoader, 2000);
     window.addEventListener("scroll", updateProgress);
     updateProgress();
 
     return () => {
+      clearTimeout(timer);
       document.documentElement.classList.remove("fun-theme-scroll");
       document.body.classList.remove("fun-theme-body");
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
       window.removeEventListener("scroll", updateProgress);
     };
   }, []);
 
   return (
-    <div className="fun-theme">
-      <div className="page-wrapper">
-        <FunHero onThemeToggle={handleThemeToggle} />
-        
-        <div className="container">
-          <FunAbout />
-          <FunJourney />
-          <FunSkills />
-          <FunContact />
+    <div 
+      className="fun-theme-overlay"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        overflow: "auto",
+        zIndex: 9999,
+        background: "#d0d0d0"
+      }}
+    >
+      <div className="fun-theme">
+        <div className="page-wrapper" style={{ maxWidth: "1400px", margin: "0 auto", background: "#fff", border: "6px solid #000", boxShadow: "12px 12px 0 #000", marginBottom: "20px" }}>
+          <FunHero onThemeToggle={handleThemeToggle} />
+          
+          <div className="container" style={{ padding: "2rem 3rem" }}>
+            <FunAbout />
+            <FunJourney />
+            <FunSkills />
+            <FunContact />
+          </div>
+          
+          <FunFooter />
         </div>
-        
-        <FunFooter />
       </div>
     </div>
   );
