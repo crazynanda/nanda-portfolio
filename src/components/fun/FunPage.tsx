@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef } from "react";
 import FunHero from "./FunHero";
 import FunAbout from "./FunAbout";
 import FunJourney from "./FunJourney";
@@ -17,14 +17,14 @@ const FunPage = ({ onThemeToggle }: Props) => {
     onThemeToggle();
   }, [onThemeToggle]);
 
-  useEffect(() => {
-    // Add fun-theme-scroll class to html for proper scrolling
-    document.documentElement.classList.add("fun-theme-scroll");
-    document.body.classList.add("fun-theme-body");
+  const overlayRef = useRef<HTMLDivElement>(null);
 
-    // Enable scrolling
-    document.body.style.overflow = "auto";
-    document.documentElement.style.overflow = "auto";
+  useEffect(() => {
+    // Hide the default page temporarily
+    const defaultPage = document.querySelector('.page');
+    if (defaultPage) {
+      (defaultPage as HTMLElement).style.display = 'none';
+    }
 
     const loader = document.getElementById("loader");
     const progressFill = document.getElementById("progress-fill");
@@ -33,12 +33,21 @@ const FunPage = ({ onThemeToggle }: Props) => {
     const hideLoader = () => {
       if (loader) {
         loader.classList.add("hidden");
+        // Remove loader from DOM after animation
+        setTimeout(() => {
+          if (loader.parentNode) {
+            loader.parentNode.removeChild(loader);
+          }
+        }, 500);
       }
     };
 
     const updateProgress = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (!overlayRef.current) return;
+      
+      const overlay = overlayRef.current;
+      const scrollTop = overlay.scrollTop;
+      const docHeight = overlay.scrollHeight - overlay.clientHeight;
       const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       
       if (progressFill) {
@@ -51,7 +60,8 @@ const FunPage = ({ onThemeToggle }: Props) => {
         
         if (element) {
           const rect = element.getBoundingClientRect();
-          if (rect.top <= window.innerHeight / 2) {
+          const overlayRect = overlay.getBoundingClientRect();
+          if (rect.top - overlayRect.top <= overlay.clientHeight / 2) {
             checkpoint.classList.add("active");
           } else {
             checkpoint.classList.remove("active");
@@ -62,21 +72,27 @@ const FunPage = ({ onThemeToggle }: Props) => {
 
     // Hide loader after animation
     const timer = setTimeout(hideLoader, 2000);
-    window.addEventListener("scroll", updateProgress);
+    
+    if (overlayRef.current) {
+      overlayRef.current.addEventListener("scroll", updateProgress);
+    }
     updateProgress();
 
     return () => {
       clearTimeout(timer);
-      document.documentElement.classList.remove("fun-theme-scroll");
-      document.body.classList.remove("fun-theme-body");
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-      window.removeEventListener("scroll", updateProgress);
+      if (overlayRef.current) {
+        overlayRef.current.removeEventListener("scroll", updateProgress);
+      }
+      // Restore default page
+      if (defaultPage) {
+        (defaultPage as HTMLElement).style.display = '';
+      }
     };
   }, []);
 
   return (
     <div 
+      ref={overlayRef}
       className="fun-theme-overlay"
       style={{
         position: "fixed",
@@ -85,12 +101,25 @@ const FunPage = ({ onThemeToggle }: Props) => {
         width: "100vw",
         height: "100vh",
         overflow: "auto",
+        overflowX: "hidden",
         zIndex: 9999,
         background: "#d0d0d0"
       }}
     >
       <div className="fun-theme">
-        <div className="page-wrapper" style={{ maxWidth: "1400px", margin: "0 auto", background: "#fff", border: "6px solid #000", boxShadow: "12px 12px 0 #000", marginBottom: "20px" }}>
+        <div 
+          className="page-wrapper" 
+          style={{ 
+            maxWidth: "1400px", 
+            margin: "0 auto", 
+            background: "#fff", 
+            border: "6px solid #000", 
+            boxShadow: "12px 12px 0 #000", 
+            marginBottom: "20px",
+            marginTop: "20px",
+            minHeight: "calc(100vh - 40px)"
+          }}
+        >
           <FunHero onThemeToggle={handleThemeToggle} />
           
           <div className="container" style={{ padding: "2rem 3rem" }}>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -11,8 +11,30 @@ export default function LenisProvider({
   children: React.ReactNode;
 }) {
   const lenisRef = useRef<Lenis | null>(null);
+  const [isFunTheme, setIsFunTheme] = useState(false);
 
   useEffect(() => {
+    // Check if fun theme is active
+    const checkFunTheme = () => {
+      const funTheme = document.querySelector('.fun-theme-overlay');
+      setIsFunTheme(!!funTheme);
+    };
+    
+    // Initial check
+    checkFunTheme();
+    
+    // Check periodically for theme changes
+    const interval = setInterval(checkFunTheme, 500);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    // Skip Lenis initialization for fun theme
+    if (isFunTheme) {
+      return;
+    }
+
     // Determine if device is mobile (width <= 900px)
     const isMobile = window.innerWidth <= 900;
 
@@ -54,7 +76,6 @@ export default function LenisProvider({
 
     // Handle window resize
     const handleResize = () => {
-      // Destroy and reinitialize on significant size changes
       lenis.resize();
     };
 
@@ -65,7 +86,7 @@ export default function LenisProvider({
       lenis.destroy();
       gsap.ticker.remove(lenis.raf);
     };
-  }, []);
+  }, [isFunTheme]);
 
   return <>{children}</>;
 }
