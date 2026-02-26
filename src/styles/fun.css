@@ -400,3 +400,50 @@ html {
 }
 
 .fun-theme .section.fade-in { animation: fadeInUp 0.6s ease forwards; }
+
+/* Additional missing styles from repository */
+
+/* Paper Tear */
+.fun-theme .paper-tear { width: 100%; position: relative; overflow: hidden; }
+.fun-theme .paper-tear svg { display: block; width: 100%; height: 30px; }
+.fun-theme .page-gap { width: 100%; height: 300px; background: #d0d0d0; position: relative; }
+
+/* Journey map container */
+.fun-theme .journey-map-container { position: relative; min-height: 600px; background: #f4e7d7; border: var(--border-width) solid var(--border); }
+.fun-theme .journey-timeline-back { display: none; }
+.fun-theme .map-pirate-overlay { position: absolute; bottom: 5px; left: 5px; width: 200px; }
+
+/* Education & Languages */
+.fun-theme .education-languages-section { margin-bottom: 3rem; }
+.fun-theme .education-languages-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.fun-theme .education-column, .fun-theme .languages-column { }
+.fun-theme .education-card { background: var(--white); border: var(--border-width) solid var(--border); box-shadow: 6px 6px 0 var(--border); padding: 2rem; }
+.fun-theme .education-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+.fun-theme .education-title { font-size: 1.1rem; font-weight: 700; }
+.fun-theme .education-school { font-size: 0.95rem; opacity: 0.7; }
+.fun-theme .badge { padding: 0.35rem 0.75rem; background: var(--secondary); color: var(--text); font-weight: 600; border: 2px solid var(--border); }
+.fun-theme .education-location { font-size: 0.85rem; font-family: 'Space Mono', monospace; opacity: 0.7; display: flex; align-items: center; gap: 0.5rem; }
+.fun-theme .languages-card { background: var(--white); border: var(--border-width) solid var(--border); box-shadow: 6px 6px 0 var(--border); padding: 2rem; }
+.fun-theme .language-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+.fun-theme .language-item:last-child { border-bottom: none; }
+.fun-theme .language-name-inline { font-weight: 600; }
+.fun-theme .language-stars { display: flex; gap: 0.25rem; }
+.fun-theme .star { width: 12px; height: 12px; border: 2px solid var(--border); }
+.fun-theme .star.filled { background: var(--secondary); }
+
+/* Creator showcase */
+.fun-theme .creator-showcase { text-align: center; padding: 3rem; background: var(--white); border: var(--border-width) solid var(--border); box-shadow: 6px 6px 0 var(--border); }
+.fun-theme .creator-label { font-size: 1rem; opacity: 0.7; margin-bottom: 1rem; }
+.fun-theme .creator-project { display: inline-flex; align-items: center; gap: 1rem; text-decoration: none; color: var(--text); font-weight: 700; font-size: 1.5rem; }
+.fun-theme .creator-logo { width: 80px; height: 80px; }
+.fun-theme .creator-tagline { margin-top: 0.5rem; font-size: 0.95rem; opacity: 0.7; }
+.fun-theme .creator-github { display: inline-block; margin-top: 1rem; color: var(--primary); text-decoration: none; font-weight: 600; }
+
+/* Section compact */
+.fun-theme .section-compact { margin-bottom: 3rem; }
+
+/* Responsive adjustments */
+@media (max-width: 769px) {
+  .fun-theme .education-languages-grid { grid-template-columns: 1fr; }
+  .fun-theme .journey-map-container { display: none; }
+}
