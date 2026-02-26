@@ -6,6 +6,7 @@ import TargetCursor from "@/components/layout/TargetCursor";
 import LenisProvider from "@/components/layout/LenisProvider";
 import GoogleAnalytics from "@/components/layout/GoogleAnalytics";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { Head } from "next/document";
 
 export const metadata: Metadata = {
   title: "Nanda Kumar | Portfolio",

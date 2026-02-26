@@ -5,7 +5,6 @@ import Link from "next/link";
 import NextImage from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ThemeToggleController from "./ThemeToggleController";
 
 // Particle class for footer explosion animation
 interface ParticleConfig {
@@ -532,8 +531,6 @@ export default function Home() {
 
   return (
     <>
-      <ThemeToggleController />
-      
       {/* Page Transition */}
       <div className="transition">
         <div className="transition-overlay overlay-1"></div>
@@ -554,19 +551,23 @@ export default function Home() {
             </div>
           </div>
           <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
-            <div 
-              className="menu-toggle-btn cursor-target" 
-              onClick={() => {
-                const event = new CustomEvent("toggle-theme");
-                window.dispatchEvent(event);
+            <Link 
+              href="/fun"
+              style={{ 
+                padding: "0.6em 0.65em", 
+                cursor: "pointer",
+                background: "var(--cyan)",
+                border: "3px solid var(--fg)",
+                borderRadius: "4px",
+                fontWeight: "bold",
+                fontSize: "14px",
+                textDecoration: "none",
+                color: "inherit"
               }}
-              style={{ padding: "0.6em 0.65em", cursor: "pointer" }}
               title="Switch to Fun Theme"
             >
-              <div className="menu-toggle-btn-wrapper">
-                <p className="mn">Fun</p>
-              </div>
-            </div>
+              Fun
+            </Link>
             <div className="menu-toggle-btn cursor-target">
               <div className="menu-toggle-btn-wrapper">
                 <p className="mn open-label">Menu</p>

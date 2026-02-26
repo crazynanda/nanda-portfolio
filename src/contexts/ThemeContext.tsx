@@ -5,6 +5,7 @@ import {
   useContext,
   useState,
   useCallback,
+  useEffect,
   type ReactNode,
 } from "react";
 
@@ -25,7 +26,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const toggleTheme = useCallback(() => {
-    setTheme((prev) => (prev === "default" ? "fun" : "default"));
+    console.log("🔄 ThemeContext - toggleTheme called! Current:", theme);
+    setTheme((prev) => {
+      const newTheme = prev === "default" ? "fun" : "default";
+      console.log("🔄 ThemeContext - Changing from", prev, "to", newTheme);
+      return newTheme;
+    });
   }, []);
 
   const startTransition = useCallback(() => {
@@ -35,6 +41,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const endTransition = useCallback(() => {
     setIsTransitioning(false);
   }, []);
+
+  useEffect(() => {
+    console.log("🔄 ThemeContext - Theme changed to:", theme);
+  }, [theme]);
 
   return (
     <ThemeContext.Provider

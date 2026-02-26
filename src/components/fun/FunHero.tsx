@@ -1,17 +1,65 @@
 "use client";
 
-import { type FC } from "react";
+import { type FC, useState, useEffect } from "react";
 import Link from "next/link";
 
 interface Props {
   onThemeToggle: () => void;
+  isLoading?: boolean;
 }
 
-const FunHero: FC<Props> = ({ onThemeToggle }) => {
+const FunHero: FC<Props> = ({ onThemeToggle, isLoading = true }) => {
+  const [greeting, setGreeting] = useState("Hi there! 👋");
+  const [isDark, setIsDark] = useState(false);
+  const [coffeeHovered, setCoffeeHovered] = useState(false);
+
+  useEffect(() => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
+    const targetText = "Hi there! 👋";
+    let iteration = 0;
+    let interval: NodeJS.Timeout;
+
+    if (!isLoading) {
+      interval = setInterval(() => {
+        setGreeting(
+          targetText
+            .split("")
+            .map((letter, index) => {
+              if (index < iteration) {
+                return targetText[index];
+              }
+              return chars[Math.floor(Math.random() * chars.length)];
+            })
+            .join("")
+        );
+        
+        if (iteration >= targetText.length) {
+          clearInterval(interval);
+        }
+        
+        iteration += 1 / 3;
+      }, 30);
+
+      return () => clearInterval(interval);
+    }
+  }, [isLoading]);
+
+  const toggleDarkMode = () => {
+    setIsDark(!isDark);
+    document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <>
       {/* Loading Screen */}
-      <div className="loader-overlay" id="loader">
+      <div className="loader-overlay" id="loader" style={{ display: isLoading ? 'flex' : 'none' }}>
         <div className="loader-shapes">
           <div className="loader-shape-svg loader-shape-1">
             <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,23 +102,23 @@ const FunHero: FC<Props> = ({ onThemeToggle }) => {
       <div className="progress-bar-container">
         <div className="progress-bar-fill" id="progress-fill"></div>
         <div className="progress-checkpoints">
-          <div className="checkpoint" data-section="hero">
+          <div className="checkpoint" data-section="hero" onClick={() => scrollToSection('hero')}>
             <div className="checkpoint-dot"></div>
             <span className="checkpoint-label">Home</span>
           </div>
-          <div className="checkpoint" data-section="about">
+          <div className="checkpoint" data-section="about" onClick={() => scrollToSection('about')}>
             <div className="checkpoint-dot"></div>
             <span className="checkpoint-label">About</span>
           </div>
-          <div className="checkpoint" data-section="experience">
+          <div className="checkpoint" data-section="experience" onClick={() => scrollToSection('experience')}>
             <div className="checkpoint-dot"></div>
             <span className="checkpoint-label">Journey</span>
           </div>
-          <div className="checkpoint" data-section="skills">
+          <div className="checkpoint" data-section="skills" onClick={() => scrollToSection('skills')}>
             <div className="checkpoint-dot"></div>
             <span className="checkpoint-label">Skills</span>
           </div>
-          <div className="checkpoint" data-section="contact">
+          <div className="checkpoint" data-section="contact" onClick={() => scrollToSection('contact')}>
             <div className="checkpoint-dot"></div>
             <span className="checkpoint-label">Contact</span>
           </div>
@@ -78,16 +126,19 @@ const FunHero: FC<Props> = ({ onThemeToggle }) => {
       </div>
 
       {/* Navbar */}
-      <nav className="navbar">
+      <nav className="navbar" ref={overlayRef}>
         <div className="nav-content">
           <Link href="/" className="nav-brand">NK</Link>
           <div className="nav-right">
-            <Link href="#hero" className="nav-link">Home</Link>
-            <Link href="#about" className="nav-link">About</Link>
-            <Link href="#experience" className="nav-link">Journey</Link>
-            <Link href="#skills" className="nav-link">Skills</Link>
-            <Link href="#contact" className="nav-cta">Get in Touch!</Link>
-            <button className="theme-toggle-nav" onClick={onThemeToggle} aria-label="Toggle theme">
+            <Link href="#hero" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('hero'); }}>Home</Link>
+            <Link href="#about" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('about'); }}>About</Link>
+            <Link href="#experience" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('experience'); }}>Journey</Link>
+            <Link href="#skills" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('skills'); }}>Skills</Link>
+            <Link href="#contact" className="nav-cta" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}>Get in Touch!</Link>
+            <button className="theme-toggle-nav" onClick={toggleDarkMode} aria-label="Toggle dark mode" title={isDark ? "Light Mode" : "Dark Mode"}>
+              <i className={isDark ? "fas fa-sun" : "fas fa-moon"}></i>
+            </button>
+            <button className="theme-toggle-nav" onClick={onThemeToggle} aria-label="Switch to Default Theme" title="Switch to Default Theme">
               <i className="fas fa-palette"></i>
             </button>
           </div>
@@ -98,11 +149,12 @@ const FunHero: FC<Props> = ({ onThemeToggle }) => {
       <section className="hero" id="hero">
         <div className="hero-content">
           <div className="hero-left">
-            <p className="hero-greeting">Hi there! 👋</p>
+            <p className="hero-greeting">{greeting}</p>
             <h1 className="hero-name">I&apos;m Nanda Kumar.</h1>
+            <p className="hero-tagline">Web Designer & Developer</p>
             <p className="hero-description">
-              Based in Bangalore, India, I&apos;m a Web Designer & Developer. I love to work with modern web technologies, 
-              creative interfaces, and AI-powered solutions. I&apos;m passionate about building award-worthy digital experiences.
+              Based in Bangalore, India, I&apos;m a passionate student and freelancer. Currently pursuing my BCA in AI/ML, 
+              I run my own startup called Zeridex, where we build AI-powered websites and automation systems for modern businesses.
             </p>
             <div className="hero-social">
               <a href="https://github.com/crazynanda" target="_blank" rel="noopener noreferrer" className="social-btn">
@@ -116,7 +168,29 @@ const FunHero: FC<Props> = ({ onThemeToggle }) => {
               </a>
             </div>
             <div className="hero-cta-container">
-              <Link href="#contact" className="btn-cta">Get in Touch!</Link>
+              <Link href="#contact" className="btn-cta" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}>Get in Touch!</Link>
+              
+              {/* Coffee CTA */}
+              <div className="coffee-cta-wrapper">
+                <span className="coffee-arrow-text">Buy me a coffee!</span>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 40 Q10 40 10 50 Q10 60 20 60 L80 60 Q90 60 90 50 Q90 40 80 40 Z' fill='%23ff6b9d' stroke='%23000' stroke-width='3'/%3E%3Cpath d='M15 50 Q25 45 35 50 Q45 55 55 50' stroke='%23000' stroke-width='2' fill='none'/%3E%3Crect x='25' y='35' width='50' height='10' rx='2' fill='%23ffd93d' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='70' cy='20' r='8' fill='%23ff6b9d' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E" 
+                      alt="Arrow" 
+                      className="coffee-arrow-img"
+                      style={{ transform: coffeeHovered ? 'rotate(-30deg) translateX(10px)' : 'rotate(-45deg)' }}
+                />
+                <a href="https://www.buymeacoffee.com/nandakumar" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   className="btn-coffee"
+                   onMouseEnter={() => setCoffeeHovered(true)}
+                   onMouseLeave={() => setCoffeeHovered(false)}
+                >
+                  <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 40 Q10 40 10 50 Q10 60 20 60 L80 60 Q90 60 90 50 Q90 40 80 40 Z' fill='%23a8e6cf' stroke='%23000' stroke-width='4'/%3E%3Cpath d='M15 50 Q25 45 35 50 Q45 55 55 50' stroke='%23000' stroke-width='3' fill='none'/%3E%3Crect x='25' y='35' width='50' height='10' rx='2' fill='%23ffd93d' stroke='%23000' stroke-width='3'/%3E%3Ccircle cx='70' cy='20' r='10' fill='%23ff6b9d' stroke='%23000' stroke-width='3'/%3E%3C/svg%3E" 
+                       alt="Coffee" 
+                       className="coffee-icon-img"
+                  />
+                </a>
+              </div>
             </div>
           </div>
           <div className="hero-right">
