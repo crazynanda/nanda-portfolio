@@ -126,7 +126,7 @@ const FunHero: FC<Props> = ({ onThemeToggle, isLoading = true }) => {
       </div>
 
       {/* Navbar */}
-      <nav className="navbar" ref={overlayRef}>
+      <nav className="navbar">
         <div className="nav-content">
           <Link href="/" className="nav-brand">NK</Link>
           <div className="nav-right">

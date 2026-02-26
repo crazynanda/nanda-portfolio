@@ -61,7 +61,7 @@ export default function FunPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  const scrollToSection = useCallback((e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+  const scrollToSection = useCallback((e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
     const element = document.getElementById(sectionId);
     if (element) {

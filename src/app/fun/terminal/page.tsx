@@ -111,7 +111,7 @@ _   _    _    _   _ ____    _      _  ___   _ __  __    _    ____
     setCommandHistory(prev => [...prev, cmd]);
     setHistoryIndex(-1);
 
-    const commands: Record<string, () => void> = {
+    const commands: Record<string, (cmd?: string) => void> = {
       help: () => {
         setOutput(prev => [...prev, `
 Available Commands:
@@ -327,7 +327,7 @@ Type 'guess <number>' to play!
 (Example: guess 50)
 `]);
       },
-      guess: (cmd) => {
+      guess: () => {
         setOutput(prev => [...prev, "Use 'game' command to start a new game!"]);
       },
       joke: () => {
@@ -366,7 +366,7 @@ Examples: 2+2, 10*5, 100/4, (50-20)/2
 Type 'exit' to return to normal mode.
 `]);
       },
-      todo: (cmd) => {
+      todo: (cmd = '') => {
         const parts = cmd.split(' ');
         if (parts[1] === 'add' && parts.slice(2).join(' ')) {
           const newTodo = { text: parts.slice(2).join(' '), completed: false };
