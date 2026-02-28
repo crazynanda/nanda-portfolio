@@ -301,7 +301,7 @@ export default function FunPage() {
 
           <div className="tear-tape-sticker"></div>
 
-          <div className="container">
+          <div className="main-content">
             {/* About Section */}
             <section className="section" id="about">
               <h2 className="section-title">ABOUT</h2>
