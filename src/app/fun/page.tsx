@@ -108,34 +108,6 @@ export default function FunPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isLoading]);
 
-  // Highlight scroll animation
-  useEffect(() => {
-    if (isLoading) return;
-
-    const highlights = document.querySelectorAll('.highlight');
-    
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-    );
-
-    highlights.forEach((highlight) => {
-      observer.observe(highlight);
-    });
-
-    return () => {
-      highlights.forEach((highlight) => {
-        observer.unobserve(highlight);
-      });
-    };
-  }, [isLoading]);
-
   return (
     <div className="fun-theme">
       {/* Loading Screen */}

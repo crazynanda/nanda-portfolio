@@ -739,7 +739,7 @@ html {
   box-shadow: 2px 2px 0 var(--border);
 }
 
-/* Highlight animations */
+/* Highlight with auto-running animation */
 .fun-theme .highlight {
   font-weight: 700;
   padding: 0.1rem 0.3rem;
@@ -747,12 +747,14 @@ html {
   display: inline-block;
   opacity: 0;
   transform: translateX(-20px);
-  transition: all 0.5s ease;
+  animation: highlightSlideIn 0.6s ease forwards;
 }
 
-.fun-theme .highlight.visible {
-  opacity: 1;
-  transform: translateX(0);
+@keyframes highlightSlideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .fun-theme .highlight-yellow { background: var(--yellow); }
