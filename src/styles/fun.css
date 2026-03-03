@@ -281,13 +281,14 @@ html {
   position: sticky;
   top: 0;
   margin: 0;
+  width: 100%;
 }
 
 .fun-theme .nav-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1.5rem;
 }
 
 .fun-theme .nav-brand {
@@ -300,10 +301,11 @@ html {
   border: var(--border-width) solid var(--border);
   border-radius: 6px;
   box-shadow: 3px 3px 0 0 var(--border);
+  margin-right: 1rem;
 }
 
-.fun-theme .nav-right { display: flex; gap: 1.5rem; align-items: center; }
-.fun-theme .nav-link { color: var(--text); text-decoration: none; font-weight: 600; font-size: 1.1rem; }
+.fun-theme .nav-right { display: flex; gap: 1rem; align-items: center; }
+.fun-theme .nav-link { color: var(--text); text-decoration: none; font-weight: 600; font-size: 1rem; padding: 0.4rem 0.6rem; }
 .fun-theme .nav-link:hover { color: var(--border); }
 .fun-theme .nav-cta { padding: 0.5rem 1rem; background: var(--cyan); border: var(--border-width) solid var(--border); border-radius: 6px; box-shadow: 3px 3px 0 0 var(--border); color: var(--text); text-decoration: none; font-weight: 600; }
 .fun-theme .theme-toggle-nav { padding: 0.5rem 1rem; background: var(--pink); border: var(--border-width) solid var(--border); border-radius: 6px; cursor: pointer; font-weight: 600; color: var(--text); box-shadow: 3px 3px 0 0 var(--border); }
