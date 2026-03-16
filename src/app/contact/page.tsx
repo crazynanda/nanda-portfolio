@@ -208,24 +208,15 @@ export default function Contact() {
       
       clearTimeout(timeoutId);
       
-      if (response.status === 302 || response.status === 307) {
-        const redirectUrl = response.headers.get("Location");
-        if (redirectUrl) {
-          const finalResponse = await fetch(redirectUrl, {
-            method: "GET",
-          });
-          const result = await finalResponse.text();
-          if (result.includes("success") || finalResponse.ok) {
-            setIsSubmitted(true);
-            form.reset();
-            setTimeout(() => setIsSubmitted(false), 5000);
-            setIsLoading(false);
-            return;
-          }
-        }
+      if (response.status === 302 || response.status === 0) {
+        setIsSubmitted(true);
+        form.reset();
+        setTimeout(() => setIsSubmitted(false), 5000);
+        setIsLoading(false);
+        return;
       }
       
-      if (!response.ok && response.status !== 302) {
+      if (!response.ok) {
         throw new Error("Failed to submit");
       }
       
