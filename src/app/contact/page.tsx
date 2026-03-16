@@ -173,15 +173,6 @@ export default function Contact() {
     const form = e.currentTarget;
     const formData = new FormData(form);
     
-    const formDataObj = {
-      firstName: formData.get("firstName") as string,
-      lastName: formData.get("lastName") as string,
-      email: formData.get("email") as string,
-      phone: formData.get("phone") as string || "",
-      projectType: formData.get("projectType") as string,
-      message: formData.get("message") as string,
-    };
-    
     const googleScriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || "https://script.google.com/macros/s/AKfycbySCNR5XjwLX2lds6t7tT6ahLe1wzqnl7JG7Cdot0DLyp2eUzGdST2APDkpBrmUcrto3w/exec";
     
     if (!googleScriptUrl) {
@@ -194,30 +185,18 @@ export default function Contact() {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000);
       
-      const googleFormData = new URLSearchParams();
-      Object.entries(formDataObj).forEach(([key, value]) => {
-        googleFormData.append(key, value);
-      });
-      
-      const response = await fetch(googleScriptUrl, {
+      const response = await fetch("/api/contact", {
         method: "POST",
-        body: googleFormData,
-        redirect: "manual",
+        body: formData as unknown as FormData,
         signal: controller.signal,
       });
       
       clearTimeout(timeoutId);
       
-      if (response.status === 302 || response.status === 0) {
-        setIsSubmitted(true);
-        form.reset();
-        setTimeout(() => setIsSubmitted(false), 5000);
-        setIsLoading(false);
-        return;
-      }
+      const result = await response.json();
       
-      if (!response.ok) {
-        throw new Error("Failed to submit");
+      if (!result.success) {
+        throw new Error(result.error || "Failed to submit");
       }
       
       setIsSubmitted(true);
