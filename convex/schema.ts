@@ -7,4 +7,14 @@ export default defineSchema({
     message: v.string(),
     timestamp: v.number(),
   }).index("by_timestamp", ["timestamp"]),
+
+  contacts: defineTable({
+    firstName: v.string(),
+    lastName: v.string(),
+    email: v.string(),
+    phone: v.optional(v.string()),
+    projectType: v.string(),
+    message: v.string(),
+    timestamp: v.number(),
+  }).index("by_timestamp", ["timestamp"]),
 });

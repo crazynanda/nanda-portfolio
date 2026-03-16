@@ -3,16 +3,21 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const trailRef = useRef<Array<{ element: HTMLDivElement; rotation: number; removeTime: number }>>([]);
   const mousePos = useRef({ x: 0, y: 0, lastX: 0, lastY: 0 });
   const animationId = useRef<number | null>(null);
   const isDesktop = useRef(typeof window !== "undefined" ? window.innerWidth > 1000 : false);
   const lastRemovalTime = useRef(0);
+
+  const submitContact = useMutation(api.contact.submitContact);
 
   // Pre-compute floating element random values (avoid Math.random in render)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -164,19 +169,35 @@ export default function Contact() {
     };
   }, [createImage, removeOldImages]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
     
-    setTimeout(() => {
-      setIsLoading(false);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    
+    try {
+      await submitContact({
+        firstName: formData.get("firstName") as string,
+        lastName: formData.get("lastName") as string,
+        email: formData.get("email") as string,
+        phone: formData.get("phone") as string || undefined,
+        projectType: formData.get("projectType") as string,
+        message: formData.get("message") as string,
+      });
+      
       setIsSubmitted(true);
-      (e.target as HTMLFormElement).reset();
+      form.reset();
       
       setTimeout(() => {
         setIsSubmitted(false);
       }, 5000);
-    }, 1500);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to send message");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -304,6 +325,11 @@ export default function Contact() {
               <button type="submit" className="submit-btn cursor-target" disabled={isLoading}>
                 {isLoading ? "Sending..." : "Send Message"}
               </button>
+              {error && (
+                <div className="error-message" style={{ color: "red", marginTop: "1rem", textAlign: "center" }}>
+                  <p>{error}</p>
+                </div>
+              )}
               <div className={`success-message ${isSubmitted ? "show" : ""}`}>
                 <p>Thanks! Your message has been sent. I&apos;ll get back to you within 24 hours.</p>
               </div>
