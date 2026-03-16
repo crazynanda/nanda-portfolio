@@ -187,28 +187,31 @@ export default function Contact() {
     };
     
     try {
-      // Submit to Convex
-      await submitContact({
+      // Submit to Convex with timeout
+      const convexPromise = submitContact({
         ...formDataObj,
         phone: formDataObj.phone || undefined,
       });
       
-      // Submit to Google Sheets (if URL is configured)
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error("Request timeout")), 10000)
+      );
+      
+      await Promise.race([convexPromise, timeoutPromise]);
+      
+      // Submit to Google Sheets in background (non-blocking)
       const googleScriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
       if (googleScriptUrl) {
-        try {
-          const googleFormData = new URLSearchParams();
-          Object.entries(formDataObj).forEach(([key, value]) => {
-            googleFormData.append(key, value);
-          });
-          
-          await fetch(googleScriptUrl, {
-            method: "POST",
-            body: googleFormData,
-          });
-        } catch (googleErr) {
-          console.error("Google Sheets submission failed:", googleErr);
-        }
+        const googleFormData = new URLSearchParams();
+        Object.entries(formDataObj).forEach(([key, value]) => {
+          googleFormData.append(key, value);
+        });
+        
+        // Fire and forget - don't wait for response
+        fetch(googleScriptUrl, {
+          method: "POST",
+          body: googleFormData,
+        }).catch(console.error);
       }
       
       setIsSubmitted(true);
