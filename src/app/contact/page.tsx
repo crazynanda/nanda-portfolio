@@ -202,13 +202,30 @@ export default function Contact() {
       const response = await fetch(googleScriptUrl, {
         method: "POST",
         body: googleFormData,
-        redirect: "follow",
+        redirect: "manual",
         signal: controller.signal,
       });
       
       clearTimeout(timeoutId);
       
-      if (!response.ok) {
+      if (response.status === 302 || response.status === 307) {
+        const redirectUrl = response.headers.get("Location");
+        if (redirectUrl) {
+          const finalResponse = await fetch(redirectUrl, {
+            method: "GET",
+          });
+          const result = await finalResponse.text();
+          if (result.includes("success") || finalResponse.ok) {
+            setIsSubmitted(true);
+            form.reset();
+            setTimeout(() => setIsSubmitted(false), 5000);
+            setIsLoading(false);
+            return;
+          }
+        }
+      }
+      
+      if (!response.ok && response.status !== 302) {
         throw new Error("Failed to submit");
       }
       
@@ -219,8 +236,11 @@ export default function Contact() {
         setIsSubmitted(false);
       }, 5000);
     } catch (err) {
+      console.error("Contact form error:", err);
       if (err instanceof Error && err.name === "AbortError") {
         setError("Request timed out");
+      } else if (err instanceof Error && err.message.includes("Failed to fetch")) {
+        setError("Unable to connect. Please try again or email me directly.");
       } else {
         setError(err instanceof Error ? err.message : "Failed to send message");
       }
