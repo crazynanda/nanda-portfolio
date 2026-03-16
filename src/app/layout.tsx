@@ -6,7 +6,6 @@ import TargetCursor from "@/components/layout/TargetCursor";
 import LenisProvider from "@/components/layout/LenisProvider";
 import GoogleAnalytics from "@/components/layout/GoogleAnalytics";
 import { ThemeProvider } from "@/contexts/ThemeContext";
-import { ConvexClientProvider } from "@/lib/convex-provider";
 import { Head } from "next/document";
 
 export const metadata: Metadata = {
@@ -76,17 +75,15 @@ export default function RootLayout({
       <body className="custom-cursor-active">
         <GoogleAnalytics />
         <ThemeProvider>
-          <ConvexClientProvider>
-            <LenisProvider>
-              <TargetCursor
-                spinDuration={2}
-                hideDefaultCursor
-                hoverDuration={0.2}
-              />
-              {children}
-              <Analytics />
-            </LenisProvider>
-          </ConvexClientProvider>
+          <LenisProvider>
+            <TargetCursor
+              spinDuration={2}
+              hideDefaultCursor
+              hoverDuration={0.2}
+            />
+            {children}
+            <Analytics />
+          </LenisProvider>
         </ThemeProvider>
       </body>
     </html>

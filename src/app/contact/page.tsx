@@ -3,8 +3,6 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
 
 export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -16,8 +14,6 @@ export default function Contact() {
   const animationId = useRef<number | null>(null);
   const isDesktop = useRef(typeof window !== "undefined" ? window.innerWidth > 1000 : false);
   const lastRemovalTime = useRef(0);
-
-  const submitContact = useMutation(api.contact.submitContact);
 
   // Pre-compute floating element random values (avoid Math.random in render)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -186,32 +182,27 @@ export default function Contact() {
       message: formData.get("message") as string,
     };
     
+    const googleScriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
+    
+    if (!googleScriptUrl) {
+      setError("Google Sheets not configured");
+      setIsLoading(false);
+      return;
+    }
+    
     try {
-      // Submit to Convex with timeout
-      const convexPromise = submitContact({
-        ...formDataObj,
-        phone: formDataObj.phone || undefined,
+      const googleFormData = new URLSearchParams();
+      Object.entries(formDataObj).forEach(([key, value]) => {
+        googleFormData.append(key, value);
       });
       
-      const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error("Request timeout")), 10000)
-      );
+      const response = await fetch(googleScriptUrl, {
+        method: "POST",
+        body: googleFormData,
+      });
       
-      await Promise.race([convexPromise, timeoutPromise]);
-      
-      // Submit to Google Sheets in background (non-blocking)
-      const googleScriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
-      if (googleScriptUrl) {
-        const googleFormData = new URLSearchParams();
-        Object.entries(formDataObj).forEach(([key, value]) => {
-          googleFormData.append(key, value);
-        });
-        
-        // Fire and forget - don't wait for response
-        fetch(googleScriptUrl, {
-          method: "POST",
-          body: googleFormData,
-        }).catch(console.error);
+      if (!response.ok) {
+        throw new Error("Failed to submit");
       }
       
       setIsSubmitted(true);
