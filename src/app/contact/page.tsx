@@ -182,7 +182,7 @@ export default function Contact() {
       message: formData.get("message") as string,
     };
     
-    const googleScriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
+    const googleScriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || "https://script.google.com/macros/s/AKfycbySCNR5XjwLX2lds6t7tT6ahLe1wzqnl7JG7Cdot0DLyp2eUzGdST2APDkpBrmUcrto3w/exec";
     
     if (!googleScriptUrl) {
       setError("Google Sheets not configured");
