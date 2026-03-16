@@ -191,6 +191,9 @@ export default function Contact() {
     }
     
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
+      
       const googleFormData = new URLSearchParams();
       Object.entries(formDataObj).forEach(([key, value]) => {
         googleFormData.append(key, value);
@@ -199,7 +202,11 @@ export default function Contact() {
       const response = await fetch(googleScriptUrl, {
         method: "POST",
         body: googleFormData,
+        redirect: "follow",
+        signal: controller.signal,
       });
+      
+      clearTimeout(timeoutId);
       
       if (!response.ok) {
         throw new Error("Failed to submit");
@@ -212,7 +219,11 @@ export default function Contact() {
         setIsSubmitted(false);
       }, 5000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to send message");
+      if (err instanceof Error && err.name === "AbortError") {
+        setError("Request timed out");
+      } else {
+        setError(err instanceof Error ? err.message : "Failed to send message");
+      }
     } finally {
       setIsLoading(false);
     }
