@@ -2,7 +2,7 @@
 
 import * as THREE from "three";
 import { useRef, useMemo } from "react";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 
 interface LanyardSceneProps {
@@ -67,6 +67,9 @@ function LanyardCord() {
       const x = positions.getX(i);
       const y = positions.getY(i);
       const z = positions.getZ(i);
+      positions.setX(i, x + Math.sin(t * 2 + y * 3) * 0.01);
+      positions.setY(i, y);
+      positions.setZ(i, z);
       positions.setX(i, x + Math.sin(t * 2 + y * 3) * 0.01);
     }
     positions.needsUpdate = true;
