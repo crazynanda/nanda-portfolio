@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { personalInfo } from "@/data/personal";
 import { Film, Glasses, Rocket, Hash } from "lucide-react";
+import LanyardWithFallback from "@/components/3d/LanyardWithFallback";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Film,
@@ -39,19 +40,17 @@ export default function About() {
             </div>
           </motion.div>
 
-          {/* Right - Portrait Placeholder */}
+          {/* Right - Portrait with Lanyard */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="relative aspect-[3/4] bg-secondary rounded-2xl overflow-hidden"
+            className="relative aspect-[3/4] rounded-2xl overflow-hidden"
           >
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-mono text-muted">Portrait</span>
-            </div>
+            <LanyardWithFallback portraitUrl="/images/about/portrait.jpg" />
             {/* Decorative border */}
-            <div className="absolute inset-4 border border-border rounded-xl" />
+            <div className="absolute inset-4 border border-border rounded-xl pointer-events-none" />
           </motion.div>
         </div>
 
