@@ -1,17 +1,20 @@
 "use client";
 
-import * as THREE from "three";
-import { useRef, useState, useMemo } from "react";
+import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
+import * as THREE from "three";
 
-interface LanyardSceneProps {
-  portraitUrl: string;
-}
-
-function Card({ portraitUrl }: LanyardSceneProps) {
+function Card({ portraitUrl }: { portraitUrl: string }) {
   const meshRef = useRef<THREE.Mesh>(null);
-  const texture = useTexture(portraitUrl);
+  
+  let texture: THREE.Texture;
+  try {
+    texture = useTexture(portraitUrl);
+  } catch (e) {
+    console.error("Failed to load texture:", e);
+    texture = new THREE.Texture();
+  }
   
   useFrame((state) => {
     if (!meshRef.current) return;
@@ -21,15 +24,17 @@ function Card({ portraitUrl }: LanyardSceneProps) {
   });
 
   return (
-    <mesh ref={meshRef} position={[0, -0.3, 0]}>
-      <boxGeometry args={[1.5, 2.1, 0.06]} />
-      <meshPhysicalMaterial
-        color="#1a1a1a"
-        clearcoat={1}
-        clearcoatRoughness={0.15}
-        metalness={0.1}
-        roughness={0.3}
-      />
+    <group ref={meshRef} position={[0, -0.3, 0]}>
+      <mesh>
+        <boxGeometry args={[1.5, 2.1, 0.06]} />
+        <meshPhysicalMaterial
+          color="#1a1a1a"
+          clearcoat={1}
+          clearcoatRoughness={0.15}
+          metalness={0.1}
+          roughness={0.3}
+        />
+      </mesh>
       <mesh position={[0, 0, 0.035]}>
         <planeGeometry args={[1.3, 1.8]} />
         <meshStandardMaterial map={texture} />
@@ -38,7 +43,7 @@ function Card({ portraitUrl }: LanyardSceneProps) {
         <circleGeometry args={[0.12, 32]} />
         <meshStandardMaterial color="#333" metalness={0.8} roughness={0.2} />
       </mesh>
-    </mesh>
+    </group>
   );
 }
 
@@ -88,7 +93,9 @@ function Clip() {
   );
 }
 
-function LanyardScene({ portraitUrl }: LanyardSceneProps) {
+function Scene({ portraitUrl }: { portraitUrl: string }) {
+  console.log("Lanyard scene rendering with portrait:", portraitUrl);
+  
   return (
     <>
       <ambientLight intensity={0.6} />
@@ -103,19 +110,19 @@ function LanyardScene({ portraitUrl }: LanyardSceneProps) {
   );
 }
 
-interface LanyardProps {
-  portraitUrl?: string;
-}
-
-export default function Lanyard({ portraitUrl = "/images/about/portrait.jpg" }: LanyardProps) {
+export default function Lanyard({ portraitUrl = "/images/about/portrait.jpg" }: { portraitUrl?: string }) {
+  console.log("Lanyard component render, portraitUrl:", portraitUrl);
+  
   return (
-    <div className="w-full h-full min-h-[400px]">
+    <div className="w-full h-full min-h-[400px]" style={{ background: "transparent" }}>
       <Canvas
         camera={{ position: [0, 0.5, 5], fov: 45 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
+        onCreated={() => console.log("Canvas created successfully")}
+        onError={(error) => console.error("Canvas error:", error)}
       >
-        <LanyardScene portraitUrl={portraitUrl} />
+        <Scene portraitUrl={portraitUrl} />
       </Canvas>
     </div>
   );

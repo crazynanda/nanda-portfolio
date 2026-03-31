@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, Component, ErrorInfo } from "react";
+import { useState, useEffect, ReactNode, Component, ErrorInfo } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 
@@ -41,6 +41,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   render(): ReactNode {
     if (this.state.hasError) {
+      console.error("Error boundary triggered");
       return this.props.fallback;
     }
     return this.props.children;
@@ -72,9 +73,13 @@ function FallbackUI({ portraitUrl }: { portraitUrl: string }) {
 export default function LanyardWithFallback({
   portraitUrl = "/images/about/portrait.jpg",
 }: LanyardWithFallbackProps) {
+  console.log("LanyardWithFallback render, portraitUrl:", portraitUrl);
+  
   return (
-    <ErrorBoundary fallback={<FallbackUI portraitUrl={portraitUrl} />}>
-      <Lanyard3D portraitUrl={portraitUrl} />
-    </ErrorBoundary>
+    <div className="w-full h-full">
+      <ErrorBoundary fallback={<FallbackUI portraitUrl={portraitUrl} />}>
+        <Lanyard3D portraitUrl={portraitUrl} />
+      </ErrorBoundary>
+    </div>
   );
 }
