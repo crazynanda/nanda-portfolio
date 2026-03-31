@@ -46,11 +46,13 @@ export default function About() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="relative aspect-[3/4] rounded-2xl overflow-hidden"
+            className="relative aspect-[3/4] rounded-2xl overflow-hidden min-h-[400px] lg:min-h-[500px]"
           >
-            <LanyardWithFallback portraitUrl="/images/about/portrait.jpg" />
+            <div className="absolute inset-0 z-10">
+              <LanyardWithFallback portraitUrl="/images/about/portrait.jpg" />
+            </div>
             {/* Decorative border */}
-            <div className="absolute inset-4 border border-border rounded-xl pointer-events-none" />
+            <div className="absolute inset-4 border border-border rounded-xl pointer-events-none z-20" />
           </motion.div>
         </div>
 
