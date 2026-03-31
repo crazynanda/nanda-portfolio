@@ -5,6 +5,7 @@ import Link from "next/link";
 import NextImage from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import LanyardWithFallback from "@/components/3d/LanyardWithFallback";
 
 // Particle class for footer explosion animation
 interface ParticleConfig {
@@ -686,13 +687,7 @@ export default function Home() {
             <p className="mn">Code / Design / Craft / Repeat</p>
           </div>
           <div className="about-hero-portrait">
-            <NextImage 
-              src="/images/about/portrait.jpg" 
-              alt="Nanda Kumar Portrait"
-              fill
-              style={{ objectFit: "contain" }}
-              sizes="(max-width: 768px) 100vw, 35vw"
-            />
+            <LanyardWithFallback portraitUrl="/images/about/portrait.jpg" />
           </div>
         </section>
 
