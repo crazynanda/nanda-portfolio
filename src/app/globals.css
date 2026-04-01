@@ -507,12 +507,11 @@ nav .menu-toggle-btn-wrapper p {
 
 .lanyard-overlay {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 35vw;
-  height: 100%;
-  z-index: 10;
-  pointer-events: none;
+  top: 9em;
+  right: 2em;
+  width: 280px;
+  height: 340px;
+  overflow: hidden;
 }
 
 .lanyard-overlay > div {
@@ -1081,8 +1080,10 @@ footer {
 
   .lanyard-overlay {
     position: relative;
+    top: auto;
+    right: auto;
     width: 100%;
-    height: 300px;
+    height: 250px;
     margin-top: 1em;
   }
 
@@ -1798,7 +1799,7 @@ footer {
   }
 
   .lanyard-overlay {
-    height: 280px;
+    height: 220px;
     margin-top: 0.5em;
   }
   
@@ -1961,7 +1962,10 @@ footer {
 /* Large Devices (desktops, 1024px to 1439px) */
 @media (min-width: 1024px) and (max-width: 1439px) {
   .lanyard-overlay {
-    width: 42vw;
+    width: 260px;
+    height: 320px;
+    top: 9em;
+    right: 2.5em;
   }
 
   .about-hero .about-hero-bio {
@@ -1980,7 +1984,10 @@ footer {
 /* Extra Large Devices (large desktops, 1440px and up) */
 @media (min-width: 1440px) {
   .lanyard-overlay {
-    width: 45vw;
+    width: 300px;
+    height: 360px;
+    top: 9em;
+    right: 4em;
   }
 
   .about-hero .about-hero-bio {
