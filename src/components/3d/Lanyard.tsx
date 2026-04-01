@@ -33,9 +33,9 @@ interface LanyardProps {
 }
 
 export default function Lanyard({
-  position = [0, 0, 16],
+  position = [0, 0, 14],
   gravity = [0, -40, 0],
-  fov = 25,
+  fov = 28,
   transparent = true,
   portraitUrl,
 }: LanyardProps) {
