@@ -45,7 +45,7 @@ const nextConfig: NextConfig = {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' data: https: blob:",
       "font-src 'self' data: https://fonts.gstatic.com https://fonts.googleapis.com",
-      "connect-src 'self' https://whimsical-condor-710.convex.cloud https://whimsical-condor-710.convex.site https://www.google-analytics.com https://stats.g.doubleclick.net https://region1.google-analytics.com",
+      "connect-src 'self' blob: https://whimsical-condor-710.convex.cloud https://whimsical-condor-710.convex.site https://www.google-analytics.com https://stats.g.doubleclick.net https://region1.google-analytics.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",

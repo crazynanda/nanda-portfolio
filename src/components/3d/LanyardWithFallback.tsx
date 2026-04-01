@@ -35,11 +35,11 @@ export default function LanyardWithFallback({ portraitUrl = "/images/about/portr
     <ErrorBoundary
       fallback={
         <div className="w-full h-full bg-secondary rounded-2xl overflow-hidden relative">
-          <Image src={portraitUrl} alt="Nanda Kumar" fill className="object-cover" />
+          <Image src={portraitUrl} alt="Nanda Kumar" fill className="object-cover" sizes="(max-width: 280px) 100vw, 280px" />
         </div>
       }
     >
-      <Lanyard3D portraitUrl={portraitUrl} />
+      <Lanyard3D />
     </ErrorBoundary>
   );
 }
