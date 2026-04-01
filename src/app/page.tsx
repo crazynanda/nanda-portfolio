@@ -686,7 +686,7 @@ export default function Home() {
             </p>
             <p className="mn">Code / Design / Craft / Repeat</p>
           </div>
-          <div className="about-hero-portrait">
+          <div className="lanyard-overlay">
             <LanyardWithFallback portraitUrl="/images/about/portrait.jpg" />
           </div>
         </section>

@@ -42,7 +42,7 @@ export default function Lanyard({
   const [isMobile] = useState(false);
 
   return (
-    <div style={{ width: "100%", height: "100%", position: "absolute", inset: 0 }}>
+    <div style={{ width: "100%", height: "100%", position: "relative" }}>
       <Canvas
         camera={{ position, fov }}
         dpr={[1, isMobile ? 1.5 : 2]}
@@ -243,14 +243,14 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, portraitUrl }: Ba
               />
             </mesh>
             {portraitTexture && (
-              <mesh position={[0, 0, 0.06]} rotation={[0, Math.PI, 0]}>
+              <mesh position={[0, 0, 0.1]} rotation={[0, Math.PI, 0]}>
                 <planeGeometry args={[1.5, 2.1]} />
                 <meshStandardMaterial
                   map={portraitTexture}
                   transparent
-                  opacity={0.9}
+                  opacity={0.95}
                   depthWrite={false}
-                  side={THREE.DoubleSide}
+                  side={THREE.FrontSide}
                 />
               </mesh>
             )}

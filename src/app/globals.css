@@ -473,6 +473,7 @@ nav .menu-toggle-btn-wrapper p {
   display: flex;
   flex-direction: column;
   gap: 4em;
+  border-top: 4px solid var(--fg);
 }
 
 .about-hero .about-hero-header {
@@ -504,13 +505,19 @@ nav .menu-toggle-btn-wrapper p {
   letter-spacing: 0.08em;
 }
 
-.about-hero .about-hero-portrait {
-  position: absolute;
-  top: 5em;
-  right: 2em;
-  width: 380px;
-  height: 500px;
-  overflow: hidden;
+.lanyard-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 45vw;
+  height: 100vh;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.lanyard-overlay > div {
+  width: 100%;
+  height: 100%;
 }
 
 /* Featured Work */
@@ -1072,12 +1079,10 @@ footer {
     padding-right: 0;
   }
 
-  .about-hero .about-hero-portrait {
+  .lanyard-overlay {
     position: relative;
-    top: auto;
-    right: auto;
     width: 100%;
-    height: 250px;
+    height: 300px;
     margin-top: 1em;
   }
 
@@ -1792,8 +1797,8 @@ footer {
     line-height: 1.45;
   }
 
-  .about-hero .about-hero-portrait {
-    height: 220px;
+  .lanyard-overlay {
+    height: 280px;
     margin-top: 0.5em;
   }
   
@@ -1908,7 +1913,7 @@ footer {
     font-size: 16vw;
   }
   
-  .about-hero .about-hero-portrait {
+  .lanyard-overlay {
     height: 400px;
   }
   
@@ -1939,7 +1944,7 @@ footer {
     font-size: 14vw;
   }
   
-  .about-hero .about-hero-portrait {
+  .lanyard-overlay {
     height: 500px;
   }
   
@@ -1955,10 +1960,8 @@ footer {
 
 /* Large Devices (desktops, 1024px to 1439px) */
 @media (min-width: 1024px) and (max-width: 1439px) {
-  .about-hero .about-hero-portrait {
-    width: 260px;
-    height: 320px;
-    right: 2.5em;
+  .lanyard-overlay {
+    width: 42vw;
   }
 
   .about-hero .about-hero-bio {
@@ -1976,10 +1979,8 @@ footer {
 
 /* Extra Large Devices (large desktops, 1440px and up) */
 @media (min-width: 1440px) {
-  .about-hero .about-hero-portrait {
-    width: 300px;
-    height: 360px;
-    right: 4em;
+  .lanyard-overlay {
+    width: 45vw;
   }
 
   .about-hero .about-hero-bio {
@@ -2062,7 +2063,7 @@ footer {
     opacity: 1 !important;
   }
   
-  .about-hero-portrait {
+  .lanyard-overlay {
     transform: none !important;
   }
   
