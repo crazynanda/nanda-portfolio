@@ -243,13 +243,14 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, portraitUrl }: Ba
               />
             </mesh>
             {portraitTexture && (
-              <mesh position={[0, 0, 0.02]} rotation={[0, Math.PI, 0]}>
-                <planeGeometry args={[1.55, 2.2]} />
+              <mesh position={[0, 0, 0.06]} rotation={[0, Math.PI, 0]}>
+                <planeGeometry args={[1.5, 2.1]} />
                 <meshStandardMaterial
                   map={portraitTexture}
                   transparent
-                  opacity={0.95}
+                  opacity={0.9}
                   depthWrite={false}
+                  side={THREE.DoubleSide}
                 />
               </mesh>
             )}
