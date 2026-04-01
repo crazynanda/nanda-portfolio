@@ -243,16 +243,28 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, portraitUrl }: Ba
               />
             </mesh>
             {portraitTexture && (
-              <mesh position={[0, 0, 0.1]} rotation={[0, Math.PI, 0]}>
-                <planeGeometry args={[1.5, 2.1]} />
-                <meshStandardMaterial
-                  map={portraitTexture}
-                  transparent
-                  opacity={0.95}
-                  depthWrite={false}
-                  side={THREE.FrontSide}
-                />
-              </mesh>
+              <>
+                <mesh position={[0, 0, 0.1]}>
+                  <planeGeometry args={[1.5, 2.1]} />
+                  <meshStandardMaterial
+                    map={portraitTexture}
+                    transparent
+                    opacity={0.95}
+                    depthWrite={false}
+                    side={THREE.FrontSide}
+                  />
+                </mesh>
+                <mesh position={[0, 0, -0.02]} rotation={[0, Math.PI, 0]}>
+                  <planeGeometry args={[1.5, 2.1]} />
+                  <meshStandardMaterial
+                    map={portraitTexture}
+                    transparent
+                    opacity={0.95}
+                    depthWrite={false}
+                    side={THREE.FrontSide}
+                  />
+                </mesh>
+              </>
             )}
             <mesh geometry={nodes.clip?.geometry} material={materials.metal} material-roughness={0.3} />
             <mesh geometry={nodes.clamp?.geometry} material={materials.metal} />
