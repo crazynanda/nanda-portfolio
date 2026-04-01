@@ -29,6 +29,7 @@ interface LanyardProps {
   gravity?: [number, number, number];
   fov?: number;
   transparent?: boolean;
+  portraitUrl?: string;
 }
 
 export default function Lanyard({
@@ -36,6 +37,7 @@ export default function Lanyard({
   gravity = [0, -40, 0],
   fov = 20,
   transparent = true,
+  portraitUrl,
 }: LanyardProps) {
   const [isMobile] = useState(false);
 
@@ -51,7 +53,7 @@ export default function Lanyard({
         <ambientLight intensity={Math.PI} />
         <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
           <Suspense fallback={null}>
-            <Band isMobile={isMobile} />
+            <Band isMobile={isMobile} portraitUrl={portraitUrl} />
           </Suspense>
         </Physics>
         <Environment blur={0.75}>
@@ -93,9 +95,10 @@ interface BandProps {
   maxSpeed?: number;
   minSpeed?: number;
   isMobile?: boolean;
+  portraitUrl?: string;
 }
 
-function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
+function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, portraitUrl }: BandProps) {
   const band = useRef<any>(null);
   const fixed = useRef<any>(null);
   const j1 = useRef<any>(null);
@@ -118,6 +121,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
 
   const { nodes, materials } = useGLTF("/assets/lanyard/card.glb") as any;
   const texture = useTexture("/assets/lanyard/lanyard.png");
+  const portraitTexture = portraitUrl ? useTexture(portraitUrl) : null;
 
   const [curve] = useState(
     () =>
@@ -238,6 +242,17 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                 metalness={0.8}
               />
             </mesh>
+            {portraitTexture && (
+              <mesh position={[0, 0, 0.02]} rotation={[0, Math.PI, 0]}>
+                <planeGeometry args={[1.55, 2.2]} />
+                <meshStandardMaterial
+                  map={portraitTexture}
+                  transparent
+                  opacity={0.95}
+                  depthWrite={false}
+                />
+              </mesh>
+            )}
             <mesh geometry={nodes.clip?.geometry} material={materials.metal} material-roughness={0.3} />
             <mesh geometry={nodes.clamp?.geometry} material={materials.metal} />
           </group>

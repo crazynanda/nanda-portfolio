@@ -39,7 +39,7 @@ export default function LanyardWithFallback({ portraitUrl = "/images/about/portr
         </div>
       }
     >
-      <Lanyard3D />
+      <Lanyard3D portraitUrl={portraitUrl} />
     </ErrorBoundary>
   );
 }
