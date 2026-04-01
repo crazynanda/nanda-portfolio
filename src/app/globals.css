@@ -507,10 +507,10 @@ nav .menu-toggle-btn-wrapper p {
 
 .lanyard-overlay {
   position: absolute;
-  top: 0;
+  top: -3em;
   right: 2em;
   width: 380px;
-  height: 480px;
+  height: 520px;
   overflow: hidden;
 }
 
