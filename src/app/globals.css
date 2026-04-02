@@ -506,11 +506,12 @@ nav .menu-toggle-btn-wrapper p {
 }
 
 .lanyard-overlay {
-  position: absolute;
-  top: -3em;
+  position: fixed;
+  top: 10em;
   right: 2em;
-  width: 380px;
-  height: 120%;
+  width: 280px;
+  height: 340px;
+  z-index: 1000;
   border: none;
   background: transparent;
 }
@@ -1084,7 +1085,7 @@ footer {
     top: auto;
     right: auto;
     width: 100%;
-    height: 400px;
+    height: 250px;
     margin-top: 1em;
     overflow: hidden;
   }
@@ -1801,7 +1802,7 @@ footer {
   }
 
   .lanyard-overlay {
-    height: 380px;
+    height: 220px;
     margin-top: 0.5em;
   }
   
@@ -1917,7 +1918,14 @@ footer {
   }
   
   .lanyard-overlay {
-    height: 500px;
+    position: fixed;
+    top: 10em;
+    right: 2em;
+    width: 280px;
+    height: 340px;
+    z-index: 1000;
+    border: none;
+    background: transparent;
   }
   
   .featured-work .featured-title-wrapper h1 {
@@ -1948,7 +1956,14 @@ footer {
   }
   
   .lanyard-overlay {
-    height: 500px;
+    position: fixed;
+    top: 10em;
+    right: 2em;
+    width: 280px;
+    height: 340px;
+    z-index: 1000;
+    border: none;
+    background: transparent;
   }
   
   .contact-cta .contact-button {
@@ -1964,10 +1979,12 @@ footer {
 /* Large Devices (desktops, 1024px to 1439px) */
 @media (min-width: 1024px) and (max-width: 1439px) {
   .lanyard-overlay {
-    width: 340px;
-    height: 120%;
-    top: -3em;
+    position: fixed;
+    top: 10em;
     right: 2.5em;
+    width: 280px;
+    height: 340px;
+    z-index: 1000;
     border: none;
     background: transparent;
   }
@@ -1988,10 +2005,12 @@ footer {
 /* Extra Large Devices (large desktops, 1440px and up) */
 @media (min-width: 1440px) {
   .lanyard-overlay {
-    width: 380px;
-    height: 120%;
-    top: -3em;
+    position: fixed;
+    top: 10em;
     right: 4em;
+    width: 280px;
+    height: 340px;
+    z-index: 1000;
     border: none;
     background: transparent;
   }
