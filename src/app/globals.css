@@ -474,6 +474,7 @@ nav .menu-toggle-btn-wrapper p {
   flex-direction: column;
   gap: 4em;
   border-top: 4px solid var(--fg);
+  overflow: visible;
 }
 
 .about-hero .about-hero-header {
@@ -507,13 +508,14 @@ nav .menu-toggle-btn-wrapper p {
 
 .lanyard-overlay {
   position: absolute;
-  top: 0;
+  top: -2em;
   right: 2em;
-  width: 280px;
-  height: 100%;
+  width: 500px;
+  height: 700px;
   z-index: 10;
   border: none;
   background: transparent;
+  overflow: visible;
 }
 
 .lanyard-overlay > div {
@@ -1085,9 +1087,8 @@ footer {
     top: auto;
     right: auto;
     width: 100%;
-    height: 250px;
+    height: 400px;
     margin-top: 1em;
-    overflow: hidden;
   }
 
   .about-hero .about-hero-bio p.ss {
@@ -1802,7 +1803,7 @@ footer {
   }
 
   .lanyard-overlay {
-    height: 220px;
+    height: 350px;
     margin-top: 0.5em;
   }
   
@@ -1919,13 +1920,14 @@ footer {
   
   .lanyard-overlay {
     position: absolute;
-    top: 0;
+    top: -2em;
     right: 2em;
-    width: 280px;
-    height: 100%;
+    width: 500px;
+    height: 700px;
     z-index: 10;
     border: none;
     background: transparent;
+    overflow: visible;
   }
   
   .featured-work .featured-title-wrapper h1 {
@@ -1957,13 +1959,14 @@ footer {
   
   .lanyard-overlay {
     position: absolute;
-    top: 0;
+    top: -2em;
     right: 2em;
-    width: 280px;
-    height: 100%;
+    width: 500px;
+    height: 700px;
     z-index: 10;
     border: none;
     background: transparent;
+    overflow: visible;
   }
   
   .contact-cta .contact-button {
@@ -1980,13 +1983,14 @@ footer {
 @media (min-width: 1024px) and (max-width: 1439px) {
   .lanyard-overlay {
     position: absolute;
-    top: 0;
+    top: -2em;
     right: 2.5em;
-    width: 280px;
-    height: 100%;
+    width: 500px;
+    height: 700px;
     z-index: 10;
     border: none;
     background: transparent;
+    overflow: visible;
   }
 
   .about-hero .about-hero-bio {
@@ -2006,13 +2010,14 @@ footer {
 @media (min-width: 1440px) {
   .lanyard-overlay {
     position: absolute;
-    top: 0;
+    top: -2em;
     right: 4em;
-    width: 280px;
-    height: 100%;
+    width: 500px;
+    height: 700px;
     z-index: 10;
     border: none;
     background: transparent;
+    overflow: visible;
   }
 
   .about-hero .about-hero-bio {
