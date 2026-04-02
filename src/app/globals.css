@@ -506,12 +506,12 @@ nav .menu-toggle-btn-wrapper p {
 }
 
 .lanyard-overlay {
-  position: fixed;
-  top: 10em;
+  position: absolute;
+  top: 0;
   right: 2em;
   width: 280px;
-  height: 340px;
-  z-index: 1000;
+  height: 100%;
+  z-index: 10;
   border: none;
   background: transparent;
 }
@@ -1918,12 +1918,12 @@ footer {
   }
   
   .lanyard-overlay {
-    position: fixed;
-    top: 10em;
+    position: absolute;
+    top: 0;
     right: 2em;
     width: 280px;
-    height: 340px;
-    z-index: 1000;
+    height: 100%;
+    z-index: 10;
     border: none;
     background: transparent;
   }
@@ -1956,12 +1956,12 @@ footer {
   }
   
   .lanyard-overlay {
-    position: fixed;
-    top: 10em;
+    position: absolute;
+    top: 0;
     right: 2em;
     width: 280px;
-    height: 340px;
-    z-index: 1000;
+    height: 100%;
+    z-index: 10;
     border: none;
     background: transparent;
   }
@@ -1979,12 +1979,12 @@ footer {
 /* Large Devices (desktops, 1024px to 1439px) */
 @media (min-width: 1024px) and (max-width: 1439px) {
   .lanyard-overlay {
-    position: fixed;
-    top: 10em;
+    position: absolute;
+    top: 0;
     right: 2.5em;
     width: 280px;
-    height: 340px;
-    z-index: 1000;
+    height: 100%;
+    z-index: 10;
     border: none;
     background: transparent;
   }
@@ -2005,12 +2005,12 @@ footer {
 /* Extra Large Devices (large desktops, 1440px and up) */
 @media (min-width: 1440px) {
   .lanyard-overlay {
-    position: fixed;
-    top: 10em;
+    position: absolute;
+    top: 0;
     right: 4em;
     width: 280px;
-    height: 340px;
-    z-index: 1000;
+    height: 100%;
+    z-index: 10;
     border: none;
     background: transparent;
   }
