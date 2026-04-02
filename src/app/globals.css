@@ -512,7 +512,7 @@ nav .menu-toggle-btn-wrapper p {
   right: 0;
   width: 100%;
   height: 100%;
-  z-index: 10;
+  z-index: 1;
   border: none;
   background: transparent;
   overflow: visible;
@@ -1926,7 +1926,7 @@ footer {
     right: 0;
     width: 100%;
     height: 100%;
-    z-index: 10;
+    z-index: 1;
     border: none;
     background: transparent;
     overflow: visible;
@@ -1966,7 +1966,7 @@ footer {
     right: 0;
     width: 100%;
     height: 100%;
-    z-index: 10;
+    z-index: 1;
     border: none;
     background: transparent;
     overflow: visible;
@@ -1991,7 +1991,7 @@ footer {
     right: 0;
     width: 100%;
     height: 100%;
-    z-index: 10;
+    z-index: 1;
     border: none;
     background: transparent;
     overflow: visible;
@@ -2019,7 +2019,7 @@ footer {
     right: 0;
     width: 100%;
     height: 100%;
-    z-index: 10;
+    z-index: 1;
     border: none;
     background: transparent;
     overflow: visible;
