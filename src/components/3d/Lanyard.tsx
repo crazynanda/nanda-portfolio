@@ -33,7 +33,7 @@ interface LanyardProps {
 }
 
 export default function Lanyard({
-  position = [0, 0, 18],
+  position = [0, 0, 16],
   gravity = [0, -40, 0],
   fov = 25,
   transparent = true,
@@ -52,7 +52,7 @@ export default function Lanyard({
       paddingTop: "1em",
       paddingRight: "2em"
     }}>
-      <div style={{ width: "280px", height: "340px", position: "relative" }}>
+      <div style={{ width: "380px", height: "480px", position: "relative" }}>
         <Canvas
           camera={{ position, fov }}
           dpr={[1, isMobile ? 1.5 : 2]}
