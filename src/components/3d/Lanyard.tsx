@@ -52,7 +52,7 @@ export default function Lanyard({
       paddingTop: "1em",
       paddingRight: "2em"
     }}>
-      <div style={{ width: "380px", height: "480px", position: "relative" }}>
+      <div style={{ width: "380px", height: "650px", position: "relative" }}>
         <Canvas
           camera={{ position, fov }}
           dpr={[1, isMobile ? 1.5 : 2]}
