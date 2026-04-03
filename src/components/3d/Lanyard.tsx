@@ -36,7 +36,7 @@ interface LanyardProps {
 export default function Lanyard({ portraitUrl }: LanyardProps) {
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      <Canvas camera={{ position: [0, 0, 10], fov: 25 }} dpr={[1, 2]}>
+      <Canvas camera={{ position: [0, 0, 14], fov: 22 }} dpr={[1, 2]}>
         <ambientLight intensity={Math.PI} />
         <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
           <Suspense fallback={null}>
@@ -203,7 +203,7 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 10 }: { portraitUrl?: str
         >
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
-            scale={isMobile ? 1.5 : 2.25}
+            scale={isMobile ? 1.2 : 1.8}
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}

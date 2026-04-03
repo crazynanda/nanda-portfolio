@@ -901,7 +901,7 @@ export default function Home() {
           </div>
         </footer>
       </div>
-      <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", pointerEvents: "none", zIndex: 1000 }}>
+      <div style={{ position: "absolute", top: 0, left: 0, width: "100%", minHeight: "100vh", pointerEvents: "none", zIndex: 1000 }}>
         <LanyardWithFallback portraitUrl="/images/about/portrait.jpg" />
       </div>
     </>
