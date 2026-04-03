@@ -43,7 +43,7 @@ export default function Lanyard({ portraitUrl }: LanyardProps) {
             <Band portraitUrl={portraitUrl} />
           </Suspense>
         </Physics>
-        <Environment background blur={0.75}>
+        <Environment blur={0.75}>
           <Lightformer
             intensity={2}
             color="white"

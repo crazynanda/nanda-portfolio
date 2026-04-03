@@ -686,9 +686,6 @@ export default function Home() {
             </p>
             <p className="mn">Code / Design / Craft / Repeat</p>
           </div>
-          <div style={{ position: "absolute", top: 0, right: 0, width: "50%", height: "100%", pointerEvents: "none", zIndex: 10 }}>
-            <LanyardWithFallback portraitUrl="/images/about/portrait.jpg" />
-          </div>
         </section>
 
         {/* Featured Work */}
@@ -903,6 +900,9 @@ export default function Home() {
             <div className="explosion-container" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "hidden" }}></div>
           </div>
         </footer>
+      </div>
+      <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", pointerEvents: "none", zIndex: 1000 }}>
+        <LanyardWithFallback portraitUrl="/images/about/portrait.jpg" />
       </div>
     </>
   );
