@@ -36,7 +36,7 @@ interface LanyardProps {
 export default function Lanyard({ portraitUrl }: LanyardProps) {
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      <Canvas camera={{ position: [0, 0, 14], fov: 22 }} dpr={[1, 2]}>
+      <Canvas camera={{ position: [0, 0, 12], fov: 24 }} dpr={[1, 2]}>
         <ambientLight intensity={Math.PI} />
         <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
           <Suspense fallback={null}>
@@ -117,7 +117,7 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 10 }: { portraitUrl?: str
   const [hovered, hover] = useState(false);
 
   const isMobile = width < 768;
-  const cardPosition: [number, number, number] = isMobile ? [4, 5, 0] : [3, 4, 0];
+  const cardPosition: [number, number, number] = isMobile ? [4, 2, 0] : [3, 2, 0];
   const jointPositions: [number, number, number][] = isMobile
     ? [[0.3, 0, 0], [0.6, 0, 0], [0.9, 0, 0], [1.2, 0, 0]]
     : [[3.5, 0, 0], [4, 0, 0], [4.5, 0, 0], [5, 0, 0]];
@@ -203,7 +203,7 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 10 }: { portraitUrl?: str
         >
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
-            scale={isMobile ? 1.2 : 1.8}
+            scale={isMobile ? 1.4 : 2.0}
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
