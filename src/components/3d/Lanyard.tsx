@@ -120,14 +120,14 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 10 }: { portraitUrl?: str
   const cardPosition: [number, number, number] = isMobile ? [4, 3, 0] : [3, 3, 0];
   const jointPositions: [number, number, number][] = isMobile
     ? [[0.3, 0, 0], [0.5, 0, 0], [0.7, 0, 0], [0.9, 0, 0]]
-    : [[3.5, 0, 0], [3.8, 0, 0], [4.1, 0, 0], [4.4, 0, 0]];
+    : [[3.5, 0, 0], [3.7, 0, 0], [3.9, 0, 0], [4.1, 0, 0]];
 
-  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 0.6]);
-  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 0.6]);
-  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 0.6]);
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 0.4]);
+  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 0.4]);
+  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 0.4]);
   useSphericalJoint(j3, card, [
     [0, 0, 0],
-    [0, 1.2, 0],
+    [0, 1.0, 0],
   ]);
 
   useEffect(() => {
