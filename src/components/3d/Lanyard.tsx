@@ -1,7 +1,8 @@
 "use client";
 
+import * as THREE from "three";
 import { useRef, useState, useEffect, Suspense } from "react";
-import { Canvas, extend, useFrame } from "@react-three/fiber";
+import { Canvas, extend, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, useTexture, Environment, Lightformer } from "@react-three/drei";
 import {
   BallCollider,
@@ -10,10 +11,8 @@ import {
   RigidBody,
   useRopeJoint,
   useSphericalJoint,
-  RigidBodyProps,
 } from "@react-three/rapier";
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
-import * as THREE from "three";
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
@@ -24,39 +23,27 @@ declare module "@react-three/fiber" {
   }
 }
 
+const GLTF_PATH = "/assets/lanyard/card.glb";
+const TEXTURE_PATH = "/assets/lanyard/lanyard.png";
+
+useGLTF.preload(GLTF_PATH);
+useTexture.preload(TEXTURE_PATH);
+
 interface LanyardProps {
-  position?: [number, number, number];
-  gravity?: [number, number, number];
-  fov?: number;
-  transparent?: boolean;
   portraitUrl?: string;
 }
 
-export default function Lanyard({
-  position = [0, 0, 16],
-  gravity = [0, -40, 0],
-  fov = 25,
-  transparent = true,
-  portraitUrl,
-}: LanyardProps) {
-  const [isMobile] = useState(false);
-
+export default function Lanyard({ portraitUrl }: LanyardProps) {
   return (
-    <div style={{ width: "100%", height: "100%", position: "relative" }}>
-      <Canvas
-        camera={{ position, fov }}
-        dpr={[1, isMobile ? 1.5 : 2]}
-        gl={{ alpha: transparent }}
-        onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
-        style={{ width: "100%", height: "100%" }}
-      >
+    <div style={{ width: "100%", height: "100%" }}>
+      <Canvas camera={{ position: [0, 0, 10], fov: 25 }} dpr={[1, 2]}>
         <ambientLight intensity={Math.PI} />
-        <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
+        <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
           <Suspense fallback={null}>
-            <Band isMobile={isMobile} portraitUrl={portraitUrl} />
+            <Band portraitUrl={portraitUrl} />
           </Suspense>
         </Physics>
-        <Environment blur={0.75}>
+        <Environment background blur={0.75}>
           <Lightformer
             intensity={2}
             color="white"
@@ -91,14 +78,7 @@ export default function Lanyard({
   );
 }
 
-interface BandProps {
-  maxSpeed?: number;
-  minSpeed?: number;
-  isMobile?: boolean;
-  portraitUrl?: string;
-}
-
-function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, portraitUrl }: BandProps) {
+function Band({ portraitUrl, maxSpeed = 50, minSpeed = 10 }: { portraitUrl?: string; maxSpeed?: number; minSpeed?: number }) {
   const band = useRef<any>(null);
   const fixed = useRef<any>(null);
   const j1 = useRef<any>(null);
@@ -112,16 +92,17 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, portraitUrl }: Ba
   const dir = new THREE.Vector3();
 
   const segmentProps = {
-    type: "dynamic" as RigidBodyProps["type"],
+    type: "dynamic" as const,
     canSleep: true,
-    colliders: false as RigidBodyProps["colliders"],
+    colliders: false as const,
     angularDamping: 4,
     linearDamping: 4,
   };
 
-  const { nodes, materials } = useGLTF("/assets/lanyard/card.glb") as any;
-  const texture = useTexture("/assets/lanyard/lanyard.png");
+  const { nodes, materials } = useGLTF(GLTF_PATH) as any;
+  const texture = useTexture(TEXTURE_PATH);
   const portraitTexture = portraitUrl ? useTexture(portraitUrl) : null;
+  const { width, height } = useThree((state) => state.size);
 
   const [curve] = useState(
     () =>
@@ -135,12 +116,18 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, portraitUrl }: Ba
   const [dragged, drag] = useState<false | THREE.Vector3>(false);
   const [hovered, hover] = useState(false);
 
+  const isMobile = width < 768;
+  const cardPosition: [number, number, number] = isMobile ? [4, 5, 0] : [3, 4, 0];
+  const jointPositions: [number, number, number][] = isMobile
+    ? [[0.3, 0, 0], [0.6, 0, 0], [0.9, 0, 0], [1.2, 0, 0]]
+    : [[3.5, 0, 0], [4, 0, 0], [4.5, 0, 0], [5, 0, 0]];
+
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]);
   useSphericalJoint(j3, card, [
     [0, 0, 0],
-    [0, 1.45, 0],
+    [0, 1.5, 0],
   ]);
 
   useEffect(() => {
@@ -181,7 +168,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, portraitUrl }: Ba
       curve.points[1].copy(j2.current.lerped);
       curve.points[2].copy(j1.current.lerped);
       curve.points[3].copy(fixed.current.translation());
-      (band.current.geometry as any)?.setPoints?.(curve.getPoints(isMobile ? 16 : 32));
+      (band.current.geometry as any)?.setPoints?.(curve.getPoints(32));
       ang.copy(card.current.angvel());
       rot.copy(card.current.rotation());
       card.current.setAngvel({
@@ -197,26 +184,26 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, portraitUrl }: Ba
 
   return (
     <>
-      <group position={[0, 4, 0]}>
+      <group position={cardPosition}>
         <RigidBody ref={fixed} {...segmentProps} type="fixed" />
-        <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps} type="dynamic">
+        <RigidBody position={jointPositions[0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[1, 0, 0]} ref={j2} {...segmentProps} type="dynamic">
+        <RigidBody position={jointPositions[1]} ref={j2} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[1.5, 0, 0]} ref={j3} {...segmentProps} type="dynamic">
+        <RigidBody position={jointPositions[2]} ref={j3} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody
-          position={[2, 0, 0]}
+          position={jointPositions[3]}
           ref={card}
           {...segmentProps}
           type={dragged ? "kinematicPosition" : "dynamic"}
         >
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
-            scale={2.25}
+            scale={isMobile ? 1.5 : 2.25}
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
@@ -236,32 +223,30 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, portraitUrl }: Ba
             <mesh geometry={nodes.card.geometry}>
               <meshPhysicalMaterial
                 map={materials.base?.map}
-                clearcoat={isMobile ? 0 : 1}
+                clearcoat={1}
                 clearcoatRoughness={0.15}
-                roughness={0.9}
-                metalness={0.8}
+                roughness={0.3}
+                metalness={0.5}
               />
             </mesh>
             {portraitTexture && (
               <>
-                <mesh position={[0, 0, 0.1]}>
+                <mesh position={[0, 0, 0.05]}>
                   <planeGeometry args={[1.5, 2.1]} />
                   <meshStandardMaterial
                     map={portraitTexture}
                     transparent
                     opacity={0.95}
                     depthWrite={false}
-                    side={THREE.FrontSide}
                   />
                 </mesh>
-                <mesh position={[0, 0, -0.02]} rotation={[0, Math.PI, 0]}>
+                <mesh position={[0, 0, -0.05]} rotation={[0, Math.PI, 0]}>
                   <planeGeometry args={[1.5, 2.1]} />
                   <meshStandardMaterial
                     map={portraitTexture}
                     transparent
                     opacity={0.95}
                     depthWrite={false}
-                    side={THREE.FrontSide}
                   />
                 </mesh>
               </>
@@ -271,15 +256,15 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, portraitUrl }: Ba
           </group>
         </RigidBody>
       </group>
-      <mesh ref={band}>
+      <mesh ref={band} renderOrder={1}>
         <meshLineGeometry />
         <meshLineMaterial
           color="white"
           depthTest={false}
-          resolution={isMobile ? [1000, 2000] : [1000, 1000]}
+          resolution={[width, height]}
           useMap
           map={texture}
-          repeat={[-4, 1]}
+          repeat={[-3, 1]}
           lineWidth={1}
         />
       </mesh>
