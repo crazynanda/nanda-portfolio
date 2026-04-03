@@ -117,7 +117,7 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 10 }: { portraitUrl?: str
   const [hovered, hover] = useState(false);
 
   const isMobile = width < 768;
-  const cardPosition: [number, number, number] = isMobile ? [4, 2, 0] : [3, 2, 0];
+  const cardPosition: [number, number, number] = isMobile ? [4, 0, 0] : [3, 0, 0];
   const jointPositions: [number, number, number][] = isMobile
     ? [[0.3, 0, 0], [0.6, 0, 0], [0.9, 0, 0], [1.2, 0, 0]]
     : [[3.5, 0, 0], [4, 0, 0], [4.5, 0, 0], [5, 0, 0]];
