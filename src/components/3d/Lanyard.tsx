@@ -42,24 +42,14 @@ export default function Lanyard({
   const [isMobile] = useState(false);
 
   return (
-    <div style={{ 
-      width: "100%", 
-      height: "100%", 
-      position: "relative",
-      display: "flex",
-      justifyContent: "flex-end",
-      alignItems: "flex-start",
-      paddingTop: "1em",
-      paddingRight: "2em"
-    }}>
-      <div style={{ width: "380px", height: "900px", position: "relative" }}>
-        <Canvas
-          camera={{ position, fov }}
-          dpr={[1, isMobile ? 1.5 : 2]}
-          gl={{ alpha: transparent }}
-          onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
-          style={{ width: "100%", height: "100%" }}
-        >
+    <div style={{ width: "100%", height: "100%", position: "relative" }}>
+      <Canvas
+        camera={{ position, fov }}
+        dpr={[1, isMobile ? 1.5 : 2]}
+        gl={{ alpha: transparent }}
+        onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
+        style={{ width: "100%", height: "100%" }}
+      >
         <ambientLight intensity={Math.PI} />
         <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
           <Suspense fallback={null}>
@@ -97,7 +87,6 @@ export default function Lanyard({
           />
         </Environment>
       </Canvas>
-      </div>
     </div>
   );
 }

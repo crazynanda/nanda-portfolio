@@ -507,12 +507,12 @@ nav .menu-toggle-btn-wrapper p {
 }
 
 .lanyard-overlay {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+  position: fixed;
+  top: 10em;
+  right: 2em;
+  width: 380px;
+  height: 600px;
+  z-index: 1000;
   border: none;
   background: transparent;
   overflow: visible;
@@ -1921,12 +1921,12 @@ footer {
   }
   
   .lanyard-overlay {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
+    position: fixed;
+    top: 10em;
+    right: 2em;
+    width: 380px;
+    height: 600px;
+    z-index: 1000;
     border: none;
     background: transparent;
     overflow: visible;
@@ -1961,12 +1961,12 @@ footer {
   }
   
   .lanyard-overlay {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
+    position: fixed;
+    top: 10em;
+    right: 2em;
+    width: 380px;
+    height: 600px;
+    z-index: 1000;
     border: none;
     background: transparent;
     overflow: visible;
@@ -1986,12 +1986,12 @@ footer {
 /* Large Devices (desktops, 1024px to 1439px) */
 @media (min-width: 1024px) and (max-width: 1439px) {
   .lanyard-overlay {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
+    position: fixed;
+    top: 10em;
+    right: 2em;
+    width: 380px;
+    height: 600px;
+    z-index: 1000;
     border: none;
     background: transparent;
     overflow: visible;
@@ -2014,12 +2014,12 @@ footer {
 /* Extra Large Devices (large desktops, 1440px and up) */
 @media (min-width: 1440px) {
   .lanyard-overlay {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
+    position: fixed;
+    top: 10em;
+    right: 4em;
+    width: 380px;
+    height: 600px;
+    z-index: 1000;
     border: none;
     background: transparent;
     overflow: visible;
