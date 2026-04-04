@@ -78,7 +78,7 @@ export default function Lanyard({ portraitUrl }: LanyardProps) {
   );
 }
 
-function Band({ portraitUrl, maxSpeed = 50, minSpeed = 10 }: { portraitUrl?: string; maxSpeed?: number; minSpeed?: number }) {
+function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: string; maxSpeed?: number; minSpeed?: number }) {
   const band = useRef<any>(null);
   const fixed = useRef<any>(null);
   const j1 = useRef<any>(null);
@@ -95,8 +95,8 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 10 }: { portraitUrl?: str
     type: "dynamic" as const,
     canSleep: true,
     colliders: false as const,
-    angularDamping: 4,
-    linearDamping: 4,
+    angularDamping: 8,
+    linearDamping: 8,
   };
 
   const { nodes, materials } = useGLTF(GLTF_PATH) as any;
@@ -119,15 +119,15 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 10 }: { portraitUrl?: str
   const isMobile = width < 768;
   const cardPosition: [number, number, number] = isMobile ? [4, 3, 0] : [3, 3, 0];
   const jointPositions: [number, number, number][] = isMobile
-    ? [[0.3, 0, 0], [0.4, 0, 0], [0.5, 0, 0], [0.6, 0, 0]]
-    : [[3.5, 0, 0], [3.6, 0, 0], [3.7, 0, 0], [3.8, 0, 0]];
+    ? [[0.3, 0, 0], [0.6, 0, 0], [0.9, 0, 0], [1.2, 0, 0]]
+    : [[3.5, 0, 0], [4, 0, 0], [4.5, 0, 0], [5, 0, 0]];
 
-  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 0.3]);
-  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 0.3]);
-  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 0.3]);
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
+  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
+  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]);
   useSphericalJoint(j3, card, [
     [0, 0, 0],
-    [0, 0.8, 0],
+    [0, 1.5, 0],
   ]);
 
   useEffect(() => {
@@ -152,23 +152,18 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 10 }: { portraitUrl?: str
       });
     }
     if (fixed.current) {
-      const vel = card.current.linvel();
-      const isCardMoving = Math.abs(vel.x) + Math.abs(vel.y) + Math.abs(vel.z) > 0.5;
-
-      if (isCardMoving || dragged) {
-        [j1, j2].forEach((ref) => {
-          if (!ref.current.lerped)
-            ref.current.lerped = new THREE.Vector3().copy(ref.current.translation());
-          const clampedDistance = Math.max(
-            0.1,
-            Math.min(1, ref.current.lerped.distanceTo(ref.current.translation()))
-          );
-          ref.current.lerped.lerp(
-            ref.current.translation(),
-            delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
-          );
-        });
-      }
+      [j1, j2].forEach((ref) => {
+        if (!ref.current.lerped)
+          ref.current.lerped = new THREE.Vector3().copy(ref.current.translation());
+        const clampedDistance = Math.max(
+          0.1,
+          Math.min(1, ref.current.lerped.distanceTo(ref.current.translation()))
+        );
+        ref.current.lerped.lerp(
+          ref.current.translation(),
+          delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
+        );
+      });
       curve.points[0].copy(j3.current.translation());
       curve.points[1].copy(j2.current.lerped);
       curve.points[2].copy(j1.current.lerped);
