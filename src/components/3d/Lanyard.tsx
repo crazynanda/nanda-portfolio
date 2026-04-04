@@ -78,7 +78,7 @@ export default function Lanyard({ portraitUrl }: LanyardProps) {
   );
 }
 
-function Band({ portraitUrl, maxSpeed = 50, minSpeed = 10 }: { portraitUrl?: string; maxSpeed?: number; minSpeed?: number }) {
+function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: string; maxSpeed?: number; minSpeed?: number }) {
   const band = useRef<any>(null);
   const fixed = useRef<any>(null);
   const j1 = useRef<any>(null);
@@ -95,8 +95,8 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 10 }: { portraitUrl?: str
     type: "dynamic" as const,
     canSleep: true,
     colliders: false as const,
-    angularDamping: 4,
-    linearDamping: 4,
+    angularDamping: 6,
+    linearDamping: 6,
   };
 
   const { nodes, materials } = useGLTF(GLTF_PATH) as any;
@@ -120,14 +120,14 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 10 }: { portraitUrl?: str
   const cardPosition: [number, number, number] = isMobile ? [4, 3, 0] : [3, 3, 0];
   const jointPositions: [number, number, number][] = isMobile
     ? [[0.3, 0, 0], [0.6, 0, 0], [0.9, 0, 0], [1.2, 0, 0]]
-    : [[3.5, 0, 0], [3.8, 0, 0], [4.1, 0, 0], [4.4, 0, 0]];
+    : [[3.5, 0, 0], [3.7, 0, 0], [3.9, 0, 0], [4.1, 0, 0]];
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 0.3]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 0.3]);
   useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 0.3]);
   useSphericalJoint(j3, card, [
     [0, 0, 0],
-    [0, 0.8, 0],
+    [0, 0.5, 0],
   ]);
 
   useEffect(() => {
