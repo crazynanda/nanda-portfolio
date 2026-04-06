@@ -117,14 +117,14 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
   const [hovered, hover] = useState(false);
 
   const isMobile = width < 768;
-  const cardPosition: [number, number, number] = isMobile ? [4, 1, 0] : [3, 1, 0];
+  const cardPosition: [number, number, number] = isMobile ? [4, 5, 0] : [3, 5, 0];
   const jointPositions: [number, number, number][] = isMobile
-    ? [[0.3, 0, 0], [0.4, 0, 0], [0.5, 0, 0], [0.6, 0, 0]]
-    : [[3.5, 0, 0], [3.6, 0, 0], [3.7, 0, 0], [3.8, 0, 0]];
+    ? [[0.3, 0, 0], [0.45, 0, 0], [0.6, 0, 0], [0.75, 0, 0]]
+    : [[3.5, 0, 0], [3.65, 0, 0], [3.8, 0, 0], [3.95, 0, 0]];
 
-  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 0.3]);
-  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 0.3]);
-  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 0.3]);
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 0.25]);
+  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 0.25]);
+  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 0.25]);
   useSphericalJoint(j3, card, [
     [0, 0, 0],
     [0, 1.5, 0],
@@ -203,7 +203,7 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
         >
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
-            scale={isMobile ? 0.7 : 1.0}
+            scale={isMobile ? 0.55 : 0.8}
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
