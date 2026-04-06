@@ -111,21 +111,20 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
         new THREE.Vector3(),
         new THREE.Vector3(),
         new THREE.Vector3(),
-        new THREE.Vector3(),
       ])
   );
   const [dragged, drag] = useState<false | THREE.Vector3>(false);
   const [hovered, hover] = useState(false);
 
   const isMobile = width < 768;
-  const cardPosition: [number, number, number] = isMobile ? [4, 3, 0] : [3, 3, 0];
+  const cardPosition: [number, number, number] = isMobile ? [4, 1, 0] : [3, 1, 0];
   const jointPositions: [number, number, number][] = isMobile
-    ? [[0.3, 0, 0], [0.5, 0, 0], [0.7, 0, 0], [0.9, 0, 0]]
-    : [[3.5, 0, 0], [3.65, 0, 0], [3.8, 0, 0], [3.95, 0, 0]];
+    ? [[0.3, 0, 0], [0.4, 0, 0], [0.5, 0, 0], [0.6, 0, 0]]
+    : [[3.5, 0, 0], [3.6, 0, 0], [3.7, 0, 0], [3.8, 0, 0]];
 
-  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 0.4]);
-  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 0.4]);
-  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 0.4]);
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 0.3]);
+  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 0.3]);
+  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 0.3]);
   useSphericalJoint(j3, card, [
     [0, 0, 0],
     [0, 1.5, 0],
@@ -165,13 +164,10 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
           delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
         );
       });
-      const cardPos = card.current.translation();
-      const cardAttachment = new THREE.Vector3(cardPos.x, cardPos.y + 1.5, cardPos.z);
-      curve.points[0].copy(cardAttachment);
-      curve.points[1].copy(j3.current.translation());
-      curve.points[2].copy(j2.current.lerped);
-      curve.points[3].copy(j1.current.lerped);
-      curve.points[4].copy(fixed.current.translation());
+      curve.points[0].copy(j3.current.translation());
+      curve.points[1].copy(j2.current.lerped);
+      curve.points[2].copy(j1.current.lerped);
+      curve.points[3].copy(fixed.current.translation());
       (band.current.geometry as any)?.setPoints?.(curve.getPoints(32));
       ang.copy(card.current.angvel());
       rot.copy(card.current.rotation());
@@ -207,7 +203,7 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
         >
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
-            scale={isMobile ? 0.8 : 1.2}
+            scale={isMobile ? 0.7 : 1.0}
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
