@@ -151,7 +151,7 @@ function Card({ portraitUrl }: { portraitUrl?: string }) {
       >
         <CuboidCollider args={[0.8, 1.125, 0.01]} />
         <group
-          scale={1.5}
+          scale={1.125}
           position={[0, -1.2, -0.05]}
           onPointerOver={() => hover(true)}
           onPointerOut={() => hover(false)}
