@@ -93,8 +93,8 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
     type: "dynamic" as const,
     canSleep: true,
     colliders: false as const,
-    angularDamping: 8,
-    linearDamping: 8,
+    angularDamping: 12,
+    linearDamping: 12,
   };
 
   const { nodes, materials } = useGLTF(GLTF_PATH) as any;
@@ -115,7 +115,7 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
   const [hovered, hover] = useState(false);
 
   const isMobile = width < 768;
-  const cardPosition: [number, number, number] = isMobile ? [4, 3, 0] : [3, 3, 0];
+  const cardPosition: [number, number, number] = isMobile ? [4, 2, 0] : [3, 2, 0];
   const jointPositions: [number, number, number][] = isMobile
     ? [[0.3, 0, 0], [0.5, 0, 0], [0.7, 0, 0]]
     : [[3.5, 0, 0], [3.8, 0, 0], [4.1, 0, 0]];
@@ -158,7 +158,16 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
           delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
         );
       });
-      curve.points[0].copy(card.current.translation());
+      const cardPos = card.current.translation();
+      const cardRot = card.current.rotation();
+      const clipOffset = new THREE.Vector3(0, 1.5, 0);
+      clipOffset.applyEuler(new THREE.Euler(cardRot.x, cardRot.y, cardRot.z));
+      const ribbonStart = new THREE.Vector3(
+        cardPos.x + clipOffset.x,
+        cardPos.y + clipOffset.y,
+        cardPos.z + clipOffset.z
+      );
+      curve.points[0].copy(ribbonStart);
       curve.points[1].copy(j2.current.lerped);
       curve.points[2].copy(j1.current.lerped);
       curve.points[3].copy(fixed.current.translation());
@@ -167,8 +176,8 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
       rot.copy(card.current.rotation());
       card.current.setAngvel({
         x: ang.x,
-        y: ang.y - rot.y * 0.25,
-        z: ang.z,
+        y: ang.y - rot.y * 0.5,
+        z: ang.z - rot.z * 0.3,
       });
     }
   });
