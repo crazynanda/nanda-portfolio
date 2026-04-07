@@ -132,7 +132,7 @@ function Card({ portraitUrl }: { portraitUrl?: string }) {
   });
 
   return (
-    <group position={[3, 4, 0]}>
+    <group position={[3, 5, 0]}>
       <RigidBody ref={fixed} {...segmentProps} type="fixed" />
       <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
         <BallCollider args={[0.1]} />
@@ -151,7 +151,7 @@ function Card({ portraitUrl }: { portraitUrl?: string }) {
       >
         <CuboidCollider args={[0.8, 1.125, 0.01]} />
         <group
-          scale={2.25}
+          scale={1.5}
           position={[0, -1.2, -0.05]}
           onPointerOver={() => hover(true)}
           onPointerOut={() => hover(false)}
