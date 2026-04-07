@@ -10,7 +10,6 @@ import {
   Physics,
   RigidBody,
   useRopeJoint,
-  useSphericalJoint,
 } from "@react-three/rapier";
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
 
@@ -83,7 +82,6 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
   const fixed = useRef<any>(null);
   const j1 = useRef<any>(null);
   const j2 = useRef<any>(null);
-  const j3 = useRef<any>(null);
   const card = useRef<any>(null);
 
   const vec = new THREE.Vector3();
@@ -117,18 +115,14 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
   const [hovered, hover] = useState(false);
 
   const isMobile = width < 768;
-  const cardPosition: [number, number, number] = isMobile ? [4, 5, 0] : [3, 5, 0];
+  const cardPosition: [number, number, number] = isMobile ? [4, 3, 0] : [3, 3, 0];
   const jointPositions: [number, number, number][] = isMobile
-    ? [[0.3, 0, 0], [0.45, 0, 0], [0.6, 0, 0], [0.75, 0, 0]]
-    : [[3.5, 0, 0], [3.65, 0, 0], [3.8, 0, 0], [3.95, 0, 0]];
+    ? [[0.3, 0, 0], [0.5, 0, 0], [0.7, 0, 0]]
+    : [[3.5, 0, 0], [3.8, 0, 0], [4.1, 0, 0]];
 
-  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 0.25]);
-  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 0.25]);
-  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 0.25]);
-  useSphericalJoint(j3, card, [
-    [0, 0, 0],
-    [0, 1.5, 0],
-  ]);
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 0.5]);
+  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 0.5]);
+  useRopeJoint(j2, card, [[0, 0, 0], [0, 0, 0], 0.5]);
 
   useEffect(() => {
     if (hovered) {
@@ -144,7 +138,7 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
       vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
       dir.copy(vec).sub(state.camera.position).normalize();
       vec.add(dir.multiplyScalar(state.camera.position.length()));
-      [card, j1, j2, j3, fixed].forEach((ref) => ref.current?.wakeUp());
+      [card, j1, j2, fixed].forEach((ref) => ref.current?.wakeUp());
       card.current?.setNextKinematicTranslation({
         x: vec.x - dragged.x,
         y: vec.y - dragged.y,
@@ -164,7 +158,7 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
           delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
         );
       });
-      curve.points[0].copy(j3.current.translation());
+      curve.points[0].copy(card.current.translation());
       curve.points[1].copy(j2.current.lerped);
       curve.points[2].copy(j1.current.lerped);
       curve.points[3].copy(fixed.current.translation());
@@ -192,11 +186,8 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
         <RigidBody position={jointPositions[1]} ref={j2} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={jointPositions[2]} ref={j3} {...segmentProps}>
-          <BallCollider args={[0.1]} />
-        </RigidBody>
         <RigidBody
-          position={jointPositions[3]}
+          position={jointPositions[2]}
           ref={card}
           {...segmentProps}
           type={dragged ? "kinematicPosition" : "dynamic"}
