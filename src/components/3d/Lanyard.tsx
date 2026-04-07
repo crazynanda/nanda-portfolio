@@ -93,8 +93,8 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
     type: "dynamic" as const,
     canSleep: true,
     colliders: false as const,
-    angularDamping: 12,
-    linearDamping: 12,
+    angularDamping: 20,
+    linearDamping: 20,
   };
 
   const { nodes, materials } = useGLTF(GLTF_PATH) as any;
@@ -159,14 +159,7 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
         );
       });
       const cardPos = card.current.translation();
-      const cardRot = card.current.rotation();
-      const clipOffset = new THREE.Vector3(0, 1.5, 0);
-      clipOffset.applyEuler(new THREE.Euler(cardRot.x, cardRot.y, cardRot.z));
-      const ribbonStart = new THREE.Vector3(
-        cardPos.x + clipOffset.x,
-        cardPos.y + clipOffset.y,
-        cardPos.z + clipOffset.z
-      );
+      const ribbonStart = new THREE.Vector3(cardPos.x, cardPos.y + 1.5, cardPos.z);
       curve.points[0].copy(ribbonStart);
       curve.points[1].copy(j2.current.lerped);
       curve.points[2].copy(j1.current.lerped);
@@ -175,9 +168,9 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
       ang.copy(card.current.angvel());
       rot.copy(card.current.rotation());
       card.current.setAngvel({
-        x: ang.x,
+        x: ang.x - rot.x * 3.0,
         y: ang.y - rot.y * 0.5,
-        z: ang.z - rot.z * 0.3,
+        z: ang.z - rot.z * 3.0,
       });
     }
   });
@@ -260,7 +253,7 @@ function Band({ portraitUrl, maxSpeed = 50, minSpeed = 0 }: { portraitUrl?: stri
         <meshLineGeometry />
         <meshLineMaterial
           color="white"
-          depthTest={false}
+          depthTest={true}
           resolution={[width, height]}
           useMap
           map={texture}
